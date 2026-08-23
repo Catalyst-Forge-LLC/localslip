@@ -3,8 +3,11 @@
 	import { onMount } from 'svelte';
 	import BoardHeader from '$lib/BoardHeader.svelte';
 	import BoardShell from '$lib/BoardShell.svelte';
+	import FilterBar from '$lib/FilterBar.svelte';
 	import RowDetail from '$lib/RowDetail.svelte';
+	import SortHead from '$lib/SortHead.svelte';
 	import VisitorTile from '$lib/VisitorTile.svelte';
+	import { nextSort, viewRows, type BoardFilters, type SortKey, type SortState } from '$lib/board-view';
 	import { OPEN_TARGET, rowOpenUrl, visitorHttpUrl } from '$lib/dashboard-url';
 	import { rowBindDisplay } from '$lib/row-detail';
 	import type { BoardRow } from '$lib/types';
@@ -16,6 +19,13 @@
 	let peekLine = $state<Record<string, string>>({});
 	let visitorFeed = $state<VisitorSnapshot | null>(null);
 	let tab = $state<'leases' | 'observed'>('leases');
+	let leaseFilters = $state<BoardFilters>({});
+	let observedFilters = $state<BoardFilters>({});
+	let leaseSort = $state<SortState>({ key: 'name', dir: 1 });
+	let observedSort = $state<SortState>({ key: 'port', dir: 1 });
+
+	const leaseView = $derived(viewRows(data.leaseRows, leaseFilters, leaseSort));
+	const observedView = $derived(viewRows(data.observedRows, observedFilters, observedSort));
 
 	const visitorMachine = $derived(visitorFeed ?? data.machine);
 	const visitorTiles = $derived(visitorFeed?.tiles ?? data.visitorTiles);
@@ -139,21 +149,23 @@
 		</div>
 
 		{#if tab === 'leases'}
-			<div id="pane-leases" role="tabpanel" aria-labelledby="tab-leases" class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
+			<div id="pane-leases" role="tabpanel" aria-labelledby="tab-leases" class="flex min-h-0 flex-1 flex-col">
+				<FilterBar bind:filters={leaseFilters} variant="leases" shown={leaseView.length} total={data.leaseRows.length} />
+				<div class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
 				<table class="w-full min-w-[40rem] border-separate border-spacing-0 text-left text-sm">
 					<thead class="text-[0.68rem] font-medium tracking-wide text-[var(--muted)] uppercase">
 						<tr>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Name</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Port</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Bind</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Listening</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Process</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Firewall</th>
+							<SortHead label="Name" col="name" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
+							<SortHead label="Port" col="port" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
+							<SortHead label="Bind" col="bind" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
+							<SortHead label="Listening" col="listening" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
+							<SortHead label="Process" col="process" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
+							<SortHead label="Firewall" col="firewall" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
 							<th class="sticky top-0 z-10 w-8 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-2 py-2.5"></th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.leaseRows as row, i}
+						{#each leaseView as row, i}
 							{@const href = rowOpenUrl(row)}
 							{@const key = rowId(row)}
 							<tr
@@ -212,23 +224,32 @@
 									</div>
 								</td>
 							</tr>
+						{:else}
+							<tr>
+								<td class="px-3.5 py-2.5 text-[var(--muted)]" colspan="7">
+									{data.leaseRows.length === 0 ? 'No leases.' : 'No leases match.'}
+								</td>
+							</tr>
 						{/each}
 					</tbody>
 				</table>
+				</div>
 			</div>
 		{:else}
-			<div id="pane-observed" role="tabpanel" aria-labelledby="tab-observed" class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
+			<div id="pane-observed" role="tabpanel" aria-labelledby="tab-observed" class="flex min-h-0 flex-1 flex-col">
+				<FilterBar bind:filters={observedFilters} variant="observed" shown={observedView.length} total={data.observedRows.length} />
+				<div class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
 				<table class="w-full min-w-[40rem] border-separate border-spacing-0 text-left text-sm">
 					<thead class="text-[0.68rem] font-medium tracking-wide text-[var(--muted)] uppercase">
 						<tr>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Port</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Bind</th>
-							<th class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5">Process</th>
+							<SortHead label="Port" col="port" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
+							<SortHead label="Bind" col="bind" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
+							<SortHead label="Process" col="process" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
 							<th class="sticky top-0 z-10 w-8 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-2 py-2.5"></th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.observedRows as row, i}
+						{#each observedView as row, i}
 							{@const href = rowOpenUrl(row)}
 							{@const key = rowId(row)}
 							<tr
@@ -281,12 +302,15 @@
 						{:else}
 							<tr>
 								<td class="px-3 py-2 text-[var(--muted)]" colspan="4">
-									Nothing extra listening (system ports hidden).
+									{data.observedRows.length === 0
+										? 'Nothing extra listening (system ports hidden).'
+										: 'Nothing matches.'}
 								</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
+				</div>
 			</div>
 		{/if}
 

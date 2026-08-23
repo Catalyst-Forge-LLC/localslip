@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { rowIsLan } from '../board-view.js';
 import { isLoopbackClient } from '../binds.js';
 import {
 	OPEN_TARGET,
@@ -198,8 +199,45 @@ function rowPair(row: BoardRow): string {
 	const pid = row.observed?.pid ? ` <span class="muted">(${row.observed.pid})</span>` : '';
 	const fw = row.lease?.firewall ?? '—';
 	const key = esc(rowKey(row));
-	return `<tr class="row" data-key="${key}"><td>${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="muted">${esc(bind)}</td><td>${listening}</td><td class="muted">${esc(proc)}${pid}</td><td class="muted">${esc(fw)}</td>${openCell(href)}</tr>
+	const attrs = [
+		`data-key="${key}"`,
+		`data-name="${esc(name)}"`,
+		`data-port="${port}"`,
+		`data-bind="${esc(bind)}"`,
+		`data-listening="${row.listening ? '1' : '0'}"`,
+		`data-process="${esc(row.observed?.process ?? '')}"`,
+		`data-firewall="${esc(row.lease?.firewall ?? '')}"`,
+		`data-lan="${rowIsLan(row) ? '1' : '0'}"`,
+		`data-conflict="${row.conflict ? '1' : '0'}"`,
+		`data-kind="${esc(row.lease?.kind ?? '')}"`
+	].join(' ');
+	return `<tr class="row" ${attrs}><td>${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="muted">${esc(bind)}</td><td>${listening}</td><td class="muted">${esc(proc)}${pid}</td><td class="muted">${esc(fw)}</td>${openCell(href)}</tr>
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
+}
+
+function filterBar(kind: 'leases' | 'observed'): string {
+	const lease =
+		kind === 'leases'
+			? `<button type="button" class="chip" data-dim="listening" data-val="1">Listening</button>
+<button type="button" class="chip" data-dim="listening" data-val="0">Quiet</button>`
+			: '';
+	const extra =
+		kind === 'leases'
+			? `<button type="button" class="chip" data-dim="conflict" data-val="1">Conflict</button>
+<button type="button" class="chip" data-dim="ephemeral" data-val="1">Ephemeral</button>
+<button type="button" class="chip" data-dim="firewall" data-val="applied">Applied</button>
+<button type="button" class="chip" data-dim="firewall" data-val="needs-elevation">Needs elevation</button>
+<button type="button" class="chip" data-dim="firewall" data-val="skipped">Skipped</button>
+<button type="button" class="chip" data-dim="firewall" data-val="wanted">Wanted</button>`
+			: '';
+	return `<div class="filters" role="group" aria-label="Filters">${lease}
+<button type="button" class="chip" data-dim="lan" data-val="1">LAN</button>
+<button type="button" class="chip" data-dim="lan" data-val="0">Loopback</button>
+${extra}<span class="shown muted" hidden></span></div>`;
+}
+
+function sortHead(label: string, col: string): string {
+	return `<th><button type="button" data-sort="${col}">${label}</button></th>`;
 }
 
 function page(board: Awaited<ReturnType<typeof getBoard>>, showSystem: boolean): string {
@@ -228,9 +266,14 @@ ${FACE_CSS}
 .pane.on { display:flex; flex-direction:column; }
 .scroll { flex:1; min-height:0; overflow:auto; border:1px solid var(--line); border-radius:10px; background:var(--elev); }
 .hint { flex-shrink:0; margin:.75rem 0 0; }
+.filters { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem; flex-shrink:0; margin-bottom:.65rem; }
+.chip { margin:0; padding:.15rem .65rem; border:1px solid var(--line); border-radius:999px; background:none; color:var(--muted); font:inherit; font-size:.75rem; cursor:pointer; }
+.chip[aria-pressed="true"] { border-color:var(--ok); color:var(--text); background:rgba(42,111,106,.1); }
+.filters .shown { margin-left:.35rem; font-size:.75rem; font-variant-numeric:tabular-nums; }
 table { width:100%; min-width:40rem; border-collapse:separate; border-spacing:0; }
 th,td { text-align:left; padding:.55rem .85rem; }
 th { position:sticky; top:0; z-index:1; background:var(--elev); color:var(--muted); font-size:.68rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; border-bottom:1px solid var(--line); }
+th button { margin:0; padding:0; border:0; background:none; color:inherit; font:inherit; letter-spacing:inherit; text-transform:inherit; cursor:pointer; display:inline-flex; align-items:center; gap:.25rem; }
 .go { width:2.1rem; text-align:right; padding-left:.25rem; padding-right:.65rem; }
 .go a { display:inline-flex; color:var(--ok); }
 tr.row td { border-top:1px solid var(--line); }
@@ -261,10 +304,10 @@ ${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`)}
 <button type="button" role="tab" id="tab-leases" data-tab="leases" aria-controls="pane-leases" aria-selected="true">Leases <span class="n">${board.leaseRows.length}</span></button>
 <button type="button" role="tab" id="tab-observed" data-tab="observed" aria-controls="pane-observed" aria-selected="false">Observed <span class="n">${board.observedRows.length}</span></button>
 </div>
-<div class="pane on" id="pane-leases" data-pane="leases" role="tabpanel" aria-labelledby="tab-leases"><div class="scroll"><table><thead><tr><th>Name</th><th>Port</th><th>Bind</th><th>Listening</th><th>Process</th><th>Firewall</th><th class="go"></th></tr></thead>
-<tbody>${leases}</tbody></table></div></div>
-<div class="pane" id="pane-observed" data-pane="observed" role="tabpanel" aria-labelledby="tab-observed"><div class="scroll"><table><thead><tr><th>Name</th><th>Port</th><th>Bind</th><th>Listening</th><th>Process</th><th>Firewall</th><th class="go"></th></tr></thead>
-<tbody>${observed}</tbody></table></div></div>
+<div class="pane on" id="pane-leases" data-pane="leases" role="tabpanel" aria-labelledby="tab-leases">${filterBar('leases')}<div class="scroll"><table data-default-sort="name"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
+<tbody>${leases}<tr class="empty-filter" hidden><td colspan="7" class="muted">No leases match.</td></tr></tbody></table></div></div>
+<div class="pane" id="pane-observed" data-pane="observed" role="tabpanel" aria-labelledby="tab-observed">${filterBar('observed')}<div class="scroll"><table data-default-sort="port"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
+<tbody>${observed}<tr class="empty-filter" hidden><td colspan="7" class="muted">Nothing matches.</td></tr></tbody></table></div></div>
 <p class="muted hint"><code>localberth claim name --port N</code> · <code>localberth get name</code> · <code>localberth release name</code></p>
 </div>
 ${siteFooter()}
@@ -327,6 +370,108 @@ ${COPY_SCRIPT}
 		if (hashKey.indexOf('obs:') === 0) showTab('observed');
 		openKey(hashKey);
 	}
+	function val(row, key) {
+		if (key === 'port' || key === 'listening') return Number(row.getAttribute('data-' + key) || 0);
+		return (row.getAttribute('data-' + key) || '').toLowerCase();
+	}
+	function applyView(pane) {
+		var table = pane.querySelector('table');
+		if (!table) return;
+		var tbody = table.tBodies[0];
+		var sortKey = table.getAttribute('data-order') || table.getAttribute('data-default-sort') || 'name';
+		var dir = Number(table.getAttribute('data-dir') || '1');
+		var filters = {};
+		pane.querySelectorAll('.chip[aria-pressed="true"]').forEach(function (chip) {
+			filters[chip.getAttribute('data-dim')] = chip.getAttribute('data-val');
+		});
+		var pairs = [];
+		tbody.querySelectorAll('tr.row').forEach(function (row) {
+			var key = row.getAttribute('data-key');
+			pairs.push({
+				row: row,
+				detail: tbody.querySelector('tr.detail[data-for="' + key + '"]')
+			});
+		});
+		pairs.sort(function (a, b) {
+			var va = val(a.row, sortKey);
+			var vb = val(b.row, sortKey);
+			var cmp = typeof va === 'number' && typeof vb === 'number' ? va - vb : String(va).localeCompare(String(vb), undefined, { numeric: true });
+			if (!cmp) cmp = val(a.row, 'name').localeCompare(val(b.row, 'name')) || val(a.row, 'port') - val(b.row, 'port');
+			return cmp * dir;
+		});
+		var shown = 0;
+		pairs.forEach(function (pair) {
+			var row = pair.row;
+			var ok = true;
+			if (filters.listening !== undefined && row.getAttribute('data-listening') !== filters.listening) ok = false;
+			if (filters.lan !== undefined && row.getAttribute('data-lan') !== filters.lan) ok = false;
+			if (filters.firewall && row.getAttribute('data-firewall') !== filters.firewall) ok = false;
+			if (filters.conflict && row.getAttribute('data-conflict') !== '1') ok = false;
+			if (filters.ephemeral && row.getAttribute('data-kind') !== 'ephemeral') ok = false;
+			row.hidden = !ok;
+			if (pair.detail) pair.detail.hidden = !ok;
+			row.classList.toggle('odd', false);
+			tbody.appendChild(row);
+			if (pair.detail) tbody.appendChild(pair.detail);
+			if (ok) shown += 1;
+		});
+		var empty = tbody.querySelector('tr.empty-filter');
+		if (empty) {
+			empty.hidden = shown !== 0 || pairs.length === 0;
+			tbody.appendChild(empty);
+		}
+		var mark = pane.querySelector('.shown');
+		if (mark) {
+			var total = pairs.length;
+			var active = Object.keys(filters).length > 0;
+			mark.hidden = !active;
+			mark.textContent = active ? shown + ' of ' + total : '';
+		}
+		table.querySelectorAll('button[data-sort]').forEach(function (btn) {
+			var col = btn.getAttribute('data-sort');
+			var arrow = btn.querySelector('.arrow');
+			if (col === sortKey) {
+				if (!arrow) {
+					arrow = document.createElement('span');
+					arrow.className = 'arrow';
+					arrow.setAttribute('aria-hidden', 'true');
+					btn.appendChild(arrow);
+				}
+				arrow.textContent = dir === 1 ? '↑' : '↓';
+			} else if (arrow) arrow.remove();
+		});
+	}
+	document.querySelectorAll('[data-pane]').forEach(function (pane) {
+		var table = pane.querySelector('table');
+		if (table && !table.getAttribute('data-order')) {
+			table.setAttribute('data-order', table.getAttribute('data-default-sort') || 'name');
+			table.setAttribute('data-dir', '1');
+		}
+		pane.querySelectorAll('button[data-sort]').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var col = btn.getAttribute('data-sort');
+				if (table.getAttribute('data-order') === col) {
+					table.setAttribute('data-dir', String(Number(table.getAttribute('data-dir') || '1') * -1));
+				} else {
+					table.setAttribute('data-order', col);
+					table.setAttribute('data-dir', '1');
+				}
+				applyView(pane);
+			});
+		});
+		pane.querySelectorAll('.chip').forEach(function (chip) {
+			chip.addEventListener('click', function () {
+				var dim = chip.getAttribute('data-dim');
+				var on = chip.getAttribute('aria-pressed') === 'true';
+				pane.querySelectorAll('.chip[data-dim="' + dim + '"]').forEach(function (other) {
+					other.setAttribute('aria-pressed', 'false');
+				});
+				chip.setAttribute('aria-pressed', on ? 'false' : 'true');
+				applyView(pane);
+			});
+		});
+		applyView(pane);
+	});
 })();
 </script>
 </body>
