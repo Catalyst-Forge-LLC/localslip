@@ -252,6 +252,7 @@ function page(board: Awaited<ReturnType<typeof getBoard>>, showSystem: boolean):
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" href="/favicon.png" type="image/png"/>
 <title>LocalBerth</title>
 <style>
 ${FACE_CSS}
@@ -524,6 +525,7 @@ async function visitorPage(board: Awaited<ReturnType<typeof getBoard>>, pageHost
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" href="/favicon.png" type="image/png"/>
 <title>LocalBerth</title>
 <style>
 ${FACE_CSS}
@@ -659,6 +661,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 		try {
 			const url = new URL(req.url ?? '/', `http://${host}:${port}`);
 			if (url.pathname === '/logo.png' && sendSiteAsset(res, 'logo.png', 'image/png')) return;
+			if (url.pathname === '/favicon.png' && sendSiteAsset(res, 'favicon.png', 'image/png')) return;
 			if (url.pathname === '/favicon.svg' && sendSiteAsset(res, 'favicon.svg', 'image/svg+xml')) return;
 			const loopback = isLoopbackClient(req.socket.remoteAddress);
 			const operator = isOperatorFace(req.socket.remoteAddress, req.headers.host);

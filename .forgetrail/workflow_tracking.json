@@ -756,6 +756,10 @@
     {
       "date": "2026-08-23",
       "summary": "D33: operator tables sort by column; filter chips for listening, bind, conflict, ephemeral, and firewall."
+    },
+    {
+      "date": "2026-08-23",
+      "summary": "Favicon is a 128px square of logo.png (site, dashboard, CLI)."
     }
   ],
   "openQuestions": []

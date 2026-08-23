@@ -21,7 +21,8 @@
     "LICENSE",
     "NOTICE",
     "README.md",
-    "site/static/logo.png"
+    "site/static/logo.png",
+    "site/static/favicon.png"
   ],
   "scripts": {
     "dev": "vite dev --host",
