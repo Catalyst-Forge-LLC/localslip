@@ -215,25 +215,40 @@ function rowPair(row: BoardRow): string {
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
 }
 
+function filterGroup(label: string, chips: string): string {
+	return `<div class="fg" role="group" aria-label="${esc(label)}"><span class="fl">${esc(label)}</span><div class="fc">${chips}</div></div>`;
+}
+
 function filterBar(kind: 'leases' | 'observed'): string {
-	const lease =
+	const listen =
 		kind === 'leases'
-			? `<button type="button" class="chip" data-dim="listening" data-val="1">Listening</button>
+			? filterGroup(
+					'Listen',
+					`<button type="button" class="chip" data-dim="listening" data-val="1">Listening</button>
 <button type="button" class="chip" data-dim="listening" data-val="0">Quiet</button>`
+				)
 			: '';
+	const bind = filterGroup(
+		'Bind',
+		`<button type="button" class="chip" data-dim="lan" data-val="1">LAN</button>
+<button type="button" class="chip" data-dim="lan" data-val="0">Loopback</button>`
+	);
 	const extra =
 		kind === 'leases'
-			? `<button type="button" class="chip" data-dim="conflict" data-val="1">Conflict</button>
-<button type="button" class="chip" data-dim="ephemeral" data-val="1">Ephemeral</button>
-<button type="button" class="chip" data-dim="firewall" data-val="applied">Applied</button>
+			? filterGroup(
+					'Lease',
+					`<button type="button" class="chip" data-dim="conflict" data-val="1">Conflict</button>
+<button type="button" class="chip" data-dim="ephemeral" data-val="1">Ephemeral</button>`
+				) +
+				filterGroup(
+					'Firewall',
+					`<button type="button" class="chip" data-dim="firewall" data-val="applied">Applied</button>
 <button type="button" class="chip" data-dim="firewall" data-val="needs-elevation">Needs elevation</button>
 <button type="button" class="chip" data-dim="firewall" data-val="skipped">Skipped</button>
 <button type="button" class="chip" data-dim="firewall" data-val="wanted">Wanted</button>`
+				)
 			: '';
-	return `<div class="filters" role="group" aria-label="Filters">${lease}
-<button type="button" class="chip" data-dim="lan" data-val="1">LAN</button>
-<button type="button" class="chip" data-dim="lan" data-val="0">Loopback</button>
-${extra}<span class="shown muted" hidden></span></div>`;
+	return `<div class="filters" aria-label="Filters">${listen}${bind}${extra}<span class="shown muted" hidden></span></div>`;
 }
 
 function sortHead(label: string, col: string): string {
@@ -267,10 +282,13 @@ ${FACE_CSS}
 .pane.on { display:flex; flex-direction:column; }
 .scroll { flex:1; min-height:0; overflow:auto; border:1px solid var(--line); border-radius:10px; background:var(--elev); }
 .hint { flex-shrink:0; margin:.75rem 0 0; }
-.filters { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem; flex-shrink:0; margin-bottom:.65rem; }
+.filters { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.65rem 1.15rem; flex-shrink:0; margin-bottom:.65rem; }
+.fg { display:flex; flex-direction:column; gap:.25rem; }
+.fl { font-size:.65rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
+.fc { display:flex; flex-wrap:wrap; gap:.35rem; }
 .chip { margin:0; padding:.15rem .65rem; border:1px solid var(--line); border-radius:999px; background:none; color:var(--muted); font:inherit; font-size:.75rem; cursor:pointer; }
 .chip[aria-pressed="true"] { border-color:var(--ok); color:var(--text); background:rgba(42,111,106,.1); }
-.filters .shown { margin-left:.35rem; font-size:.75rem; font-variant-numeric:tabular-nums; }
+.filters .shown { font-size:.75rem; font-variant-numeric:tabular-nums; padding-bottom:.15rem; }
 table { width:100%; min-width:40rem; border-collapse:separate; border-spacing:0; }
 th,td { text-align:left; padding:.55rem .85rem; }
 th { position:sticky; top:0; z-index:1; background:var(--elev); color:var(--muted); font-size:.68rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; border-bottom:1px solid var(--line); }

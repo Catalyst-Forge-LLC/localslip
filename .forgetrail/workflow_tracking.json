@@ -760,6 +760,10 @@
     {
       "date": "2026-08-23",
       "summary": "Favicon is a 128px square of logo.png (site, dashboard, CLI)."
+    },
+    {
+      "date": "2026-08-23",
+      "summary": "Filter pills grouped under Listen, Bind, Lease, and Firewall."
     }
   ],
   "openQuestions": []
