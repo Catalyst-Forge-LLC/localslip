@@ -6,6 +6,9 @@ title: Commands
 | --- | --- |
 | `localberth get <name>` | Print the port (scripts) |
 | `localberth claim <name> …` | Name a TCP port |
+| `localberth recipe <name> --cwd PATH` | Store a start recipe (default `pnpm serve`) |
+| `localberth start <name>` | Start the recipe detached |
+| `localberth stop <name> [--force]` | Stop the process tree; keeps the lease |
 | `localberth release <name> [--force]` | Drop a lease |
 | `localberth ls` | List leases |
 | `localberth scan [--all]` | List listening sockets |

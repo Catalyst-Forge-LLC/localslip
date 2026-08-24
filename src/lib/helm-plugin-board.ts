@@ -15,7 +15,7 @@ export type HelmPluginBoard = {
 		label: string;
 		href?: string;
 		cells: Record<string, string>;
-		actions: [];
+		actions: { id: string; label: string; write: boolean }[];
 	}[];
 };
 
@@ -37,13 +37,14 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 			plugin: 'localberth',
 			tab: 'ports',
 			title: 'Leases',
-			note: 'Named TCP leases. Claim, release, and firewall stay on the localberth CLI. Refresh to rescan listeners.',
+			note: 'Named TCP leases. Start/Stop run the lease recipe (default pnpm serve) detached. Claim, release, and firewall stay on the localberth CLI.',
 			rowLabel: 'name',
 			columns: [
 				{ id: 'port', label: 'port' },
 				{ id: 'bind', label: 'bind' },
 				{ id: 'listening', label: 'listening' },
 				{ id: 'process', label: 'process' },
+				{ id: 'recipe', label: 'recipe' },
 				{ id: 'firewall', label: 'firewall' },
 			],
 			rows: board.leaseRows.map((row) => {
@@ -59,8 +60,14 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 						process: processLabel(row),
 						firewall: row.lease?.firewall ?? '—',
 						conflict: row.conflict ? 'yes' : 'no',
+						recipe: row.lease?.startCwd
+							? row.lease.startCommand || 'pnpm serve'
+							: '—',
 					},
-					actions: [],
+					actions: [
+						{ id: 'start', label: 'Start', write: true },
+						{ id: 'stop', label: 'Stop', write: true },
+					],
 				};
 			}),
 		},

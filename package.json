@@ -26,6 +26,7 @@
   ],
   "scripts": {
     "dev": "vite dev --host",
+    "serve": "tsx src/cli/main.ts serve",
     "build": "vite build",
     "build:cli": "tsc -p tsconfig.cli.json",
     "prepublishOnly": "tsc -p tsconfig.cli.json",

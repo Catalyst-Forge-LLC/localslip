@@ -8,7 +8,7 @@ const home = mkdtempSync(join(tmpdir(), 'localberth-test-'));
 process.env.LOCALBERTH_HOME = home;
 
 const { resetDb } = await import('./db.js');
-const { claim, getLease, release, resolveClaimBind } = await import('./registry.js');
+const { claim, getLease, release, resolveClaimBind, setStartRecipe } = await import('./registry.js');
 
 describe('registry sad paths', () => {
 	before(() => {
@@ -85,5 +85,19 @@ describe('registry sad paths', () => {
 		});
 		assert.equal(lease.port, 7777);
 		assert.equal(fallbackFrom, undefined);
+	});
+
+	it('stores a start recipe and keeps it on reclaim', () => {
+		claim({ name: 'recipe-app', port: 46111, cwd: home, command: 'pnpm serve' });
+		const stored = getLease('recipe-app');
+		assert.equal(stored?.startCwd, home);
+		assert.equal(stored?.startCommand, 'pnpm serve');
+		claim({ name: 'recipe-app', port: 46112 });
+		const kept = getLease('recipe-app');
+		assert.equal(kept?.port, 46112);
+		assert.equal(kept?.startCwd, home);
+		assert.equal(kept?.startCommand, 'pnpm serve');
+		const updated = setStartRecipe('recipe-app', { cwd: home, command: 'pnpm run serve' });
+		assert.equal(updated.startCommand, 'pnpm run serve');
 	});
 });

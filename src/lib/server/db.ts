@@ -49,6 +49,15 @@ function migrate(db: Database.Database): void {
 			updated_at TEXT NOT NULL
 		);
 	`);
+	addColumn(db, 'leases', 'start_cwd', 'TEXT');
+	addColumn(db, 'leases', 'start_command', 'TEXT');
+	addColumn(db, 'leases', 'spawn_pid', 'INTEGER');
+}
+
+function addColumn(db: Database.Database, table: string, column: string, sqlType: string): void {
+	const cols = db.prepare(`PRAGMA table_info(${table})`).all() as { name: string }[];
+	if (cols.some((col) => col.name === column)) return;
+	db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${sqlType}`);
 }
 
 function ensureSelfLease(db: Database.Database): void {

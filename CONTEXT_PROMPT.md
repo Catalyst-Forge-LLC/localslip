@@ -14,8 +14,8 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 ## Architecture at a glance
 
-- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `release` / `ls` / `scan` / `firewall sync` / `serve`
-- `localhelm.plugin.mjs` — Ports tab in LocalHelm (leases + observed). Does not reimplement the board.
+- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `release` / `ls` / `scan` / `firewall sync` / `serve`
+- `localhelm.plugin.mjs` — Ports tab in LocalHelm (leases + observed + Start/Stop plan/apply). Does not reimplement the board.
 - `src/lib/port.ts` — `localberthListen(name, fallback)` (host + port) and `localberthPort` for Vite configs. Pin `server.host` or Windows Vite binds `[::1]`.
 - `src/lib/server/registry.ts` — lease persist + self-lease `localberth` → 54321
 - `src/lib/server/observe.ts` — OS listen table (read-only)
@@ -30,7 +30,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 - Modules: ESM only
 - Language: TypeScript (strict)
 - Do not hide ports behind name-only URLs
-- Observed is read-only (no process kill)
+- Observed-only rows stay read-only. Named leases can start/stop via an explicit command when a recipe is stored.
 - Public README is the operator/npm page (no ForgeTrail or sibling notes)
 - Omit homepage / repository on npm until the site and GitHub repo are public
 

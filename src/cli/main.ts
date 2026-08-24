@@ -1,7 +1,8 @@
 import { detectBackend, removeLeaseRule, syncAll, syncLease } from '../lib/server/firewall.js';
+import { startLease, stopLease } from '../lib/server/lifecycle.js';
 import { scanListeners } from '../lib/server/observe.js';
 import { isSystemPort } from '../lib/server/system-ports.js';
-import { claim, getLease, listLeases, release } from '../lib/server/registry.js';
+import { claim, getLease, listLeases, release, setStartRecipe } from '../lib/server/registry.js';
 import { getDb } from '../lib/server/db.js';
 import { serveDashboard } from '../lib/server/serve.js';
 
@@ -10,7 +11,10 @@ function usage(): string {
 
 Usage:
   localberth get <name>
-  localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next]
+  localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
+  localberth recipe <name> --cwd PATH [--command CMD]
+  localberth start <name> [--cwd PATH] [--command CMD]
+  localberth stop <name> [--force]
   localberth release <name> [--force]
   localberth ls
   localberth scan [--all]
@@ -26,7 +30,10 @@ claim flags:
   --ephemeral    scratch lease; pool 47000–47999 if no --port
   --notes TEXT   stored on the lease
   --or-next      if --port is leased or already listening, take the next free pool port
+  --cwd PATH     start recipe cwd (stored; start runs this later)
+  --command CMD  start recipe (default pnpm serve when --cwd is set)
 
+start/stop: detached process tree. Does not release the lease. Observed-only rows are not killed.
 Firewall changes need admin/root. Without that, the lease still saves and the command to paste is printed. No UAC or sudo prompt.
 `;
 }
@@ -86,10 +93,12 @@ async function main(): Promise<void> {
 		const portRaw = takeOpt(args, '--port');
 		const bind = takeOpt(args, '--bind');
 		const notes = takeOpt(args, '--notes');
+		const cwd = takeOpt(args, '--cwd');
+		const command = takeOpt(args, '--command');
 		const name = args[0];
 		if (!name || args.length !== 1) {
 			fail(
-				'usage: localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next]'
+				'usage: localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]'
 			);
 		}
 		const port = portRaw !== undefined ? Number(portRaw) : undefined;
@@ -104,7 +113,9 @@ async function main(): Promise<void> {
 			ephemeral,
 			notes,
 			orNext,
-			occupied
+			occupied,
+			cwd,
+			command
 		});
 		if (fallbackFrom !== undefined) {
 			const who = listeners.find((row) => row.port === fallbackFrom);
@@ -125,6 +136,47 @@ async function main(): Promise<void> {
 				`lease saved. firewall ${fw.status} (not admin/root). paste:\n${fw.command}`
 			);
 		}
+		return;
+	}
+
+	if (cmd === 'recipe') {
+		const args = [...argv];
+		const cwd = takeOpt(args, '--cwd');
+		const command = takeOpt(args, '--command');
+		const name = args[0];
+		if (!name || args.length !== 1 || !cwd) {
+			fail('usage: localberth recipe <name> --cwd PATH [--command CMD]');
+		}
+		const lease = setStartRecipe(name, { cwd, command });
+		process.stdout.write(
+			`${lease.name}\t${lease.port}\t${lease.startCwd}\t${lease.startCommand || 'pnpm serve'}\n`
+		);
+		return;
+	}
+
+	if (cmd === 'start') {
+		const args = [...argv];
+		const cwd = takeOpt(args, '--cwd');
+		const command = takeOpt(args, '--command');
+		const name = args[0];
+		if (!name || args.length !== 1) fail('usage: localberth start <name> [--cwd PATH] [--command CMD]');
+		const result = await startLease(name, { cwd, command });
+		process.stdout.write(
+			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
+		);
+		if (result.action === 'skip' && /no start recipe/.test(result.reason)) process.exitCode = 1;
+		return;
+	}
+
+	if (cmd === 'stop') {
+		const args = [...argv];
+		const force = takeFlag(args, '--force');
+		const name = args[0];
+		if (!name || args.length !== 1) fail('usage: localberth stop <name> [--force]');
+		const result = await stopLease(name, { force });
+		process.stdout.write(
+			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
+		);
 		return;
 	}
 
@@ -149,8 +201,9 @@ async function main(): Promise<void> {
 			return;
 		}
 		for (const lease of leases) {
+			const recipe = lease.startCwd ? lease.startCommand || 'pnpm serve' : '-';
 			process.stdout.write(
-				`${lease.name}\t${lease.port}\t${lease.bind}\t${lease.kind}\t${lease.firewall}\n`
+				`${lease.name}\t${lease.port}\t${lease.bind}\t${lease.kind}\t${lease.firewall}\t${recipe}\n`
 			);
 		}
 		return;

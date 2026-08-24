@@ -10,6 +10,12 @@ export type Lease = {
 	notes: string;
 	firewall: FirewallStatus;
 	updatedAt: string;
+	/** Absolute cwd for `localberth start`. Null/omit = no recipe. */
+	startCwd?: string | null;
+	/** Shell command; default `pnpm serve` when cwd is set. */
+	startCommand?: string | null;
+	/** PID LocalBerth last spawned. Null if never started here or already cleared. */
+	spawnPid?: number | null;
 };
 
 export type Observed = {

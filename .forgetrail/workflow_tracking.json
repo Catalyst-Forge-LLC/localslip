@@ -65,7 +65,8 @@
         "2026-08-19: Package 0.2.3 — Open icon reuses one tab.",
         "2026-08-19: D26 compiled CLI. Package 0.2.4.",
         "2026-08-20: Package 0.2.5 — visitor tiles, listen-bind cards, favicon png/svg/ico.",
-        "2026-08-20: Package 0.2.6 — operator face needs loopback Host."
+        "2026-08-20: Package 0.2.6 — operator face needs loopback Host.",
+        "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons."
       ]
     },
     "4-feature-iteration": {
@@ -455,6 +456,18 @@
       "alternatives_considered": [
         "Server query-string sort only",
         "A search box instead of status chips"
+      ]
+    },
+    {
+      "id": "D34",
+      "timestamp": "2026-08-24",
+      "phase": "3-stabilization",
+      "decision": "Named leases can start/stop a stored recipe (default pnpm serve) via localberth start|stop and the LocalHelm Ports plugin. Detached process tree; stop does not release the lease. Observed-only rows stay read-only. Recipe is cwd + command on the lease row.",
+      "rationale": "Operator 2026-08-24: start/stop fleet dashboards from LocalHelm, owned by LocalBerth. Do not guess npm run dev.",
+      "alternatives_considered": [
+        "Spawn from LocalHelm core",
+        "Always infer cwd from the lease name",
+        "Kill observed-only pids"
       ]
     }
   ],

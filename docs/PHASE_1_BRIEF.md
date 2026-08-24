@@ -39,7 +39,7 @@ The domain is **not** the running app. The dashboard stays on `http://127.0.0.1:
 - FilePress site at **localberth.com** explains the product and install (`pages/` for what / how-to).
 - Package **`localberth`** is on npm (`bin.localberth`; not `private` at ship). Public README stays short.
 
-**Out of v1:** `*.localhost` proxy, process start/stop, publishing a global `berth` binary (name is crowded).
+**Out of v1:** `*.localhost` proxy, publishing a global `berth` binary (name is crowded). Process start/stop for **named leases with a recipe** was added 2026-08-24 as an explicit command (`localberth start|stop`); observed-only rows stay read-only.
 
 ---
 
@@ -66,7 +66,7 @@ Read localberth.com → `npm i -g localberth` (or `pnpm add -g localberth`) → 
 - **The port is the interface.** Do not hide it behind a name-only URL in v1.
 - **Cross-platform.** CLI, scan, dashboard, and firewall sync on Windows, macOS, and Linux. Same lease model everywhere; OS-specific backends behind one command.
 - **Do not become Portless / Hotel.** No PAC file, no `app.localhost` front door in v1.
-- **Observed is read-only.** Never kill a process unless a later phase adds an explicit command.
+- **Observed-only rows are read-only.** Never kill a process unless the operator runs an explicit `start`/`stop` (or the LocalHelm Ports buttons) on a **named lease**.
 - **LocalBerth must lease itself** (`localberth` → 54321) so it does not become another mystery port.
 
 **State persistence:** A-local. **`~/.localberth/`** (leases + SQLite). Repo `data/` only for dev fixtures.
@@ -198,8 +198,8 @@ Closest **product** prior art under a different name: [PortHub](https://github.c
 ## 9. Non-goals (v1)
 
 - Reverse proxy / `engram.localhost` / PAC
-- Process manager (start/stop Engram)
-- Killing observed processes
+- Reverse-proxy process manager / auto-janitor
+- Killing observed-only processes (no lease)
 - MagicDNS app names
 - Multi-user / remote registry
 - Hosting the dashboard or lease store at localberth.com

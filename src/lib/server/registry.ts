@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { getDb } from './db.js';
 import { DASHBOARD_NAME, DASHBOARD_PORT } from './paths.js';
 import type { FirewallStatus, Lease, LeaseKind } from './types.js';
@@ -5,6 +6,8 @@ import type { FirewallStatus, Lease, LeaseKind } from './types.js';
 const NAME_RE = /^[a-z0-9][a-z0-9-]*$/;
 const ALWAYS_POOL = { lo: 46000, hi: 46999 };
 const EPHEMERAL_POOL = { lo: 47000, hi: 47999 };
+
+export const DEFAULT_START_COMMAND = 'pnpm serve';
 
 type LeaseRow = {
 	name: string;
@@ -15,6 +18,9 @@ type LeaseRow = {
 	notes: string;
 	firewall: FirewallStatus;
 	updated_at: string;
+	start_cwd: string | null;
+	start_command: string | null;
+	spawn_pid: number | null;
 };
 
 function rowToLease(row: LeaseRow): Lease {
@@ -26,7 +32,10 @@ function rowToLease(row: LeaseRow): Lease {
 		kind: row.kind,
 		notes: row.notes,
 		firewall: row.firewall,
-		updatedAt: row.updated_at
+		updatedAt: row.updated_at,
+		startCwd: row.start_cwd ?? null,
+		startCommand: row.start_command ?? null,
+		spawnPid: row.spawn_pid ?? null
 	};
 }
 
@@ -93,6 +102,9 @@ export type ClaimInput = {
 	orNext?: boolean;
 	/** Ports that are already listening (from scan). Pool allocation always skips these. */
 	occupied?: number[];
+	/** Optional start recipe. Omitted on reclaim leaves the existing recipe. */
+	cwd?: string;
+	command?: string;
 };
 
 /** Default is loopback. --lan opens 0.0.0.0. --bind and --lan together is an error. */
@@ -157,7 +169,56 @@ export function claim(input: ClaimInput): ClaimResult {
 		   updated_at = excluded.updated_at`
 	).run(name, port, bind, kind, notes || previous?.notes || '', now);
 
+	if (previous && previous.port !== port) setSpawnPid(name, null);
+	if (input.cwd !== undefined || input.command !== undefined) {
+		setStartRecipe(name, { cwd: input.cwd, command: input.command });
+	}
+
 	return { lease: getLease(name)!, previous, fallbackFrom };
+}
+
+export function setStartRecipe(
+	name: string,
+	input: { cwd?: string | null; command?: string | null }
+): Lease {
+	const n = assertName(name);
+	const lease = getLease(n);
+	if (!lease) throw new Error(`no lease named "${n}"`);
+	const cwd = input.cwd === undefined ? lease.startCwd : normalizeCwd(input.cwd);
+	const command =
+		input.command === undefined
+			? lease.startCommand
+			: normalizeCommand(input.command);
+	getDb()
+		.prepare(
+			`UPDATE leases SET start_cwd = ?, start_command = ?, updated_at = ? WHERE name = ?`
+		)
+		.run(cwd, command, new Date().toISOString(), n);
+	return getLease(n)!;
+}
+
+export function setSpawnPid(name: string, pid: number | null): void {
+	getDb()
+		.prepare(`UPDATE leases SET spawn_pid = ?, updated_at = ? WHERE name = ?`)
+		.run(pid, new Date().toISOString(), assertName(name));
+}
+
+function normalizeCwd(raw: string | null | undefined): string | null {
+	if (raw == null) return null;
+	const trimmed = raw.trim();
+	if (!trimmed) return null;
+	return path.resolve(trimmed);
+}
+
+function normalizeCommand(raw: string | null | undefined): string | null {
+	if (raw == null) return null;
+	const trimmed = raw.trim();
+	return trimmed ? trimmed : null;
+}
+
+export function recipeFor(lease: Lease): { cwd: string; command: string } | null {
+	if (!lease.startCwd) return null;
+	return { cwd: lease.startCwd, command: lease.startCommand || DEFAULT_START_COMMAND };
 }
 
 export function release(name: string, opts: { force?: boolean } = {}): Lease {

@@ -1,7 +1,7 @@
 # Ideas (not v1)
 
 - `*.localhost` / Caddy front door (Portless-shaped) as an optional later layer
-- Process start/stop from the dashboard
+- [x] Process start/stop from the dashboard → LocalHelm Ports hosts Start/Stop; LocalBerth owns `start`/`stop` + lease recipe
 - Auto-janitor for leftover firewall rules (e.g. Engram 5173)
 - Tailscale Serve integration
 - Vite/SvelteKit helper that sets `server.port` from `localberth get` — **shipped** (`localberth/port`). House rollout notes stay local.

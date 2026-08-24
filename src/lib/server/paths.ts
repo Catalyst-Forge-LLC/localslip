@@ -14,3 +14,9 @@ export function dataHome(): string {
 export function dbPath(): string {
 	return join(dataHome(), 'localberth.sqlite');
 }
+
+export function logPath(name: string): string {
+	const dir = join(dataHome(), 'logs');
+	mkdirSync(dir, { recursive: true });
+	return join(dir, `${name}.log`);
+}
