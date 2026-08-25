@@ -29,6 +29,12 @@ describe('proposeRecipe', () => {
 		assert.deepEqual(guess, { cwd: join(root, 'dictawhisper'), command: 'pnpm start' });
 	});
 
+	it('maps a hyphenless -site lease to a hyphenated folder', () => {
+		writePkg(join(root, 'temper-pass'), { 'site:dev': 'pnpm --dir site dev' });
+		const guess = proposeRecipe('temperpass-site', { roots: [root] });
+		assert.deepEqual(guess, { cwd: join(root, 'temper-pass'), command: 'pnpm site:dev' });
+	});
+
 	it('uses pnpm serve when the folder matches the lease name', () => {
 		writePkg(join(root, 'localhelm'), { serve: 'tsx src/cli/main.ts serve' });
 		const guess = proposeRecipe('localhelm', { roots: [root] });
