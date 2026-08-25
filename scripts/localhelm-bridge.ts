@@ -3,7 +3,7 @@
  * Invoked by localhelm.plugin.mjs in this repo.
  *
  *   (no args)                         → boards
- *   plan --action start|stop|park|unpark|recipe|family-start|family-stop [--names a,b]
+ *   plan --action start|stop|park|unpark|recipe|recipe-all|quiet|family-start|family-stop [--names a,b]
  *   apply --action … [--names a,b]
  *
  * Must process.exit: start detaches a child, and tsx/sqlite handles can keep
@@ -23,6 +23,8 @@ const ACTIONS = new Set<HelmLifecycleAction>([
 	'park',
 	'unpark',
 	'recipe',
+	'recipe-all',
+	'quiet',
 	'family-start',
 	'family-stop',
 ]);
@@ -49,7 +51,7 @@ async function applyRow(
 		const result = await startLease(id, { saveGuess: true });
 		return { id: result.name, action: result.action, reason: result.reason, writes: result.action !== 'skip', pid: result.pid };
 	}
-	if (action === 'stop' || action === 'family-stop') {
+	if (action === 'stop' || action === 'family-stop' || action === 'quiet') {
 		const result = await stopLease(id);
 		return { id: result.name, action: result.action, reason: result.reason, writes: result.action !== 'skip', pid: result.pid };
 	}

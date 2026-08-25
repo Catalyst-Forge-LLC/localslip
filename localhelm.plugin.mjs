@@ -14,6 +14,8 @@ const ACTIONS = new Set([
 	'park',
 	'unpark',
 	'recipe',
+	'recipe-all',
+	'quiet',
 	'family-start',
 	'family-stop',
 ]);

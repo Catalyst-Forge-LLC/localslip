@@ -1,4 +1,5 @@
 import { familyMemberNames } from './family.js';
+import { isQuietSite } from './quiet.js';
 import { planPark, planUnpark } from './server/park.js';
 import { planStart, planStop } from './server/lifecycle.js';
 import { proposeRecipe } from './server/recipeGuess.js';
@@ -11,6 +12,8 @@ export type HelmLifecycleAction =
 	| 'park'
 	| 'unpark'
 	| 'recipe'
+	| 'recipe-all'
+	| 'quiet'
 	| 'family-start'
 	| 'family-stop';
 
@@ -89,7 +92,7 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 			writes = planned.writes;
 			nextAction = writes ? 'unpark' : 'skip';
 			reason = planned.reason;
-		} else if (action === 'recipe') {
+		} else if (action === 'recipe' || action === 'recipe-all') {
 			if (recipeFor(lease)) {
 				reason = 'recipe already stored';
 			} else {
@@ -103,6 +106,15 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 					proposedCwd = guess.cwd;
 					proposedCommand = guess.command;
 				}
+			}
+		} else if (action === 'quiet') {
+			if (!isQuietSite(lease, row.listening)) {
+				reason = lease.name.endsWith('-site') ? 'site not listening' : 'not a site lease';
+			} else {
+				const planned = planStop(lease, board.observed);
+				writes = planned.writes;
+				nextAction = writes ? 'stop' : 'skip';
+				reason = planned.reason;
 			}
 		}
 

@@ -25,6 +25,7 @@ See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 - [x] `localberth doctor` (read-only) _(B2, 2026-08-25)_
 - [x] Park / unpark (keep the port) _(B3, 2026-08-25)_
 - [x] Family start/stop + save-guess plugin action _(B4+B5, 2026-08-25)_
+- [x] Quiet sites, recipe health, guess-all, Tippy details _(2026-08-25)_
 
 ## Phase 3
 

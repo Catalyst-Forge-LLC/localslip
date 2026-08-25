@@ -213,3 +213,4 @@ Bridge must keep `process.exit` after JSON.
 - `2026-08-25:` Draft after start/stop, recipe guess, bridge exit, and the dictawhisper PORT leak.
 - `2026-08-25:` B1+B2 landed — log tail, `PORT`/`HOST` on plan, `localberth doctor`. Parked+listening skipped until B3. Always-down is a warn (exit 1 only on fail).
 - `2026-08-25:` B3–B5 landed — park/unpark (port stays), `--family` start/stop, `recipe --save-guess` + plugin `recipe`. Start only when down; Stop only when up.
+- `2026-08-25:` C6 quiet, F4 recipe health, C3 `--guess-all`. Tippy on the HTML and Svelte boards.

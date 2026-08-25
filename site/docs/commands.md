@@ -8,8 +8,10 @@ title: Commands
 | `localberth claim <name> …` | Name a TCP port |
 | `localberth recipe <name> --cwd PATH` | Store a start recipe (default `pnpm serve`) |
 | `localberth recipe <name> --save-guess` | Save a guessed folder + command; does not start |
+| `localberth recipe --guess-all` | Save a guess for every lease that has no recipe |
 | `localberth start <name>` | Start the recipe detached (`--family` starts the stack) |
 | `localberth stop <name> [--force]` | Stop the process tree; keeps the lease (`--family` stops the stack) |
+| `localberth quiet` | Stop listening `*-site` leases; dashboard stays up |
 | `localberth park <name>` | Stop if running and hide; port stays yours |
 | `localberth unpark <name>` | Show again; does not start |
 | `localberth release <name> [--force]` | Drop a lease |

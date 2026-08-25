@@ -30,6 +30,7 @@ describe('rowDetailFields', () => {
 		};
 		assert.deepEqual(rowDetailFields(row), [
 			{ label: 'Kind', value: 'always' },
+			{ label: 'Recipe health', value: 'No start recipe. Save a guess or set cwd.', wide: true, warn: true },
 			{ label: 'Notes', value: 'LocalBerth dashboard', wide: true },
 			{ label: 'Claimed', value: '2026-08-18 16:03:25' },
 			{ label: 'Claim', value: '127.0.0.1' },

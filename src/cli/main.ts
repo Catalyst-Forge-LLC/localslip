@@ -1,5 +1,7 @@
 import { familyMemberNames } from '../lib/family.js';
+import { isQuietSite } from '../lib/quiet.js';
 import { formatDoctorText, runDoctor } from '../lib/server/doctor.js';
+import { getBoard } from '../lib/server/board.js';
 import { detectBackend, removeLeaseRule, syncAll, syncLease } from '../lib/server/firewall.js';
 import { startLease, stopLease } from '../lib/server/lifecycle.js';
 import { scanListeners } from '../lib/server/observe.js';
@@ -18,8 +20,10 @@ Usage:
   localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
   localberth recipe <name> --cwd PATH [--command CMD]
   localberth recipe <name> --save-guess
+  localberth recipe --guess-all
   localberth start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]
   localberth stop <name> [--force] [--family]
+  localberth quiet
   localberth park <name>
   localberth unpark <name>
   localberth release <name> [--force]
@@ -150,9 +154,24 @@ async function main(): Promise<void> {
 	if (cmd === 'recipe') {
 		const args = [...argv];
 		const saveGuess = takeFlag(args, '--save-guess');
+		const guessAll = takeFlag(args, '--guess-all');
 		const cwd = takeOpt(args, '--cwd');
 		const command = takeOpt(args, '--command');
 		const name = args[0];
+		if (guessAll) {
+			if (name || cwd || command || saveGuess) fail('usage: localberth recipe --guess-all');
+			let wrote = 0;
+			for (const lease of listLeases()) {
+				if (lease.startCwd) continue;
+				const result = saveGuessRecipe(lease.name);
+				process.stdout.write(
+					`${result.name}\t${result.port}\t${result.action}\t${result.cwd ?? '-'}\t${result.command ?? '-'}\t${result.reason}\n`
+				);
+				if (result.action !== 'skip') wrote += 1;
+			}
+			if (!wrote) process.exitCode = 1;
+			return;
+		}
 		if (saveGuess) {
 			if (!name || args.length !== 1 || cwd || command) {
 				fail('usage: localberth recipe <name> --save-guess');
@@ -210,6 +229,26 @@ async function main(): Promise<void> {
 		if (family && !names.length) fail(`no unparked family for ${name}`);
 		for (const id of names) {
 			const result = await stopLease(id, { force });
+			process.stdout.write(
+				`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
+			);
+		}
+		return;
+	}
+
+	if (cmd === 'quiet') {
+		if (argv.length) fail('usage: localberth quiet');
+		const board = await getBoard();
+		const names = board.leaseRows
+			.filter((row) => row.lease && isQuietSite(row.lease, row.listening))
+			.map((row) => row.lease!.name);
+		if (!names.length) {
+			process.stderr.write('no listening site leases\n');
+			process.exitCode = 1;
+			return;
+		}
+		for (const id of names) {
+			const result = await stopLease(id);
 			process.stdout.write(
 				`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
 			);

@@ -14,7 +14,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 ## Architecture at a glance
 
-- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `park` / `unpark` / `release` / `ls` / `scan` / `doctor` / `firewall sync` / `serve`
+- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `quiet` / `park` / `unpark` / `release` / `ls` / `scan` / `doctor` / `firewall sync` / `serve`
 - `localhelm.plugin.mjs` — Ports tab in LocalHelm (leases + observed + Start/Stop plan/apply). Does not reimplement the board. The bridge `process.exit`s after JSON so LocalHelm’s `spawnSync` returns even if a started recipe is still running.
 - `src/lib/port.ts` — `localberthListen(name, fallback)` (host + port) and `localberthPort` for Vite configs. Pin `server.host` or Windows Vite binds `[::1]`.
 - `src/lib/server/registry.ts` — lease persist + self-lease `localberth` → 54321
@@ -48,6 +48,6 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 ## Pointers
 
 - Brief: `docs/PHASE_1_BRIEF.md`
-- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1–B5 landed: log tail, `PORT`/`HOST` on plan, `doctor`, `park`/`unpark` (port stays; default `ls` hides parked), `start|stop --family`, `recipe --save-guess`. Ports Start only when down; Stop only when up.
+- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1–B5 plus quiet / recipe health / `--guess-all`. Tippy on the board for Open, copy, and recipe facts. `localberth quiet` stops listening `*-site` (dashboard stays).
 - Tracking: `.forgetrail/workflow_tracking.json`
 - TODO: `TODO.md`

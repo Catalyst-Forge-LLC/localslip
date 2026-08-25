@@ -16,6 +16,7 @@ import {
 } from '../dashboard-url.js';
 import { addressCaption } from '../address.js';
 import { machineCard } from '../machine.js';
+import { recipeHealth } from '../recipe-health.js';
 import { rowBindDisplay, rowDetailFields } from '../row-detail.js';
 import { parsePeekPort, peekLoopbackDenied, peekPayload } from './http-peek.js';
 import { visitorFeed } from './visitor-feed.js';
@@ -28,6 +29,7 @@ function esc(value: string): string {
 }
 
 const SITE_STATIC = join(dirname(fileURLToPath(import.meta.url)), '../../../site/static');
+const PKG_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../..');
 
 const FACE_CSS = `:root { --bg:#faf8f3; --elev:#fff; --line:#e7e2d8; --text:#1a1917; --muted:#4d4a44; --ok:#2a6f6a; --warn:#9a6b12; --tile-band:#000; --tile-band-ink:#faf8f3; }
 html,body { height:100%; overflow:hidden; }
@@ -75,6 +77,17 @@ ${addrs}
 ${meta ? `<span class="dot" aria-hidden="true">·</span><span class="meta">${meta}</span>` : ''}
 </div>
 </header>`;
+}
+
+function sendVendor(res: import('node:http').ServerResponse, rel: string, type: string): boolean {
+	try {
+		const body = readFileSync(join(PKG_ROOT, 'node_modules', rel));
+		res.writeHead(200, { 'content-type': type, 'cache-control': 'public, max-age=86400' });
+		res.end(body);
+		return true;
+	} catch {
+		return false;
+	}
 }
 
 function sendSiteAsset(res: import('node:http').ServerResponse, file: string, type: string): boolean {
@@ -166,7 +179,19 @@ const OPEN_ICON =
 
 function openCell(href: string | null): string {
 	if (!href) return '<td class="go"></td>';
-	return `<td class="go"><a href="${esc(href)}" target="${OPEN_TARGET}" rel="noopener" title="Open" aria-label="Open">${OPEN_ICON}</a></td>`;
+	return `<td class="go"><a href="${esc(href)}" target="${OPEN_TARGET}" rel="noopener" data-tippy-content="Open ${esc(href)}" aria-label="Open">${OPEN_ICON}</a></td>`;
+}
+
+function rowTip(row: BoardRow): string {
+	const bits: string[] = [];
+	if (row.lease) {
+		bits.push(recipeHealth(row.lease).detail);
+		bits.push(`localberth start ${row.lease.name}`);
+		bits.push(`localberth get ${row.lease.name}`);
+	}
+	const href = rowOpenUrl(row);
+	if (href) bits.push(href);
+	return bits.join('\n');
 }
 
 function rowKey(row: BoardRow): string {
@@ -217,7 +242,7 @@ function rowPair(row: BoardRow): string {
 		`data-conflict="${row.conflict ? '1' : '0'}"`,
 		`data-kind="${esc(row.lease?.kind ?? '')}"`
 	].join(' ');
-	return `<tr class="row" ${attrs}><td>${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="muted">${esc(bind)}</td><td>${listening}</td><td class="muted">${esc(proc)}${pid}</td><td class="muted">${esc(fw)}</td>${openCell(href)}</tr>
+	return `<tr class="row" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="muted">${esc(bind)}</td><td>${listening}</td><td class="muted">${esc(proc)}${pid}</td><td class="muted">${esc(fw)}</td>${openCell(href)}</tr>
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
 }
 
@@ -321,7 +346,11 @@ tr.detail.open .inner { padding:.75rem 1rem .9rem; }
 .facts .log-tail { grid-column:1 / -1; }
 .facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--muted); font-size:.78rem; line-height:1.35; }
 a { color:var(--ok); }
+.tippy-box[data-theme~='berth'] { background:#1a1917; color:#faf8f3; border:1px solid #4d4a44; border-radius:6px; font-size:.78rem; }
+.tippy-box[data-theme~='berth'] .tippy-arrow { color:#1a1917; }
+.tippy-box[data-theme~='berth'] .tippy-content { white-space:pre-wrap; max-width:min(26rem,90vw); line-height:1.45; padding:.45rem .6rem; }
 </style>
+<link rel="stylesheet" href="/vendor/tippy.css"/>
 </head>
 <body>
 <main>
@@ -339,8 +368,15 @@ ${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`)}
 </div>
 ${siteFooter()}
 </main>
+<script src="/vendor/tippy.umd.min.js"></script>
 <script>
 ${COPY_SCRIPT}
+if (window.tippy) {
+	document.querySelectorAll('[data-copy]').forEach(function (el) {
+		if (!el.getAttribute('data-tippy-content')) el.setAttribute('data-tippy-content', 'Copy');
+	});
+	window.tippy('[data-tippy-content]', { theme: 'berth', appendTo: document.body, delay: 80 });
+}
 (function () {
 	function showTab(id) {
 		document.querySelectorAll('[data-tab]').forEach(function (b) {
@@ -686,6 +722,8 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 	const server = createServer(async (req, res) => {
 		try {
 			const url = new URL(req.url ?? '/', `http://${host}:${port}`);
+			if (url.pathname === '/vendor/tippy.css' && sendVendor(res, 'tippy.js/dist/tippy.css', 'text/css')) return;
+			if (url.pathname === '/vendor/tippy.umd.min.js' && sendVendor(res, 'tippy.js/dist/tippy-bundle.umd.min.js', 'text/javascript')) return;
 			if (url.pathname === '/logo.png' && sendSiteAsset(res, 'logo.png', 'image/png')) return;
 			if (url.pathname === '/favicon.png' && sendSiteAsset(res, 'favicon.png', 'image/png')) return;
 			if (url.pathname === '/favicon.svg' && sendSiteAsset(res, 'favicon.svg', 'image/svg+xml')) return;

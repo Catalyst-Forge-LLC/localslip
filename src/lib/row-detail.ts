@@ -1,4 +1,5 @@
 import { bindRelation, displayBind } from './binds.js';
+import { recipeHealth } from './recipe-health.js';
 import type { BoardRow } from './types.js';
 
 export type DetailField = { label: string; value: string; wide?: boolean; warn?: boolean };
@@ -13,7 +14,14 @@ export function rowBindDisplay(row: BoardRow): string {
 export function rowDetailFields(row: BoardRow): DetailField[] {
 	const fields: DetailField[] = [];
 	if (row.lease) {
+		const health = recipeHealth(row.lease);
 		fields.push({ label: 'Kind', value: row.lease.kind });
+		fields.push({
+			label: 'Recipe health',
+			value: health.detail,
+			wide: true,
+			warn: health.status !== 'ok',
+		});
 		if (row.lease.notes) fields.push({ label: 'Notes', value: row.lease.notes, wide: true });
 		fields.push({ label: 'Claimed', value: row.lease.updatedAt.slice(0, 19).replace('T', ' ') });
 		fields.push({ label: 'Claim', value: displayBind(row.lease.bind) });

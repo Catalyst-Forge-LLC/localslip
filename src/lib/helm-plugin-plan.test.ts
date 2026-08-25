@@ -95,4 +95,30 @@ describe('helm lifecycle plan', () => {
 		assert.equal(plan.rows.find((r) => r.id === 'up')?.writes, true);
 		assert.equal(plan.rows.find((r) => r.id === 'demo')?.writes, false);
 	});
+
+	it('quiets only listening *-site leases', () => {
+		const extra = {
+			...board,
+			leaseRows: [
+				...board.leaseRows,
+				row(lease({ name: 'demo-site', port: 5183, startCwd: '/tmp/demo' }), true),
+				row(lease({ name: 'quiet-site', port: 5184, startCwd: '/tmp/quiet' }), false),
+			],
+			observed: [
+				...board.observed,
+				{
+					port: 5183,
+					bind: '127.0.0.1',
+					pid: 7,
+					process: 'node',
+					seenAt: '2026-08-24T00:00:00.000Z',
+					leaseName: 'demo-site',
+				},
+			],
+		};
+		const plan = helmLifecyclePlan(extra, 'quiet', []);
+		assert.equal(plan.rows.find((r) => r.id === 'demo-site')?.writes, true);
+		assert.equal(plan.rows.find((r) => r.id === 'quiet-site')?.writes, false);
+		assert.equal(plan.rows.find((r) => r.id === 'up')?.writes, false);
+	});
 });

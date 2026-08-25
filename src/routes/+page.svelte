@@ -8,6 +8,8 @@
 	import SortHead from '$lib/SortHead.svelte';
 	import VisitorTile from '$lib/VisitorTile.svelte';
 	import { nextSort, viewRows, type BoardFilters, type SortKey, type SortState } from '$lib/board-view';
+	import Tooltip from '$lib/Tooltip.svelte';
+	import { recipeHealth } from '$lib/recipe-health';
 	import { OPEN_TARGET, rowOpenUrl, visitorHttpUrl } from '$lib/dashboard-url';
 	import { rowBindDisplay } from '$lib/row-detail';
 	import type { BoardRow } from '$lib/types';
@@ -174,7 +176,11 @@
 									: ''} {expanded === key ? 'bg-[var(--wash)]' : ''}"
 								onclick={(event) => toggle(row, event)}
 							>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 font-medium">{row.lease?.name}</td>
+								<td class="border-t border-[var(--line)] px-3.5 py-2.5 font-medium">
+									<Tooltip title={row.lease ? recipeHealth(row.lease).detail : row.lease?.name ?? ''}>
+										{row.lease?.name}
+									</Tooltip>
+								</td>
 								<td class="border-t border-[var(--line)] px-3.5 py-2.5 tabular-nums">{row.lease?.port}</td>
 								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">{rowBindDisplay(row)}</td>
 								<td class="border-t border-[var(--line)] px-3.5 py-2.5">
@@ -193,20 +199,21 @@
 								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">{row.lease?.firewall}</td>
 								<td class="w-8 border-t border-[var(--line)] px-2 py-2 text-right">
 									{#if href}
-										<a
-											class="inline-flex text-[var(--accent)]"
-											href={href}
-											target={OPEN_TARGET}
-											rel="noopener"
-											title="Open"
-											aria-label="Open"
-										>
-											<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-												<path d="M6 3H3.5A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5V10" />
-												<path d="M9 2h5v5" />
-												<path d="M14 2 8 8" />
-											</svg>
-										</a>
+										<Tooltip title={`Open ${href}`}>
+											<a
+												class="inline-flex text-[var(--accent)]"
+												href={href}
+												target={OPEN_TARGET}
+												rel="noopener"
+												aria-label="Open"
+											>
+												<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+													<path d="M6 3H3.5A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5V10" />
+													<path d="M9 2h5v5" />
+													<path d="M14 2 8 8" />
+												</svg>
+											</a>
+										</Tooltip>
 									{/if}
 								</td>
 							</tr>
@@ -268,20 +275,21 @@
 								</td>
 								<td class="w-8 border-t border-[var(--line)] px-2 py-2 text-right">
 									{#if href}
-										<a
-											class="inline-flex text-[var(--accent)]"
-											href={href}
-											target={OPEN_TARGET}
-											rel="noopener"
-											title="Open"
-											aria-label="Open"
-										>
-											<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-												<path d="M6 3H3.5A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5V10" />
-												<path d="M9 2h5v5" />
-												<path d="M14 2 8 8" />
-											</svg>
-										</a>
+										<Tooltip title={`Open ${href}`}>
+											<a
+												class="inline-flex text-[var(--accent)]"
+												href={href}
+												target={OPEN_TARGET}
+												rel="noopener"
+												aria-label="Open"
+											>
+												<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+													<path d="M6 3H3.5A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5V10" />
+													<path d="M9 2h5v5" />
+													<path d="M14 2 8 8" />
+												</svg>
+											</a>
+										</Tooltip>
 									{/if}
 								</td>
 							</tr>

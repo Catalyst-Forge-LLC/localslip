@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { rowOpenUrl } from './dashboard-url.js';
+import { recipeHealth } from './recipe-health.js';
 import { rowBindDisplay } from './row-detail.js';
 import { readLogTail } from './server/log-tail.js';
 import type { Board } from './server/board.js';
@@ -47,6 +48,7 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 				{ id: 'listening', label: 'listening' },
 				{ id: 'process', label: 'process' },
 				{ id: 'recipe', label: 'recipe' },
+				{ id: 'health', label: 'health' },
 				{ id: 'log', label: 'log' },
 				{ id: 'firewall', label: 'firewall' },
 			],
@@ -54,6 +56,9 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 				const name = row.lease?.name ?? '—';
 				const cwd = row.lease?.startCwd;
 				const cwdOk = cwd ? (existsSync(cwd) ? 'yes' : 'no') : '—';
+				const health = row.lease
+					? recipeHealth(row.lease)
+					: { status: 'no-recipe' as const, detail: 'No lease' };
 				const log = row.logTail ?? (name !== '—' ? readLogTail(name) : null);
 				const parked = Boolean(row.lease?.parked);
 				const actions: { id: string; label: string; write: boolean; icon?: string }[] = [];
@@ -83,6 +88,9 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 						conflict: row.conflict ? 'yes' : 'no',
 						recipe: cwd ? row.lease?.startCommand || 'pnpm serve' : '—',
 						cwdOk,
+						health: health.status,
+						healthDetail: health.detail,
+						kind: row.lease?.kind ?? '—',
 						log: log?.preview ?? '—',
 						logPreview: log?.preview ?? '—',
 						parked: parked ? 'yes' : 'no',

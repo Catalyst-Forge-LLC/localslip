@@ -69,7 +69,8 @@
         "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons.",
         "2026-08-25: Draft cheap-surfaces spec (docs/specs/cheap-surfaces.md). Twin in localhelm. Not scheduled.",
         "2026-08-25: B1+B2 log tail, PORT/HOST on plan, localberth doctor (D35).",
-        "2026-08-25: B3–B5 park/unpark, family start/stop, save-guess. Start only when down."
+        "2026-08-25: B3–B5 park/unpark, family start/stop, save-guess. Start only when down.",
+        "2026-08-25: Quiet, recipe health, recipe --guess-all, Tippy on the board."
       ]
     },
     "4-feature-iteration": {
