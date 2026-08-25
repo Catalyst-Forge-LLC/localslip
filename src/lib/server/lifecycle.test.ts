@@ -18,10 +18,20 @@ const lease: Lease = {
 };
 
 describe('lifecycle plan', () => {
-	it('refuses start without a recipe', () => {
-		const planned = planStart({ ...lease, startCwd: null }, []);
+	it('refuses start without a recipe or a guess', () => {
+		const planned = planStart({ ...lease, startCwd: null }, [], { propose: () => null });
 		assert.equal(planned.writes, false);
 		assert.match(planned.reason, /no recipe yet/);
+	});
+
+	it('offers to save a guessed recipe', () => {
+		const planned = planStart({ ...lease, startCwd: null }, [], {
+			propose: () => ({ cwd: '/tmp/aibreze', command: 'pnpm site:dev' })
+		});
+		assert.equal(planned.writes, true);
+		assert.equal(planned.proposedCwd, '/tmp/aibreze');
+		assert.equal(planned.proposedCommand, 'pnpm site:dev');
+		assert.match(planned.reason, /save recipe/);
 	});
 
 	it('refuses start when the port is already listening', () => {

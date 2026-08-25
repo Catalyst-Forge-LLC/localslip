@@ -13,7 +13,7 @@ Usage:
   localberth get <name>
   localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
   localberth recipe <name> --cwd PATH [--command CMD]
-  localberth start <name> [--cwd PATH] [--command CMD]
+  localberth start <name> [--cwd PATH] [--command CMD] [--save-guess]
   localberth stop <name> [--force]
   localberth release <name> [--force]
   localberth ls
@@ -156,11 +156,14 @@ async function main(): Promise<void> {
 
 	if (cmd === 'start') {
 		const args = [...argv];
+		const saveGuess = takeFlag(args, '--save-guess');
 		const cwd = takeOpt(args, '--cwd');
 		const command = takeOpt(args, '--command');
 		const name = args[0];
-		if (!name || args.length !== 1) fail('usage: localberth start <name> [--cwd PATH] [--command CMD]');
-		const result = await startLease(name, { cwd, command });
+		if (!name || args.length !== 1) {
+			fail('usage: localberth start <name> [--cwd PATH] [--command CMD] [--save-guess]');
+		}
+		const result = await startLease(name, { cwd, command, saveGuess });
 		process.stdout.write(
 			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
 		);

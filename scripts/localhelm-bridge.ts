@@ -49,7 +49,8 @@ if (!cmd) {
 				results.push({ id: row.id, action: 'skip', reason: row.reason, writes: false });
 				continue;
 			}
-			const result = action === 'start' ? await startLease(row.id) : await stopLease(row.id);
+			const result =
+				action === 'start' ? await startLease(row.id, { saveGuess: true }) : await stopLease(row.id);
 			results.push({
 				id: result.name,
 				action: result.action,

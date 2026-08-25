@@ -4,9 +4,17 @@ import { DASHBOARD_NAME } from './paths.js';
 import { logPath } from './paths.js';
 import { scanListeners } from './observe.js';
 import { getLease, recipeFor, setSpawnPid, setStartRecipe } from './registry.js';
+import { proposeRecipe, type RecipeGuess } from './recipeGuess.js';
 import type { Lease, Observed } from '../types.js';
 
 export type LifecycleAction = 'start' | 'stop' | 'skip';
+
+export type StartPlan = {
+	writes: boolean;
+	reason: string;
+	proposedCwd?: string;
+	proposedCommand?: string;
+};
 
 export type LifecycleResult = {
 	name: string;
@@ -62,8 +70,15 @@ export function isSelfDashboard(lease: Lease): boolean {
 	return Number.isInteger(berth) && berth === lease.port;
 }
 
-export function planStart(lease: Lease, listeners: Observed[]): { writes: boolean; reason: string } {
-	if (!recipeFor(lease)) {
+export function planStart(
+	lease: Lease,
+	listeners: Observed[],
+	opts: { propose?: (name: string) => RecipeGuess | null } = {}
+): StartPlan {
+	const propose = opts.propose ?? ((name: string) => proposeRecipe(name));
+	const stored = recipeFor(lease);
+	const guess = stored ?? propose(lease.name);
+	if (!guess) {
 		return {
 			writes: false,
 			reason: `no recipe yet — localberth recipe ${lease.name} --cwd <folder>`
@@ -76,7 +91,15 @@ export function planStart(lease: Lease, listeners: Observed[]): { writes: boolea
 			reason: `already listening${hit.pid != null ? ` (pid ${hit.pid})` : ''}`
 		};
 	}
-	return { writes: true, reason: `start ${recipeFor(lease)!.command}` };
+	if (!stored) {
+		return {
+			writes: true,
+			reason: `save recipe and start ${guess.command}`,
+			proposedCwd: guess.cwd,
+			proposedCommand: guess.command
+		};
+	}
+	return { writes: true, reason: `start ${stored.command}` };
 }
 
 export function planStop(lease: Lease, listeners: Observed[]): { writes: boolean; reason: string } {
@@ -101,7 +124,7 @@ async function waitForListen(lease: Lease, tries = 20, delayMs = 250): Promise<O
 
 export async function startLease(
 	name: string,
-	opts: { cwd?: string; command?: string } = {}
+	opts: { cwd?: string; command?: string; saveGuess?: boolean } = {}
 ): Promise<LifecycleResult> {
 	const lease0 = getLease(name);
 	if (!lease0) throw new Error(`no lease named "${name}"`);
@@ -111,8 +134,12 @@ export async function startLease(
 	const lease = getLease(name)!;
 	const listeners = await scanListeners();
 	const planned = planStart(lease, listeners);
-	if (!planned.writes) {
-		const hit = listenerOnLease(lease, listeners);
+	if (opts.saveGuess && planned.proposedCwd && !recipeFor(lease)) {
+		setStartRecipe(name, { cwd: planned.proposedCwd, command: planned.proposedCommand });
+	}
+	const recipe = recipeFor(getLease(name)!);
+	const hit = listenerOnLease(lease, listeners);
+	if (!recipe || !planned.writes) {
 		return {
 			name: lease.name,
 			port: lease.port,
@@ -122,8 +149,6 @@ export async function startLease(
 			reason: planned.reason
 		};
 	}
-	const recipe = recipeFor(lease);
-	if (!recipe) throw new Error(planned.reason);
 	if (!existsSync(recipe.cwd)) {
 		throw new Error(`start cwd missing: ${recipe.cwd}`);
 	}
@@ -157,15 +182,15 @@ export async function startLease(
 	}
 	child.unref();
 	setSpawnPid(lease.name, child.pid);
-	const hit = await waitForListen(lease);
+	const listening = await waitForListen(lease);
 	return {
 		name: lease.name,
 		port: lease.port,
 		action: 'start',
 		pid: child.pid,
-		listening: Boolean(hit),
-		reason: hit
-			? `listening pid ${hit.pid ?? child.pid}`
+		listening: Boolean(listening),
+		reason: listening
+			? `listening pid ${listening.pid ?? child.pid}`
 			: `started pid ${child.pid}; not listening yet (log ~/.localberth/logs/${lease.name}.log)`
 	};
 }

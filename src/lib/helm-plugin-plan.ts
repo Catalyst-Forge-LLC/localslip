@@ -11,6 +11,8 @@ export type HelmLifecyclePlanRow = {
 	port: number;
 	listening: boolean;
 	recipe: string | null;
+	proposedCwd?: string;
+	proposedCommand?: string;
 };
 
 export type HelmLifecyclePlan = {
@@ -33,7 +35,11 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 			reason: planned.reason,
 			port: lease.port,
 			listening: row.listening,
-			recipe: lease.startCwd ? lease.startCommand || 'pnpm serve' : null
+			recipe: lease.startCwd
+				? lease.startCommand || 'pnpm serve'
+				: planned.proposedCommand ?? null,
+			proposedCwd: planned.proposedCwd,
+			proposedCommand: planned.proposedCommand
 		});
 	}
 	return { action, rows };
