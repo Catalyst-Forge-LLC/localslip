@@ -81,7 +81,7 @@ export function planStart(
 	if (!guess) {
 		return {
 			writes: false,
-			reason: `no recipe yet — localberth recipe ${lease.name} --cwd <folder>`
+			reason: `no matching folder — localberth recipe ${lease.name} --cwd PATH`
 		};
 	}
 	const hit = listenerOnLease(lease, listeners);

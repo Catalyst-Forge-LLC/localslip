@@ -21,7 +21,7 @@ describe('lifecycle plan', () => {
 	it('refuses start without a recipe or a guess', () => {
 		const planned = planStart({ ...lease, startCwd: null }, [], { propose: () => null });
 		assert.equal(planned.writes, false);
-		assert.match(planned.reason, /no recipe yet/);
+		assert.match(planned.reason, /no matching folder/);
 	});
 
 	it('offers to save a guessed recipe', () => {

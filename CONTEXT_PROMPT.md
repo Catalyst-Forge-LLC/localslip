@@ -30,7 +30,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 - Modules: ESM only
 - Language: TypeScript (strict)
 - Do not hide ports behind name-only URLs
-- Observed-only rows stay read-only. Named leases can start/stop via an explicit command. If no recipe is stored, LocalBerth may guess a sibling folder (`name` or strip `-site`) and `pnpm site:dev` / `serve` / `dev`. LocalHelm confirm saves that guess; CLI needs `--save-guess`.
+- Observed-only rows stay read-only. Named leases can start/stop via an explicit command. If no recipe is stored, LocalBerth may guess a sibling folder (`name`, or strip `-site` / `-api`) and `pnpm site:dev` / `start` / `serve` / `dev`. LocalHelm confirm saves that guess; CLI needs `--save-guess`.
 - Public README is the operator/npm page (no ForgeTrail or sibling notes)
 - Omit homepage / repository on npm until the site and GitHub repo are public
 

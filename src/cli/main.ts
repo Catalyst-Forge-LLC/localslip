@@ -167,7 +167,7 @@ async function main(): Promise<void> {
 		process.stdout.write(
 			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
 		);
-		if (result.action === 'skip' && /no recipe/.test(result.reason)) process.exitCode = 1;
+		if (result.action === 'skip' && /no matching folder|no recipe/.test(result.reason)) process.exitCode = 1;
 		return;
 	}
 

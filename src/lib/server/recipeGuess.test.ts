@@ -23,6 +23,12 @@ describe('proposeRecipe', () => {
 		assert.deepEqual(guess, { cwd: join(root, 'aibreze'), command: 'pnpm site:dev' });
 	});
 
+	it('maps a -api lease to the package folder and start', () => {
+		writePkg(join(root, 'dictawhisper'), { start: 'node src/server.ts', serve: 'node src/dev.ts' });
+		const guess = proposeRecipe('dictawhisper-api', { roots: [root] });
+		assert.deepEqual(guess, { cwd: join(root, 'dictawhisper'), command: 'pnpm start' });
+	});
+
 	it('uses pnpm serve when the folder matches the lease name', () => {
 		writePkg(join(root, 'localhelm'), { serve: 'tsx src/cli/main.ts serve' });
 		const guess = proposeRecipe('localhelm', { roots: [root] });

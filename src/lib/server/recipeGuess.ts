@@ -30,10 +30,14 @@ function workspaceRoots(extra: string[] = []): string[] {
 	return out;
 }
 
+const FOLDER_SUFFIXES = ['-site', '-api'] as const;
+
 function folderNames(leaseName: string): string[] {
 	const names = [leaseName];
-	if (leaseName.endsWith('-site') && leaseName.length > 5) {
-		names.push(leaseName.slice(0, -5));
+	for (const suffix of FOLDER_SUFFIXES) {
+		if (leaseName.endsWith(suffix) && leaseName.length > suffix.length) {
+			names.push(leaseName.slice(0, -suffix.length));
+		}
 	}
 	return names;
 }
@@ -51,6 +55,7 @@ function readScripts(dir: string): PkgScripts | null {
 
 function commandFor(scripts: PkgScripts, leaseName: string): string | null {
 	if (leaseName.endsWith('-site') && scripts['site:dev']) return 'pnpm site:dev';
+	if (leaseName.endsWith('-api') && scripts.start) return 'pnpm start';
 	if (scripts.serve) return 'pnpm serve';
 	if (scripts.dev) return 'pnpm dev';
 	return null;
