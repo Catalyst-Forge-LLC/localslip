@@ -1,7 +1,10 @@
+import { familyMemberNames } from '../lib/family.js';
 import { formatDoctorText, runDoctor } from '../lib/server/doctor.js';
 import { detectBackend, removeLeaseRule, syncAll, syncLease } from '../lib/server/firewall.js';
 import { startLease, stopLease } from '../lib/server/lifecycle.js';
 import { scanListeners } from '../lib/server/observe.js';
+import { parkLease, unparkLease } from '../lib/server/park.js';
+import { saveGuessRecipe } from '../lib/server/recipe-save.js';
 import { isSystemPort } from '../lib/server/system-ports.js';
 import { claim, getLease, listLeases, release, setStartRecipe } from '../lib/server/registry.js';
 import { getDb } from '../lib/server/db.js';
@@ -14,10 +17,13 @@ Usage:
   localberth get <name>
   localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
   localberth recipe <name> --cwd PATH [--command CMD]
-  localberth start <name> [--cwd PATH] [--command CMD] [--save-guess]
-  localberth stop <name> [--force]
+  localberth recipe <name> --save-guess
+  localberth start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]
+  localberth stop <name> [--force] [--family]
+  localberth park <name>
+  localberth unpark <name>
   localberth release <name> [--force]
-  localberth ls
+  localberth ls [--parked|--all]
   localberth scan [--all]
   localberth doctor [--json]
   localberth firewall sync
@@ -143,9 +149,21 @@ async function main(): Promise<void> {
 
 	if (cmd === 'recipe') {
 		const args = [...argv];
+		const saveGuess = takeFlag(args, '--save-guess');
 		const cwd = takeOpt(args, '--cwd');
 		const command = takeOpt(args, '--command');
 		const name = args[0];
+		if (saveGuess) {
+			if (!name || args.length !== 1 || cwd || command) {
+				fail('usage: localberth recipe <name> --save-guess');
+			}
+			const result = saveGuessRecipe(name);
+			process.stdout.write(
+				`${result.name}\t${result.port}\t${result.action}\t${result.cwd ?? '-'}\t${result.command ?? '-'}\t${result.reason}\n`
+			);
+			if (result.action === 'skip') process.exitCode = 1;
+			return;
+		}
 		if (!name || args.length !== 1 || !cwd) {
 			fail('usage: localberth recipe <name> --cwd PATH [--command CMD]');
 		}
@@ -159,29 +177,61 @@ async function main(): Promise<void> {
 	if (cmd === 'start') {
 		const args = [...argv];
 		const saveGuess = takeFlag(args, '--save-guess');
+		const family = takeFlag(args, '--family');
 		const cwd = takeOpt(args, '--cwd');
 		const command = takeOpt(args, '--command');
 		const name = args[0];
 		if (!name || args.length !== 1) {
-			fail('usage: localberth start <name> [--cwd PATH] [--command CMD] [--save-guess]');
+			fail('usage: localberth start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]');
 		}
-		const result = await startLease(name, { cwd, command, saveGuess });
-		process.stdout.write(
-			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
-		);
-		if (result.action === 'skip' && /no matching folder|no recipe/.test(result.reason)) process.exitCode = 1;
+		const names = family
+			? familyMemberNames(name, listLeases().filter((lease) => !lease.parked).map((lease) => lease.name))
+			: [name];
+		if (family && !names.length) fail(`no unparked family for ${name}`);
+		for (const id of names) {
+			const result = await startLease(id, { cwd, command, saveGuess });
+			process.stdout.write(
+				`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
+			);
+			if (result.action === 'skip' && /no matching folder|no recipe/.test(result.reason)) process.exitCode = 1;
+		}
 		return;
 	}
 
 	if (cmd === 'stop') {
 		const args = [...argv];
 		const force = takeFlag(args, '--force');
+		const family = takeFlag(args, '--family');
 		const name = args[0];
-		if (!name || args.length !== 1) fail('usage: localberth stop <name> [--force]');
-		const result = await stopLease(name, { force });
-		process.stdout.write(
-			`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
-		);
+		if (!name || args.length !== 1) fail('usage: localberth stop <name> [--force] [--family]');
+		const names = family
+			? familyMemberNames(name, listLeases().filter((lease) => !lease.parked).map((lease) => lease.name))
+			: [name];
+		if (family && !names.length) fail(`no unparked family for ${name}`);
+		for (const id of names) {
+			const result = await stopLease(id, { force });
+			process.stdout.write(
+				`${result.name}\t${result.port}\t${result.action}\t${result.pid ?? '-'}\t${result.reason}\n`
+			);
+		}
+		return;
+	}
+
+	if (cmd === 'park') {
+		const name = argv[0];
+		if (!name) fail('usage: localberth park <name>');
+		const result = await parkLease(name);
+		process.stdout.write(`${result.name}\t${result.port}\t${result.action}\t${result.reason}\n`);
+		if (result.action === 'skip') process.exitCode = 1;
+		return;
+	}
+
+	if (cmd === 'unpark') {
+		const name = argv[0];
+		if (!name) fail('usage: localberth unpark <name>');
+		const result = await unparkLease(name);
+		process.stdout.write(`${result.name}\t${result.port}\t${result.action}\t${result.reason}\n`);
+		if (result.action === 'skip') process.exitCode = 1;
 		return;
 	}
 
@@ -200,15 +250,22 @@ async function main(): Promise<void> {
 	}
 
 	if (cmd === 'ls') {
-		const leases = listLeases();
+		const showParked = takeFlag(argv, '--parked');
+		const showAll = takeFlag(argv, '--all');
+		const leases = listLeases().filter((lease) => {
+			if (showAll) return true;
+			if (showParked) return Boolean(lease.parked);
+			return !lease.parked;
+		});
 		if (leases.length === 0) {
-			console.error('no leases');
+			console.error(showParked ? 'no parked leases' : 'no leases');
 			return;
 		}
 		for (const lease of leases) {
 			const recipe = lease.startCwd ? lease.startCommand || 'pnpm serve' : '-';
+			const parked = lease.parked ? 'parked' : 'active';
 			process.stdout.write(
-				`${lease.name}\t${lease.port}\t${lease.bind}\t${lease.kind}\t${lease.firewall}\t${recipe}\n`
+				`${lease.name}\t${lease.port}\t${lease.bind}\t${lease.kind}\t${lease.firewall}\t${recipe}\t${parked}\n`
 			);
 		}
 		return;

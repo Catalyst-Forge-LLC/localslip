@@ -75,6 +75,12 @@ export function planStart(
 	listeners: Observed[],
 	opts: { propose?: (name: string) => RecipeGuess | null } = {}
 ): StartPlan {
+	if (lease.parked) {
+		return {
+			writes: false,
+			reason: `parked — localberth unpark ${lease.name}`
+		};
+	}
 	const propose = opts.propose ?? ((name: string) => proposeRecipe(name));
 	const stored = recipeFor(lease);
 	const guess = stored ?? propose(lease.name);

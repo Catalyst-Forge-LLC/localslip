@@ -25,7 +25,6 @@ function cwdKey(cwd: string): string {
 	return path.resolve(cwd).replace(/\\/g, '/').toLowerCase();
 }
 
-/** Parked+listening is skipped until park lands (B3). */
 export function doctorFromBoard(board: Board): DoctorReport {
 	const rows: DoctorRow[] = [];
 
@@ -52,7 +51,15 @@ export function doctorFromBoard(board: Board): DoctorReport {
 				detail: `more than one listener on ${lease.port}${extras}`,
 			});
 		}
-		if (lease.kind === 'always' && !row.listening) {
+		if (lease.parked && row.listening) {
+			rows.push({
+				id: lease.name,
+				level: 'fail',
+				check: 'parked-listening',
+				detail: `parked but still listening on ${lease.port}`,
+			});
+		}
+		if (lease.kind === 'always' && !row.listening && !lease.parked) {
 			rows.push({
 				id: lease.name,
 				level: 'warn',

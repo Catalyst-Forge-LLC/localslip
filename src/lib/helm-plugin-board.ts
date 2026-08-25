@@ -55,6 +55,21 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 				const cwd = row.lease?.startCwd;
 				const cwdOk = cwd ? (existsSync(cwd) ? 'yes' : 'no') : '—';
 				const log = row.logTail ?? (name !== '—' ? readLogTail(name) : null);
+				const parked = Boolean(row.lease?.parked);
+				const actions: { id: string; label: string; write: boolean; icon?: string }[] = [];
+				if (parked) {
+					actions.push({ id: 'unpark', label: 'Unpark', write: true, icon: 'lucide:circle-parking-off' });
+				} else {
+					if (row.listening) {
+						actions.push({ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' });
+					} else {
+						actions.push({ id: 'start', label: 'Start', write: true, icon: 'lucide:play' });
+						if (!cwd) {
+							actions.push({ id: 'recipe', label: 'Save guess', write: true, icon: 'lucide:save' });
+						}
+					}
+					actions.push({ id: 'park', label: 'Park', write: true, icon: 'lucide:circle-parking' });
+				}
 				return {
 					id: name,
 					label: name,
@@ -70,11 +85,9 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 						cwdOk,
 						log: log?.preview ?? '—',
 						logPreview: log?.preview ?? '—',
+						parked: parked ? 'yes' : 'no',
 					},
-					actions: [
-						{ id: 'start', label: 'Start', write: true, icon: 'lucide:play' },
-						{ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' },
-					],
+					actions,
 				};
 			}),
 		},

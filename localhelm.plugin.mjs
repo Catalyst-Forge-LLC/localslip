@@ -1,6 +1,6 @@
 /**
  * LocalBerth plugin for LocalHelm.
- * LocalHelm hosts the Ports tab; this file calls the sibling board and start/stop.
+ * LocalHelm hosts the Ports tab; this file calls the sibling board and plan/apply.
  */
 import { spawnSync } from 'node:child_process';
 import { dirname } from 'node:path';
@@ -8,6 +8,15 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const win = process.platform === 'win32';
+const ACTIONS = new Set([
+	'start',
+	'stop',
+	'park',
+	'unpark',
+	'recipe',
+	'family-start',
+	'family-stop',
+]);
 
 function bridge(args = []) {
 	const result = spawnSync(
@@ -36,16 +45,16 @@ const plugin = {
 		return boards;
 	},
 	async plan(action, ids) {
-		if (action !== 'start' && action !== 'stop') {
-			throw new Error(`localberth plugin only plans start or stop (got ${action})`);
+		if (!ACTIONS.has(action)) {
+			throw new Error(`localberth plugin does not plan ${action}`);
 		}
 		const args = ['plan', '--action', action];
 		if (ids.length) args.push('--names', ids.join(','));
 		return bridge(args);
 	},
 	async apply(action, ids) {
-		if (action !== 'start' && action !== 'stop') {
-			throw new Error(`localberth plugin only applies start or stop (got ${action})`);
+		if (!ACTIONS.has(action)) {
+			throw new Error(`localberth plugin does not apply ${action}`);
 		}
 		const args = ['apply', '--action', action];
 		if (ids.length) args.push('--names', ids.join(','));

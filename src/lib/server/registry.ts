@@ -21,6 +21,7 @@ type LeaseRow = {
 	start_cwd: string | null;
 	start_command: string | null;
 	spawn_pid: number | null;
+	parked: number | null;
 };
 
 function rowToLease(row: LeaseRow): Lease {
@@ -35,7 +36,8 @@ function rowToLease(row: LeaseRow): Lease {
 		updatedAt: row.updated_at,
 		startCwd: row.start_cwd ?? null,
 		startCommand: row.start_command ?? null,
-		spawnPid: row.spawn_pid ?? null
+		spawnPid: row.spawn_pid ?? null,
+		parked: Boolean(row.parked)
 	};
 }
 
@@ -194,6 +196,15 @@ export function setStartRecipe(
 			`UPDATE leases SET start_cwd = ?, start_command = ?, updated_at = ? WHERE name = ?`
 		)
 		.run(cwd, command, new Date().toISOString(), n);
+	return getLease(n)!;
+}
+
+export function setParked(name: string, parked: boolean): Lease {
+	const n = assertName(name);
+	if (!getLease(n)) throw new Error(`no lease named "${n}"`);
+	getDb()
+		.prepare(`UPDATE leases SET parked = ?, updated_at = ? WHERE name = ?`)
+		.run(parked ? 1 : 0, new Date().toISOString(), n);
 	return getLease(n)!;
 }
 

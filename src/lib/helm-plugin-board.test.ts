@@ -65,10 +65,10 @@ describe('helm plugin boards', () => {
 		assert.equal(boards[0]?.rows[0]?.id, 'localhelm');
 		assert.equal(boards[0]?.rows[0]?.cells.listening, 'yes');
 		assert.equal(boards[0]?.rows[0]?.href, 'http://127.0.0.1:4321/');
-		assert.deepEqual(boards[0]?.rows[0]?.actions, [
-			{ id: 'start', label: 'Start', write: true, icon: 'lucide:play' },
-			{ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' },
-		]);
+		assert.deepEqual(
+			boards[0]?.rows[0]?.actions.map((act) => act.id),
+			['stop', 'park'],
+		);
 		assert.equal(boards[0]?.rows[0]?.cells.recipe, '—');
 		assert.equal(boards[0]?.rows[0]?.cells.cwdOk, '—');
 		assert.equal(boards[0]?.rows[0]?.cells.log, 'No log yet — start once.');

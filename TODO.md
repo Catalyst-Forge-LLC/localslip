@@ -23,8 +23,8 @@ See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 
 - [x] Log tail + `PORT`/`HOST` on start plan _(B1, 2026-08-25)_
 - [x] `localberth doctor` (read-only) _(B2, 2026-08-25)_
-- [ ] Park / unpark (keep the port)
-- [ ] Family start/stop + save-guess plugin action
+- [x] Park / unpark (keep the port) _(B3, 2026-08-25)_
+- [x] Family start/stop + save-guess plugin action _(B4+B5, 2026-08-25)_
 
 ## Phase 3
 

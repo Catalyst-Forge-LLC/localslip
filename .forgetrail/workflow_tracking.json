@@ -68,7 +68,8 @@
         "2026-08-20: Package 0.2.6 — operator face needs loopback Host.",
         "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons.",
         "2026-08-25: Draft cheap-surfaces spec (docs/specs/cheap-surfaces.md). Twin in localhelm. Not scheduled.",
-        "2026-08-25: B1+B2 log tail, PORT/HOST on plan, localberth doctor (D35)."
+        "2026-08-25: B1+B2 log tail, PORT/HOST on plan, localberth doctor (D35).",
+        "2026-08-25: B3–B5 park/unpark, family start/stop, save-guess. Start only when down."
       ]
     },
     "4-feature-iteration": {
@@ -482,6 +483,18 @@
         "Fail doctor when any always lease is down",
         "Block start on HTTP /health",
         "Put 40 log lines in the Ports table cell"
+      ]
+    },
+    {
+      "id": "D36",
+      "timestamp": "2026-08-25",
+      "phase": "3-stabilization",
+      "decision": "Park stops and hides a lease and keeps the port. Default ls hides parked; --parked / --all show them. Unpark does not start. Family start/stop expands unparked siblings. recipe --save-guess stores a guess without starting. Helm plugin Start only when not listening; Stop only when listening; parked rows offer Unpark only.",
+      "rationale": "Operator 2026-08-25: Start while listening was noise; cheap-surfaces B3–B5.",
+      "alternatives_considered": [
+        "Always show Start and Stop",
+        "Release the port on park",
+        "Unpark also starts"
       ]
     }
   ],

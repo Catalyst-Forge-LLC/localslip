@@ -75,6 +75,21 @@ describe('helm lifecycle plan', () => {
 		assert.equal(demo?.host, '127.0.0.1');
 	});
 
+	it('expands family-start to unparked siblings', () => {
+		const extra = {
+			...board,
+			leaseRows: [
+				...board.leaseRows,
+				row(lease({ name: 'demo-api', port: 5182, startCwd: '/tmp/demo' }), false),
+			],
+		};
+		const plan = helmLifecyclePlan(extra, 'family-start', ['demo']);
+		assert.deepEqual(
+			plan.rows.map((r) => r.id).sort(),
+			['demo', 'demo-api'],
+		);
+	});
+
 	it('stops only a listening lease', () => {
 		const plan = helmLifecyclePlan(board, 'stop', []);
 		assert.equal(plan.rows.find((r) => r.id === 'up')?.writes, true);

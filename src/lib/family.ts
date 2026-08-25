@@ -13,6 +13,12 @@ export function familyRole(id: string): 'ui' | 'api' | 'site' {
 	return 'ui';
 }
 
+export function familyMemberNames(seed: string, names: Iterable<string>): string[] {
+	const stem = familyStem(seed);
+	if (!stem) return [];
+	return [...names].filter((name) => familyStem(name) === stem);
+}
+
 export function isServeCommand(command: string | null | undefined): boolean {
 	const value = (command ?? 'pnpm serve').trim();
 	return value === 'pnpm serve' || value === 'pnpm run serve';

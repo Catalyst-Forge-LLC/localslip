@@ -16,6 +16,8 @@ export type Lease = {
 	startCommand?: string | null;
 	/** PID LocalBerth last spawned. Null if never started here or already cleared. */
 	spawnPid?: number | null;
+	/** Hidden on the default board. Port stays claimed. */
+	parked?: boolean;
 };
 
 export type Observed = {

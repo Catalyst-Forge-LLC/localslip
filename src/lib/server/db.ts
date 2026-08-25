@@ -52,6 +52,7 @@ function migrate(db: Database.Database): void {
 	addColumn(db, 'leases', 'start_cwd', 'TEXT');
 	addColumn(db, 'leases', 'start_command', 'TEXT');
 	addColumn(db, 'leases', 'spawn_pid', 'INTEGER');
+	addColumn(db, 'leases', 'parked', 'INTEGER DEFAULT 0');
 }
 
 function addColumn(db: Database.Database, table: string, column: string, sqlType: string): void {
