@@ -37,7 +37,7 @@ function leaseRow(partial: { name: string; port: number; listening?: boolean; co
 describe('helm plugin boards', () => {
 	it('maps leases and observed onto the Ports tab with start/stop on leases', () => {
 		const board: Board = {
-			leaseRows: [leaseRow({ name: 'localhelm', port: 54322, listening: true })],
+			leaseRows: [leaseRow({ name: 'localhelm', port: 4321, listening: true })],
 			observedRows: [
 				{
 					lease: null,
@@ -64,7 +64,7 @@ describe('helm plugin boards', () => {
 		assert.equal(boards[0]?.title, 'Leases');
 		assert.equal(boards[0]?.rows[0]?.id, 'localhelm');
 		assert.equal(boards[0]?.rows[0]?.cells.listening, 'yes');
-		assert.equal(boards[0]?.rows[0]?.href, 'http://127.0.0.1:54322/');
+		assert.equal(boards[0]?.rows[0]?.href, 'http://127.0.0.1:4321/');
 		assert.deepEqual(boards[0]?.rows[0]?.actions, [
 			{ id: 'start', label: 'Start', write: true },
 			{ id: 'stop', label: 'Stop', write: true },
