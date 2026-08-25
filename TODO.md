@@ -17,6 +17,15 @@
 - [x] Vite helper `localberthPort()` (`localberth/port`)
 - [x] Harden firewall backends (pf anchors, firewalld rich rules, loopback skip)
 
+## Cheap surfaces (draft spec)
+
+See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md). Not scheduled until you pick a slice.
+
+- [ ] Log tail + `PORT`/`HOST` on start plan
+- [ ] `localberth doctor` (read-only)
+- [ ] Park / unpark (keep the port)
+- [ ] Family start/stop + save-guess plugin action
+
 ## Phase 3
 
 1. [x] README matches the real CLI (public/npm page, no process notes)

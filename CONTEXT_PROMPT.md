@@ -48,5 +48,6 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 ## Pointers
 
 - Brief: `docs/PHASE_1_BRIEF.md`
+- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md` — park, log tail, doctor, family. Helm twin owns archive/brief/Today. Not scheduled until you pick a slice.
 - Tracking: `.forgetrail/workflow_tracking.json`
 - TODO: `TODO.md`
