@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'tippy.js/dist/tippy.css';
 
 .tippy-box[data-theme~='berth'] {
 	background: #1a1917;
@@ -11,6 +10,9 @@
 }
 .tippy-box[data-theme~='berth'] .tippy-arrow {
 	color: #1a1917;
+}
+.tippy-box[data-theme~='berth'] .tippy-arrow::before {
+	border-style: solid;
 }
 .tippy-box[data-theme~='berth'] .tippy-content {
 	white-space: pre-wrap;
