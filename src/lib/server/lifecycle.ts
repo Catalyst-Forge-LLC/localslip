@@ -66,7 +66,7 @@ export function planStart(lease: Lease, listeners: Observed[]): { writes: boolea
 	if (!recipeFor(lease)) {
 		return {
 			writes: false,
-			reason: `no start recipe — localberth recipe ${lease.name} --cwd PATH`
+			reason: `no recipe yet — localberth recipe ${lease.name} --cwd <folder>`
 		};
 	}
 	const hit = listenerOnLease(lease, listeners);

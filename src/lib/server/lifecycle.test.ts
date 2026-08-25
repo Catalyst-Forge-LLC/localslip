@@ -21,7 +21,7 @@ describe('lifecycle plan', () => {
 	it('refuses start without a recipe', () => {
 		const planned = planStart({ ...lease, startCwd: null }, []);
 		assert.equal(planned.writes, false);
-		assert.match(planned.reason, /no start recipe/);
+		assert.match(planned.reason, /no recipe yet/);
 	});
 
 	it('refuses start when the port is already listening', () => {
