@@ -1,4 +1,5 @@
 import { bindRelation, bindsOverlap } from './firewall/names.js';
+import { readLogTail } from './log-tail.js';
 import { scanListeners } from './observe.js';
 import { listLeases } from './registry.js';
 import { isSystemPort } from './system-ports.js';
@@ -33,13 +34,15 @@ export async function getBoard(opts: { showSystem?: boolean } = {}): Promise<Boa
 		const also = extrasOnPort(hits, match);
 		for (const extra of also) used.add(`${extra.bind}:${extra.port}:${extra.pid ?? ''}`);
 		const relation = match ? bindRelation(lease.bind, match.bind) : 'same';
+		const tail = readLogTail(lease.name);
 		leaseRows.push({
 			lease,
 			observed: match,
 			listening: Boolean(match),
 			conflict:
 				relation === 'wider' || relation === 'narrower' || relation === 'other' || also.length > 0,
-			also
+			also,
+			logTail: { preview: tail.preview, text: tail.text },
 		});
 	}
 

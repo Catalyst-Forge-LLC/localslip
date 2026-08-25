@@ -19,10 +19,10 @@
 
 ## Cheap surfaces (draft spec)
 
-See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md). Not scheduled until you pick a slice.
+See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 
-- [ ] Log tail + `PORT`/`HOST` on start plan
-- [ ] `localberth doctor` (read-only)
+- [x] Log tail + `PORT`/`HOST` on start plan _(B1, 2026-08-25)_
+- [x] `localberth doctor` (read-only) _(B2, 2026-08-25)_
 - [ ] Park / unpark (keep the port)
 - [ ] Family start/stop + save-guess plugin action
 

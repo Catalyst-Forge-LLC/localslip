@@ -11,6 +11,7 @@ title: Commands
 | `localberth stop <name> [--force]` | Stop the process tree; keeps the lease |
 | `localberth release <name> [--force]` | Drop a lease |
 | `localberth ls` | List leases |
+| `localberth doctor [--json]` | Read-only slip check (cwd, conflicts, `PORT` leak risk) |
 | `localberth scan [--all]` | List listening sockets |
 | `localberth firewall sync` | Apply inbound rules for `--lan` leases |
 | `localberth firewall status` | Show rule state |

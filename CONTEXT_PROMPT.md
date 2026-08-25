@@ -14,7 +14,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 ## Architecture at a glance
 
-- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `release` / `ls` / `scan` / `firewall sync` / `serve`
+- `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `release` / `ls` / `scan` / `doctor` / `firewall sync` / `serve`
 - `localhelm.plugin.mjs` — Ports tab in LocalHelm (leases + observed + Start/Stop plan/apply). Does not reimplement the board. The bridge `process.exit`s after JSON so LocalHelm’s `spawnSync` returns even if a started recipe is still running.
 - `src/lib/port.ts` — `localberthListen(name, fallback)` (host + port) and `localberthPort` for Vite configs. Pin `server.host` or Windows Vite binds `[::1]`.
 - `src/lib/server/registry.ts` — lease persist + self-lease `localberth` → 54321
@@ -48,6 +48,6 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 ## Pointers
 
 - Brief: `docs/PHASE_1_BRIEF.md`
-- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md` — park, log tail, doctor, family. Helm twin owns archive/brief/Today. Not scheduled until you pick a slice.
+- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1+B2 landed: last log lines on the row and Ports `log` cell; start plan includes `host` (Helm prints `PORT`/`HOST`); `localberth doctor [--json]` is read-only (fail = missing cwd or conflict; warn = always-down and serve+`-api` same-folder `PORT` leak). Park still unscheduled.
 - Tracking: `.forgetrail/workflow_tracking.json`
 - TODO: `TODO.md`

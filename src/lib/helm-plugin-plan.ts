@@ -9,6 +9,7 @@ export type HelmLifecyclePlanRow = {
 	action: 'start' | 'stop' | 'skip';
 	reason: string;
 	port: number;
+	host: string;
 	listening: boolean;
 	recipe: string | null;
 	proposedCwd?: string;
@@ -34,6 +35,7 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 			action: planned.writes ? action : 'skip',
 			reason: planned.reason,
 			port: lease.port,
+			host: lease.bind,
 			listening: row.listening,
 			recipe: lease.startCwd
 				? lease.startCommand || 'pnpm serve'

@@ -70,6 +70,9 @@ describe('helm lifecycle plan', () => {
 				['bare', false, 'skip']
 			]
 		);
+		const demo = plan.rows.find((r) => r.id === 'demo');
+		assert.equal(demo?.port, 5179);
+		assert.equal(demo?.host, '127.0.0.1');
 	});
 
 	it('stops only a listening lease', () => {

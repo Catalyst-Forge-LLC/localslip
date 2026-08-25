@@ -1,5 +1,7 @@
+import { existsSync } from 'node:fs';
 import { rowOpenUrl } from './dashboard-url.js';
 import { rowBindDisplay } from './row-detail.js';
+import { readLogTail } from './server/log-tail.js';
 import type { Board } from './server/board.js';
 import type { BoardRow } from './types.js';
 
@@ -45,10 +47,14 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 				{ id: 'listening', label: 'listening' },
 				{ id: 'process', label: 'process' },
 				{ id: 'recipe', label: 'recipe' },
+				{ id: 'log', label: 'log' },
 				{ id: 'firewall', label: 'firewall' },
 			],
 			rows: board.leaseRows.map((row) => {
 				const name = row.lease?.name ?? '—';
+				const cwd = row.lease?.startCwd;
+				const cwdOk = cwd ? (existsSync(cwd) ? 'yes' : 'no') : '—';
+				const log = row.logTail ?? (name !== '—' ? readLogTail(name) : null);
 				return {
 					id: name,
 					label: name,
@@ -60,9 +66,10 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 						process: processLabel(row),
 						firewall: row.lease?.firewall ?? '—',
 						conflict: row.conflict ? 'yes' : 'no',
-						recipe: row.lease?.startCwd
-							? row.lease.startCommand || 'pnpm serve'
-							: '—',
+						recipe: cwd ? row.lease?.startCommand || 'pnpm serve' : '—',
+						cwdOk,
+						log: log?.preview ?? '—',
+						logPreview: log?.preview ?? '—',
 					},
 					actions: [
 						{ id: 'start', label: 'Start', write: true, icon: 'lucide:play' },

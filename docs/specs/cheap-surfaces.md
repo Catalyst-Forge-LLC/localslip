@@ -1,7 +1,7 @@
 # Cheap surfaces — LocalBerth
 
 **Spec kind:** Delivery  
-**Status:** Draft (2026-08-25) — pick slices; not a Phase 1 reopen  
+**Status:** Draft (2026-08-25) — B1+B2 landed; remaining slices unscheduled  
 **Related:** `docs/PHASE_1_BRIEF.md` §9–10, `TODO.md` Phase 3, `.forgetrail/IDEAS.md`, sibling [`localhelm/docs/specs/cheap-surfaces.md`](../../../localhelm/docs/specs/cheap-surfaces.md)  
 **Surfaces:** CLI, `~/.localberth/`, dashboard, `localhelm.plugin.mjs` boards / plan / apply
 
@@ -210,4 +210,5 @@ Bridge must keep `process.exit` after JSON.
 
 ## Progress
 
-- `2026-08-25:` Draft after start/stop, recipe guess, bridge exit, and the dictawhisper PORT leak. Awaiting operator slice pick.
+- `2026-08-25:` Draft after start/stop, recipe guess, bridge exit, and the dictawhisper PORT leak.
+- `2026-08-25:` B1+B2 landed — log tail, `PORT`/`HOST` on plan, `localberth doctor`. Parked+listening skipped until B3. Always-down is a warn (exit 1 only on fail).

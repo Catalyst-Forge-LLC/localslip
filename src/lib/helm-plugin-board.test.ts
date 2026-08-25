@@ -70,6 +70,9 @@ describe('helm plugin boards', () => {
 			{ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' },
 		]);
 		assert.equal(boards[0]?.rows[0]?.cells.recipe, '—');
+		assert.equal(boards[0]?.rows[0]?.cells.cwdOk, '—');
+		assert.equal(boards[0]?.rows[0]?.cells.log, 'No log yet — start once.');
+		assert.ok(boards[0]?.columns.some((col) => col.id === 'log'));
 		assert.deepEqual(boards[1]?.rows[0]?.actions, []);
 		assert.equal(boards[1]?.title, 'Observed');
 		assert.match(boards[1]?.note ?? '', /3 system ports hidden/);

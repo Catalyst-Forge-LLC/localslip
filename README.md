@@ -33,7 +33,7 @@ localberth get foo
 localberth serve --host 0.0.0.0
 ```
 
-`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. `recipe` / `start` / `stop` run a stored `pnpm serve` (or another command) detached.
+`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. `recipe` / `start` / `stop` run a stored `pnpm serve` (or another command) detached. `doctor` is a read-only check (missing cwd, port conflicts, `PORT` leak risk).
 
 ## What you get
 

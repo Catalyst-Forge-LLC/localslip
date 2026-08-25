@@ -34,4 +34,6 @@ export type BoardRow = {
 	conflict: boolean;
 	/** Other listeners on the same port (different process). */
 	also: Observed[];
+	/** Last log lines for a named lease. Filled by getBoard. */
+	logTail?: { preview: string; text: string };
 };

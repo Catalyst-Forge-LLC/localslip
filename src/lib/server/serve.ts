@@ -185,7 +185,13 @@ function facts(row: BoardRow): string {
 			return `<div${attr}><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`;
 		})
 		.join('');
-	return `<dl class="facts">${items}<div class="http"><dt>HTTP</dt><dd class="peek">${row.listening ? 'Peeking…' : 'Not listening.'}</dd></div></dl>`;
+	const log = row.logTail;
+	const logHtml = log
+		? `<div class="wide log-tail"><dt>Log</dt><dd>${
+				log.text ? `<pre>${esc(log.text)}</pre>` : esc(log.preview)
+			}</dd></div>`
+		: '';
+	return `<dl class="facts">${items}${logHtml}<div class="http"><dt>HTTP</dt><dd class="peek">${row.listening ? 'Peeking…' : 'Not listening.'}</dd></div></dl>`;
 }
 
 function rowPair(row: BoardRow): string {
@@ -312,6 +318,8 @@ tr.detail.open .inner { padding:.75rem 1rem .9rem; }
 .facts .warn-field dd { color:var(--warn); }
 .facts .http { grid-column:1 / -1; }
 .facts .peek { color:var(--ok); }
+.facts .log-tail { grid-column:1 / -1; }
+.facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--muted); font-size:.78rem; line-height:1.35; }
 a { color:var(--ok); }
 </style>
 </head>

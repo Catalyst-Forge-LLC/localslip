@@ -1,3 +1,4 @@
+import { formatDoctorText, runDoctor } from '../lib/server/doctor.js';
 import { detectBackend, removeLeaseRule, syncAll, syncLease } from '../lib/server/firewall.js';
 import { startLease, stopLease } from '../lib/server/lifecycle.js';
 import { scanListeners } from '../lib/server/observe.js';
@@ -18,6 +19,7 @@ Usage:
   localberth release <name> [--force]
   localberth ls
   localberth scan [--all]
+  localberth doctor [--json]
   localberth firewall sync
   localberth firewall status
   localberth serve [--host ADDR] [--port N]
@@ -228,6 +230,15 @@ async function main(): Promise<void> {
 			);
 		}
 		if (hidden) console.error(`(${hidden} system ports hidden; localberth scan --all)`);
+		return;
+	}
+
+	if (cmd === 'doctor') {
+		const asJson = takeFlag(argv, '--json');
+		const report = await runDoctor();
+		if (asJson) process.stdout.write(`${JSON.stringify(report)}\n`);
+		else process.stdout.write(formatDoctorText(report));
+		if (!report.ok) process.exitCode = 1;
 		return;
 	}
 

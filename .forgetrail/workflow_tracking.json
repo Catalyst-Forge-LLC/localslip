@@ -67,7 +67,8 @@
         "2026-08-20: Package 0.2.5 — visitor tiles, listen-bind cards, favicon png/svg/ico.",
         "2026-08-20: Package 0.2.6 — operator face needs loopback Host.",
         "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons.",
-        "2026-08-25: Draft cheap-surfaces spec (docs/specs/cheap-surfaces.md). Twin in localhelm. Not scheduled."
+        "2026-08-25: Draft cheap-surfaces spec (docs/specs/cheap-surfaces.md). Twin in localhelm. Not scheduled.",
+        "2026-08-25: B1+B2 log tail, PORT/HOST on plan, localberth doctor (D35)."
       ]
     },
     "4-feature-iteration": {
@@ -469,6 +470,18 @@
         "Spawn from LocalHelm core",
         "Always infer cwd from the lease name",
         "Kill observed-only pids"
+      ]
+    },
+    {
+      "id": "D35",
+      "timestamp": "2026-08-25",
+      "phase": "3-stabilization",
+      "decision": "Log tail is the last 40 lines of ~/.localberth/logs/<name>.log (empty = “No log yet — start once.”). Start plan rows include host (bind) so LocalHelm can print PORT/HOST. localberth doctor is read-only: fail on missing cwd or two listeners; warn on kind=always down and pnpm serve plus a family -api in the same folder. Parked+listening waits for park. Exit 1 only on fail.",
+      "rationale": "Operator picked cheap-surfaces B1+B2. The Vite 8008 refuse lived in a log nobody opened. Always-down as fail would make doctor useless on a quiet shop.",
+      "alternatives_considered": [
+        "Fail doctor when any always lease is down",
+        "Block start on HTTP /health",
+        "Put 40 log lines in the Ports table cell"
       ]
     }
   ],
