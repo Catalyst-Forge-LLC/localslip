@@ -66,7 +66,8 @@
         "2026-08-19: D26 compiled CLI. Package 0.2.4.",
         "2026-08-20: Package 0.2.5 — visitor tiles, listen-bind cards, favicon png/svg/ico.",
         "2026-08-20: Package 0.2.6 — operator face needs loopback Host.",
-        "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons."
+        "2026-08-24: D34 start/stop + lease recipe; LocalHelm Ports hosts the buttons.",
+        "2026-08-25: Draft cheap-surfaces spec (docs/specs/cheap-surfaces.md). Twin in localhelm. Not scheduled."
       ]
     },
     "4-feature-iteration": {
