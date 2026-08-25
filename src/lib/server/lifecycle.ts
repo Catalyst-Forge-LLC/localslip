@@ -1,5 +1,5 @@
 import { spawn, spawnSync } from 'node:child_process';
-import { existsSync, openSync } from 'node:fs';
+import { closeSync, existsSync, openSync } from 'node:fs';
 import { DASHBOARD_NAME } from './paths.js';
 import { logPath } from './paths.js';
 import { scanListeners } from './observe.js';
@@ -181,6 +181,11 @@ export async function startLease(
 		throw new Error(`failed to start ${lease.name}: no pid`);
 	}
 	child.unref();
+	try {
+		closeSync(logFd);
+	} catch {
+		/* child still holds the inherited fd */
+	}
 	setSpawnPid(lease.name, child.pid);
 	const listening = await waitForListen(lease);
 	return {

@@ -5,6 +5,9 @@
  *   (no args)                         → boards
  *   plan --action start|stop [--names a,b]
  *   apply --action start|stop [--names a,b]
+ *
+ * Must process.exit: start detaches a child, and tsx/sqlite handles can keep
+ * this process alive. LocalHelm waits on spawnSync until we exit.
  */
 import { helmLifecyclePlan } from '../src/lib/helm-plugin-plan.ts';
 import { helmPluginBoards } from '../src/lib/helm-plugin-board.ts';
@@ -26,22 +29,26 @@ function parseAction(raw: string | undefined): 'start' | 'stop' {
 	throw new Error('usage: plan|apply --action start|stop [--names a,b]');
 }
 
-getDb();
-const argv = process.argv.slice(2);
-const cmd = argv[0];
+async function main(): Promise<void> {
+	getDb();
+	const argv = process.argv.slice(2);
+	const cmd = argv[0];
 
-if (!cmd) {
-	const boards = helmPluginBoards(await getBoard());
-	process.stdout.write(`${JSON.stringify(boards)}\n`);
-} else if (cmd === 'plan' || cmd === 'apply') {
-	const args = argv.slice(1);
-	const action = parseAction(takeOpt(args, '--action'));
-	const namesRaw = takeOpt(args, '--names');
-	const ids = namesRaw ? namesRaw.split(',').map((id) => id.trim()).filter(Boolean) : [];
-	const board = await getBoard();
-	if (cmd === 'plan') {
-		process.stdout.write(`${JSON.stringify(helmLifecyclePlan(board, action, ids))}\n`);
-	} else {
+	if (!cmd) {
+		const boards = helmPluginBoards(await getBoard());
+		process.stdout.write(`${JSON.stringify(boards)}\n`);
+		return;
+	}
+	if (cmd === 'plan' || cmd === 'apply') {
+		const args = argv.slice(1);
+		const action = parseAction(takeOpt(args, '--action'));
+		const namesRaw = takeOpt(args, '--names');
+		const ids = namesRaw ? namesRaw.split(',').map((id) => id.trim()).filter(Boolean) : [];
+		const board = await getBoard();
+		if (cmd === 'plan') {
+			process.stdout.write(`${JSON.stringify(helmLifecyclePlan(board, action, ids))}\n`);
+			return;
+		}
 		const plan = helmLifecyclePlan(board, action, ids);
 		const results = [];
 		for (const row of plan.rows) {
@@ -60,7 +67,16 @@ if (!cmd) {
 			});
 		}
 		process.stdout.write(`${JSON.stringify({ action, rows: results })}\n`);
+		return;
 	}
-} else {
 	throw new Error(`unknown localberth bridge command "${cmd}"`);
 }
+
+main()
+	.then(() => {
+		process.exit(0);
+	})
+	.catch((err) => {
+		process.stderr.write(`${err instanceof Error ? err.message : String(err)}\n`);
+		process.exit(1);
+	});
