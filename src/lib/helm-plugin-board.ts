@@ -15,7 +15,7 @@ export type HelmPluginBoard = {
 		label: string;
 		href?: string;
 		cells: Record<string, string>;
-		actions: { id: string; label: string; write: boolean }[];
+		actions: { id: string; label: string; write: boolean; icon?: string }[];
 	}[];
 };
 
@@ -65,8 +65,8 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 							: '—',
 					},
 					actions: [
-						{ id: 'start', label: 'Start', write: true },
-						{ id: 'stop', label: 'Stop', write: true },
+						{ id: 'start', label: 'Start', write: true, icon: 'lucide:play' },
+						{ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' },
 					],
 				};
 			}),

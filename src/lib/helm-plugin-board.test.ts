@@ -66,8 +66,8 @@ describe('helm plugin boards', () => {
 		assert.equal(boards[0]?.rows[0]?.cells.listening, 'yes');
 		assert.equal(boards[0]?.rows[0]?.href, 'http://127.0.0.1:4321/');
 		assert.deepEqual(boards[0]?.rows[0]?.actions, [
-			{ id: 'start', label: 'Start', write: true },
-			{ id: 'stop', label: 'Stop', write: true },
+			{ id: 'start', label: 'Start', write: true, icon: 'lucide:play' },
+			{ id: 'stop', label: 'Stop', write: true, icon: 'lucide:square' },
 		]);
 		assert.equal(boards[0]?.rows[0]?.cells.recipe, '—');
 		assert.deepEqual(boards[1]?.rows[0]?.actions, []);
