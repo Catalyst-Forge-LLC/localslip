@@ -497,6 +497,19 @@
         "Release the port on park",
         "Unpark also starts"
       ]
+    },
+    {
+      "id": "D37",
+      "timestamp": "2026-08-27",
+      "phase": "3-stabilization",
+      "decision": "Public rename LocalBerth → LocalSlip. npm package and CLI primary name localslip; localberth remains a compatibility alias. Domains localslip.com and localslip.dev are staked. Tagline stays Local DNS for ports. Data dir stays ~/.localberth (and LOCALBERTH_HOME) until an explicit migration to ~/.localslip. Pairing with LocalHelm unchanged: LocalSlip is the slip; LocalHelm is the wheel. Do not fold into LocalHelm.",
+      "rationale": "Operator 2026-08-27: berth sounds like birth and is awkward to say. localslip is open on npm and .com/.dev. Two products/dashboards stay.",
+      "alternatives_considered": [
+        "Fold into LocalHelm",
+        "LocalDock (collides with localdock.dev)",
+        "LocalMarina",
+        "LocalFleet (collides with Helm Fleet tab)"
+      ]
     }
   ],
   "gotchas": [

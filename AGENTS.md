@@ -20,8 +20,8 @@ This repository uses **ForgeTrail Lite**. Full protocol: `.forgetrail/FORGETRAIL
 
 ## Conventions
 
-- Package manager: **pnpm**. Language: **TypeScript ESM**. Dashboard port **54321**. Live data **`~/.localberth/`**.
-- Public copy: **aiBreze** (`docs/aibreze-overlay.md`).
+- Package manager: **pnpm**. Language: **TypeScript ESM**. Dashboard port **54321**. Live data **`~/.localberth/`** (compat path; `LOCALSLIP_HOME` / `LOCALBERTH_HOME` override). Public name **LocalSlip**; CLI primary **`localslip`**, alias **`localberth`**.
+- Public copy: **aiBreze** (`docs/aibreze-overlay.md`). Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`.
 
 ## Session start
 

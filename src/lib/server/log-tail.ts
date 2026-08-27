@@ -14,7 +14,7 @@ export type LogTail = {
 const EMPTY = 'No log yet — start once.';
 
 function logsDir(): string {
-	const override = process.env.LOCALBERTH_HOME?.trim();
+	const override = process.env.LOCALSLIP_HOME?.trim() || process.env.LOCALBERTH_HOME?.trim();
 	const root = override || join(homedir(), '.localberth');
 	return join(root, 'logs');
 }

@@ -5,7 +5,7 @@ import { join } from 'node:path';
 export { DASHBOARD_NAME, DASHBOARD_PORT } from '../reserved.js';
 
 export function dataHome(): string {
-	const override = process.env.LOCALBERTH_HOME?.trim();
+	const override = process.env.LOCALSLIP_HOME?.trim() || process.env.LOCALBERTH_HOME?.trim();
 	const dir = override || join(homedir(), '.localberth');
 	mkdirSync(dir, { recursive: true });
 	return dir;
