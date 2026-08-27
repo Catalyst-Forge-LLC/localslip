@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { after, before, describe, it } from 'node:test';
 
 const home = mkdtempSync(join(tmpdir(), 'localberth-test-'));
-process.env.LOCALBERTH_HOME = home;
+process.env.LOCALSLIP_HOME = home;
 
 const { resetDb } = await import('./db.js');
 const { claim, getLease, release, resolveClaimBind, setStartRecipe } = await import('./registry.js');
@@ -40,7 +40,7 @@ describe('registry sad paths', () => {
 	});
 
 	it('refuses to release the dashboard without --force', () => {
-		assert.throws(() => release('localberth'), /refusing to release localberth/);
+		assert.throws(() => release('localslip'), /refusing to release localslip/);
 	});
 
 	it('rejects a second claim on the same port', () => {

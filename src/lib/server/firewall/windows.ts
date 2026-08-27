@@ -10,7 +10,7 @@ export function windowsCommands(lease: Lease, action: 'upsert' | 'delete'): stri
 	const scope = scopedBind(lease.bind);
 	const add = [
 		`netsh advfirewall firewall add rule name="${name}" dir=in action=allow protocol=TCP localport=${lease.port}`,
-		`description="Managed by LocalBerth"`
+		`description="Managed by LocalSlip"`
 	];
 	if (scope) add.push(`localip=${scope}`);
 	return [`netsh advfirewall firewall delete rule name="${name}"`, add.join(' ')].join(' && ');
@@ -52,7 +52,7 @@ export async function applyWindows(lease: Lease, previous: Lease | null): Promis
 		'action=allow',
 		'protocol=TCP',
 		`localport=${String(lease.port)}`,
-		'description=Managed by LocalBerth'
+		'description=Managed by LocalSlip'
 	];
 	const scope = scopedBind(lease.bind);
 	if (scope) args.push(`localip=${scope}`);

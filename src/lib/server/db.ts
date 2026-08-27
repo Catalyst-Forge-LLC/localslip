@@ -25,11 +25,11 @@ function rewriteSqliteBindingsError(err: unknown): Error {
 		return err instanceof Error ? err : new Error(raw);
 	}
 	return new Error(
-		'SQLite native bindings are missing. npm 12 does not run dependency install scripts, so better-sqlite3 12 never downloads a binary. Use localberth 0.2.1 or newer, or reinstall with: npm i -g localberth --allow-scripts=better-sqlite3'
+		'SQLite native bindings are missing. npm 12 does not run dependency install scripts, so better-sqlite3 12 never downloads a binary. Use localslip 0.2.1 or newer, or reinstall with: npm i -g localslip --allow-scripts=better-sqlite3'
 	);
 }
 
-/** Tests only — close the singleton so LOCALBERTH_HOME can change. */
+/** Tests only — close the singleton so LOCALSLIP_HOME can change. */
 export function resetDb(): void {
 	if (!dbSingleton) return;
 	dbSingleton.close();
@@ -64,10 +64,17 @@ function addColumn(db: Database.Database, table: string, column: string, sqlType
 function ensureSelfLease(db: Database.Database): void {
 	const row = db.prepare('SELECT name FROM leases WHERE name = ?').get(DASHBOARD_NAME);
 	if (row) return;
+	const legacy = db.prepare('SELECT name FROM leases WHERE name = ?').get('localberth');
+	if (legacy) {
+		db.prepare(
+			`UPDATE leases SET name = ?, notes = CASE WHEN notes = 'LocalBerth dashboard' THEN 'LocalSlip dashboard' ELSE notes END, updated_at = ? WHERE name = 'localberth'`
+		).run(DASHBOARD_NAME, new Date().toISOString());
+		return;
+	}
 	const taken = db.prepare('SELECT name FROM leases WHERE port = ?').get(DASHBOARD_PORT);
 	if (taken) return;
 	db.prepare(
 		`INSERT INTO leases (name, port, bind, protocol, kind, notes, firewall, updated_at)
-		 VALUES (?, ?, '127.0.0.1', 'tcp', 'always', 'LocalBerth dashboard', 'wanted', ?)`
+		 VALUES (?, ?, '127.0.0.1', 'tcp', 'always', 'LocalSlip dashboard', 'wanted', ?)`
 	).run(DASHBOARD_NAME, DASHBOARD_PORT, new Date().toISOString());
 }

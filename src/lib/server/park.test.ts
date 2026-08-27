@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { after, before, describe, it } from 'node:test';
 
 const home = mkdtempSync(join(tmpdir(), 'localberth-park-'));
-process.env.LOCALBERTH_HOME = home;
+process.env.LOCALSLIP_HOME = home;
 
 const { resetDb } = await import('./db.js');
 const { claim, getLease } = await import('./registry.js');

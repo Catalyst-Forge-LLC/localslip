@@ -1,11 +1,11 @@
-# Cheap surfaces — LocalBerth
+# Cheap surfaces — LocalSlip
 
 **Spec kind:** Delivery  
 **Status:** Draft (2026-08-25) — B1–B5 landed  
 **Related:** `docs/PHASE_1_BRIEF.md` §9–10, `TODO.md` Phase 3, `.forgetrail/IDEAS.md`, sibling [`localhelm/docs/specs/cheap-surfaces.md`](../../../localhelm/docs/specs/cheap-surfaces.md)  
-**Surfaces:** CLI, `~/.localberth/`, dashboard, `localhelm.plugin.mjs` boards / plan / apply
+**Surfaces:** CLI, `~/.localslip/`, dashboard, `localhelm.plugin.mjs` boards / plan / apply
 
-Pairing: **localhost is the machine. LocalBerth is the slip.** This spec is what the slip can know cheaply. LocalHelm may host buttons; it must not reimplement observe, firewall, or spawn.
+Pairing: **localhost is the machine. LocalSlip is the slip.** This spec is what the slip can know cheaply. LocalHelm may host buttons; it must not reimplement observe, firewall, or spawn.
 
 ---
 
@@ -57,7 +57,7 @@ Leases, listen table, recipes, spawn pids, and **per-lease logs** already exist.
 | **Release** | Free the number. Different verb. Park is not release. |
 | **Family** | Stem after folding hyphens and stripping `-site`/`-api`. Same rule as LocalHelm. |
 | **Orphan** | Observed listener, no lease. Read-only unless the operator claims. |
-| **Log** | `~/.localberth/logs/<name>.log` — already opened on start. |
+| **Log** | `~/.localslip/logs/<name>.log` — already opened on start. |
 
 ---
 
@@ -79,16 +79,16 @@ Leases, listen table, recipes, spawn pids, and **per-lease logs** already exist.
 
 **F7. Port tape.** Compact list of claimed ports in the 4xxx–6xxx band with holes. Helps `claim --or-next` humans. No pretty canvas required — a sorted CSV in `ls --json` is enough.
 
-**F8. Copy.** `http://127.0.0.1:<port>/`, `localberth start <name>`, `localberth get <name>`. Dashboard already has Open.
+**F8. Copy.** `http://127.0.0.1:<port>/`, `localslip start <name>`, `localslip get <name>`. Dashboard already has Open.
 
 ### 5.2 Cheap — small schema or commands
 
 **C1. Park / unpark (operator-asked archive, slip side).**
 
 ```
-localberth park <name>      # plan: stop if running, set parked
-localberth unpark <name>
-localberth ls --parked
+localslip park <name>      # plan: stop if running, set parked
+localslip unpark <name>
+localslip ls --parked
 ```
 
 - Plugin actions `park` / `unpark` with `writes: true`.
@@ -96,11 +96,11 @@ localberth ls --parked
 - `get` unchanged (apps still resolve the port while parked).
 - Firewall: leave applied; park is not “close the port to the LAN.” A later confirm can `firewall` skip. Do not auto-delete rules (janitor stays an idea).
 
-**C2. Family start/stop.** `localberth start dictawhisper --family` plans every unparked lease whose stem matches. Apply is sequential start. Failures stay on the row; do not roll back siblings.
+**C2. Family start/stop.** `localslip start dictawhisper --family` plans every unparked lease whose stem matches. Apply is sequential start. Failures stay on the row; do not roll back siblings.
 
-**C3. Save guess without start.** `localberth recipe <name> --save-guess` already exists for CLI. Plugin `recipe` apply that only writes cwd/command. Helm hosts “Save guess.”
+**C3. Save guess without start.** `localslip recipe <name> --save-guess` already exists for CLI. Plugin `recipe` apply that only writes cwd/command. Helm hosts “Save guess.”
 
-**C4. Doctor.** `localberth doctor` (read-only):
+**C4. Doctor.** `localslip doctor` (read-only):
 
 - cwd missing
 - parked + listening (someone started it anyway)
@@ -110,7 +110,7 @@ localberth ls --parked
 
 Exit non-zero if any row is `fail`. JSON for Helm Today looks.
 
-**C5. Brief.** `localberth brief` — listening names, down-with-recipe, parked count, orphan count. Helm `brief` can exec or plugin-read this. Do not duplicate the fleet git story here.
+**C5. Brief.** `localslip brief` — listening names, down-with-recipe, parked count, orphan count. Helm `brief` can exec or plugin-read this. Do not duplicate the fleet git story here.
 
 **C6. Quiet.** Stop all listening `*-site` (and optional `kind=ephemeral`) except self-dashboard. Plan lists. Meeting button.
 
@@ -130,8 +130,8 @@ Exit non-zero if any row is `fail`. JSON for Helm Today looks.
 
 | Store | Change |
 | ----- | ------ |
-| `~/.localberth/` SQLite leases | Optional `parked`, `lastStartAt`, `lastStartOk` |
-| `~/.localberth/logs/<name>.log` | Read tail only. Already written on start. |
+| `~/.localslip/` SQLite leases | Optional `parked`, `lastStartAt`, `lastStartOk` |
+| `~/.localslip/logs/<name>.log` | Read tail only. Already written on start. |
 | Plugin plan rows | Add `portEnv`, `logTail?`, `family`, `parked` |
 
 Migration: missing `parked` = false. No rewrite of existing recipes.
@@ -160,7 +160,7 @@ Bridge must keep `process.exit` after JSON.
 | Risk | Mitigation |
 | ---- | ---------- |
 | Park looks like release | Copy: “Port stays yours. Hidden on the default board.” |
-| Serve + PORT leak | F2 + doctor C4; apps must isolate children (dictawhisper 2026-08-25). LocalBerth will not stop setting `PORT` on the lease — that is the slip. |
+| Serve + PORT leak | F2 + doctor C4; apps must isolate children (dictawhisper 2026-08-25). LocalSlip will not stop setting `PORT` on the lease — that is the slip. |
 | Log never fills on Windows | stdio inherit vs `windowsHide` — doctor says empty; do not fake lines. |
 | Family `--family` too greedy | Stem must equal, not contain (`file` must not grab `filepress`). |
 | Unpark does not start | Correct. Unpark is visibility. Start is separate. |
@@ -211,6 +211,6 @@ Bridge must keep `process.exit` after JSON.
 ## Progress
 
 - `2026-08-25:` Draft after start/stop, recipe guess, bridge exit, and the dictawhisper PORT leak.
-- `2026-08-25:` B1+B2 landed — log tail, `PORT`/`HOST` on plan, `localberth doctor`. Parked+listening skipped until B3. Always-down is a warn (exit 1 only on fail).
+- `2026-08-25:` B1+B2 landed — log tail, `PORT`/`HOST` on plan, `localslip doctor`. Parked+listening skipped until B3. Always-down is a warn (exit 1 only on fail).
 - `2026-08-25:` B3–B5 landed — park/unpark (port stays), `--family` start/stop, `recipe --save-guess` + plugin `recipe`. Start only when down; Stop only when up.
 - `2026-08-25:` C6 quiet, F4 recipe health, C3 `--guess-all`. Tippy on the HTML and Svelte boards.

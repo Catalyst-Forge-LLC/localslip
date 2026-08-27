@@ -9,7 +9,7 @@
 			]
 		},
 		{
-			"title": "Using LocalBerth",
+			"title": "Using LocalSlip",
 			"items": [
 				{ "id": "claim", "title": "Claim" },
 				{ "id": "dashboard", "title": "Dashboard" },

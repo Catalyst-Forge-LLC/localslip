@@ -4,7 +4,7 @@
 
 **Local DNS for ports.** **localhost** is the machine; **LocalSlip** is the slip. **LocalHelm** is the wheel. Apps look up a port by name; humans still use the number. Not real DNS and not `*.localhost` URLs. Dashboard shows leases plus observed listeners. Claim/move updates the host firewall (Windows / macOS / Linux).
 
-Formerly **LocalBerth**. Rename in flight — see `docs/RENAME_TO_LOCALSLIP.md`. The `localberth` binary remains an alias.
+Formerly **LocalBerth**. Hard cutover to LocalSlip — see `docs/RENAME_TO_LOCALSLIP.md`. The `localberth` binary remains a one-release alias.
 
 ## Hero workflow
 
@@ -12,17 +12,17 @@ Vite 5173/5174 swap after reboot is the common story. Public examples use `fizzb
 
 ## Stack
 
-SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQLite (`better-sqlite3` **^13**, N-API prebuilds in the tarball; do **not** put it in `pnpm.onlyBuiltDependencies` or pnpm runs node-gyp). Published CLI is `tsc` output (`pnpm build:cli` / `prepublishOnly`). `tsx` is repo-only (`pnpm cli`, tests). Live data: `~/.localberth/` for now (`LOCALSLIP_HOME` or `LOCALBERTH_HOME`). Dashboard port **54321**. FilePress site in `site/` → localslip.com (cutover in progress; was localberth.com).
+SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQLite (`better-sqlite3` **^13**, N-API prebuilds in the tarball; do **not** put it in `pnpm.onlyBuiltDependencies` or pnpm runs node-gyp). Published CLI is `tsc` output (`pnpm build:cli` / `prepublishOnly`). `tsx` is repo-only (`pnpm cli`, tests). Live data: `~/.localslip/` (`LOCALSLIP_HOME`; one-shot copy from `~/.localberth` if needed). Dashboard port **54321**. FilePress site in `site/` → **localslip.dev** (`.com` and localberth.com redirect).
 
 ## Architecture at a glance
 
 - `src/cli/main.ts` — `get` / `claim` (`--or-next`) / `recipe` / `start` / `stop` / `quiet` / `park` / `unpark` / `release` / `ls` / `scan` / `doctor` / `firewall sync` / `serve`
 - `localhelm.plugin.mjs` — Ports tab in LocalHelm (leases + observed + Start/Stop plan/apply). Does not reimplement the board. The bridge `process.exit`s after JSON so LocalHelm’s `spawnSync` returns even if a started recipe is still running.
-- `src/lib/port.ts` — `localberthListen(name, fallback)` (host + port) and `localberthPort` for Vite configs. Pin `server.host` or Windows Vite binds `[::1]`.
-- `src/lib/server/registry.ts` — lease persist + self-lease `localberth` → 54321
+- `src/lib/port.ts` — `localslipListen(name, fallback)` (host + port) and `localslipPort` for Vite configs. Pin `server.host` or Windows Vite binds `[::1]`.
+- `src/lib/server/registry.ts` — lease persist + self-lease `localslip` → 54321
 - `src/lib/server/observe.ts` — OS listen table (read-only)
 - `src/lib/server/firewall/` — netsh (named rules), pf anchor, ufw comments / firewalld rich rules; loopback skips inbound
-- `src/routes/` — local dashboard (not localberth.com)
+- `src/routes/` — local dashboard (not localslip.dev)
 - Public copy: `docs/aibreze-overlay.md`
 - `site/` — FilePress explainer
 
@@ -40,7 +40,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 `3-stabilization`
 
-Rename: D37 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip).
+Rename: D37 + D38 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip, hard cutover).
 
 ## Recent gotchas (last 3–5)
 
@@ -52,7 +52,7 @@ Rename: D37 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip).
 ## Pointers
 
 - Brief: `docs/PHASE_1_BRIEF.md`
-- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1–B5 plus quiet / recipe health / `--guess-all`. Tippy on the board for Open, copy, and recipe facts. `localslip quiet` (alias `localberth quiet`) stops listening `*-site` (dashboard stays).
+- Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1–B5 plus quiet / recipe health / `--guess-all`. Tippy on the board for Open, copy, and recipe facts. `localslip quiet` (alias `localslip quiet`) stops listening `*-site` (dashboard stays).
 - Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`
 - Tracking: `.forgetrail/workflow_tracking.json`
 - TODO: `TODO.md`

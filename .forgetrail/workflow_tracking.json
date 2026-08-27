@@ -1,8 +1,8 @@
 {
   "project": {
-    "name": "LocalBerth",
+    "name": "LocalSlip",
     "created": "2026-08-18",
-    "description": "Local named TCP port leases, dashboard of leases + observed listeners, host firewall sync (Windows / macOS / Linux). Humans still use the port. Site: FilePress at localberth.com. App: npm package localberth.",
+    "description": "Local named TCP port leases, dashboard of leases + observed listeners, host firewall sync (Windows / macOS / Linux). Humans still use the port. Site: FilePress at localslip.dev. App: npm package localslip.",
     "sourceControl": "git",
     "archetype": "product",
     "status": "active"
@@ -509,6 +509,18 @@
         "LocalDock (collides with localdock.dev)",
         "LocalMarina",
         "LocalFleet (collides with Helm Fleet tab)"
+      ]
+    },
+    {
+      "id": "D38",
+      "timestamp": "2026-08-27",
+      "phase": "3-stabilization",
+      "decision": "Hard cutover LocalBerth → LocalSlip. Primary site localslip.dev (localslip.com and localberth.com redirect there). Self-lease localslip on 54321. Data dir ~/.localslip + localslip.sqlite (one-shot copy from ~/.localberth). Plugin id localslip. GitHub repo rename to localslip. localberth CLI/bin is a one-release alias only.",
+      "rationale": "Operator 2026-08-27: localberth goes away; hard cutover is fine because it is only used locally. Prefer .dev as primary to match localhelm.dev.",
+      "alternatives_considered": [
+        "Keep ~/.localberth forever",
+        "Make localslip.com the primary site",
+        "Keep the localberth self-lease name"
       ]
     }
   ],

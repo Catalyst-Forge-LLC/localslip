@@ -323,13 +323,13 @@
 		{/if}
 
 		<p class="mt-3 shrink-0 text-sm text-[var(--muted)]">
-			<code class="text-[var(--text)]">localberth claim name --port N</code>
+			<code class="text-[var(--text)]">localslip claim name --port N</code>
 			·
-			<code class="text-[var(--text)]">localberth get name</code>
+			<code class="text-[var(--text)]">localslip get name</code>
 			·
-			<code class="text-[var(--text)]">localberth release name</code>
+			<code class="text-[var(--text)]">localslip release name</code>
 			·
-			<code class="text-[var(--text)]">localberth serve</code>
+			<code class="text-[var(--text)]">localslip serve</code>
 		</p>
 	</div>
 	</BoardShell>

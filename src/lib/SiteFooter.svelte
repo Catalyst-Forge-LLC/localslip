@@ -10,14 +10,14 @@
 	</a>
 	<a
 		class="justify-self-center text-sm text-[var(--tile-band-ink)]/80 no-underline"
-		href="https://localberth.com"
+		href="https://localslip.dev"
 		rel="noopener"
 	>
-		localberth.com
+		localslip.dev
 	</a>
 	<a
 		class="justify-self-end text-sm text-[var(--tile-band-ink)]/80 no-underline"
-		href="https://localberth.com/docs"
+		href="https://localslip.dev/docs"
 		rel="noopener"
 	>
 		Docs

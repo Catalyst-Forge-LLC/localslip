@@ -27,7 +27,7 @@ export function saveGuessRecipe(name: string): {
 			name: lease.name,
 			port: lease.port,
 			action: 'skip',
-			reason: `no matching folder — localberth recipe ${lease.name} --cwd PATH`,
+			reason: `no matching folder — localslip recipe ${lease.name} --cwd PATH`,
 			cwd: null,
 			command: null,
 		};

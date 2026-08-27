@@ -101,7 +101,7 @@ async function main(): Promise<void> {
 		process.stdout.write(`${JSON.stringify({ action, rows: results })}\n`);
 		return;
 	}
-	throw new Error(`unknown localberth bridge command "${cmd}"`);
+	throw new Error(`unknown localslip bridge command "${cmd}"`);
 }
 
 main()

@@ -235,7 +235,7 @@ export function recipeFor(lease: Lease): { cwd: string; command: string } | null
 export function release(name: string, opts: { force?: boolean } = {}): Lease {
 	const n = assertName(name);
 	if (n === DASHBOARD_NAME && !opts.force) {
-		throw new Error('refusing to release localberth (the dashboard). pass --force if you mean it');
+		throw new Error('refusing to release localslip (the dashboard). pass --force if you mean it');
 	}
 	const lease = getLease(n);
 	if (!lease) throw new Error(`no lease named "${n}"`);

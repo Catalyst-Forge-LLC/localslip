@@ -59,9 +59,9 @@ describe('visitorLeaseRows', () => {
 		assert.equal(isVisitorLease(rows[1]!), false);
 	});
 
-	it('omits the LocalBerth board', () => {
+	it('omits the LocalSlip board', () => {
 		const rows = [
-			row({ name: 'localberth', port: 54321, bind: '0.0.0.0', listening: true }),
+			row({ name: 'localslip', port: 54321, bind: '0.0.0.0', listening: true }),
 			row({ name: 'phone', port: 5193, bind: '0.0.0.0', listening: true })
 		];
 		assert.deepEqual(
@@ -73,7 +73,7 @@ describe('visitorLeaseRows', () => {
 
 	it('snapshots hostname and tiles without the board itself', () => {
 		const rows = [
-			row({ name: 'localberth', port: 54321, bind: '0.0.0.0', listening: true }),
+			row({ name: 'localslip', port: 54321, bind: '0.0.0.0', listening: true }),
 			row({ name: 'phone', port: 5193, bind: '0.0.0.0', listening: true })
 		];
 		assert.deepEqual(visitorSnapshot(rows, { hostname: 'desk', addresses: ['100.64.1.2'] }), {

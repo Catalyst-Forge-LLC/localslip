@@ -1,47 +1,44 @@
 # Rename LocalBerth → LocalSlip
 
-**Status:** in progress (D37). Operator staked `localslip` on npm and localslip.com / .dev.
+Hard cutover. LocalBerth as a public name goes away.
 
-## Locked story
+## Locked
 
-| Surface | Target |
-| --- | --- |
+| | |
+|---|---|
 | Public name | **LocalSlip** |
 | Tagline | Local DNS for ports |
-| npm / CLI primary | `localslip` |
-| CLI alias | `localberth` (compat until callers move) |
-| Site | localslip.com (+ .dev); redirect localberth.com when ready |
-| Pairing | LocalSlip = slip; LocalHelm = wheel / control panel |
-| Data dir (phase 1) | Keep `~/.localberth/` + `LOCALBERTH_HOME` |
-| Data dir (later) | `~/.localslip/` + `LOCALSLIP_HOME`, read old path if present |
+| npm / CLI | `localslip` (`localberth` bin is a one-release alias) |
+| Site | **localslip.dev** (primary, same family as localhelm.dev) |
+| Redirects | localslip.com → localslip.dev; localberth.com → localslip.dev |
+| Pairing | LocalSlip is the slip; LocalHelm is the wheel |
+| Self-lease | `localslip` → 54321 |
+| Data dir | `~/.localslip/` + `localslip.sqlite` (`LOCALSLIP_HOME`) |
+| Plugin id | `localslip` |
+| GitHub | rename `localberth` → `localslip` |
 
-Do **not** fold into LocalHelm. Two dashboards stay (`:54321` + Helm `:4321`).
+First run copies `~/.localberth` into `~/.localslip` if the new folder is missing, then uses only the new path. Old Windows/Linux firewall rules named `LocalBerth …` are leftover; new rules are `LocalSlip …`.
 
-## Checklist
+## Done in code
 
-### Done in scaffold
-
-- [x] Decision D37 in `.forgetrail/workflow_tracking.json`
 - [x] Dual bin: `localslip` + `localberth`
-- [x] package.json `name`: `localslip` (publish as new package; deprecate `localberth` later)
-- [x] README / AGENTS / CONTEXT public name → LocalSlip
-- [x] Accept `LOCALSLIP_HOME` (falls back to `LOCALBERTH_HOME` / `~/.localberth`)
+- [x] package.json `name`: `localslip`
+- [x] README / AGENTS / CONTEXT
+- [x] `~/.localslip` + `LOCALSLIP_HOME` + `localslip.sqlite`
+- [x] Self-lease `localslip`; rename a leftover `localberth` row
+- [x] `localslipListen` / `localslipPort` (old names still exported)
+- [x] Firewall prefix `LocalSlip`; pf anchor `localslip`
+- [x] Dashboard chrome, visitor tiles, built-in serve footer
+- [x] Site FilePress + docs copy → localslip.dev
+- [x] Helm plugin id + board copy `localslip`
 
-### Still open
+## Still operator-side
 
-- [ ] Dashboard chrome strings (header, footer, visitor tiles)
-- [ ] Site FilePress pages + domain → localslip.com
-- [ ] Docs mounts and aibreze overlay
-- [ ] `localberthListen` / `localberthPort` exports: add `localslip*` aliases; keep old names until callers update
-- [ ] Firewall rule display names / comments that say LocalBerth
-- [ ] Self-lease id `localberth` → `localslip` (or keep lease name for dashboard port 54321 — decide before publish)
-- [ ] Helm plugin board copy that says LocalBerth
-- [ ] Sibling repos: `ensure-lease`, Vite helpers, scripts calling `localberth get`
-- [ ] npm: publish `localslip`; `npm deprecate localberth "... use localslip"`
-- [ ] GitHub / repo folder rename (optional; fleet enroll id follows folder)
-- [ ] Migrate `~/.localberth` → `~/.localslip` with one-shot copy + env note
-- [ ] localberth.com → localslip.com redirect
+- [ ] `gh repo rename localslip` (folder rename follows; fleet enroll id follows the folder)
+- [ ] Point localslip.dev at the FilePress site; redirect .com and localberth.com
+- [ ] Cloudflare Pages project `localslip` (was `localberth`)
+- [ ] Publish first `localslip` npm cut
+- [ ] `npm deprecate localberth "use localslip"` or unpublish
+- [ ] Sibling repos still calling `localberth get` / `localberthListen`
 
-## Publish note
-
-First `localslip` publish is a **new** package name. Existing `localberth` installs keep working until deprecated. Prefer dual bin in both packages during the overlap if you still cut `localberth` patches.
+Do not publish from an agent unless asked.

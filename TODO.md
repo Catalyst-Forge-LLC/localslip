@@ -1,4 +1,4 @@
-# LocalBerth TODO
+# LocalSlip TODO
 
 ## Phase 2 spine
 
@@ -6,7 +6,7 @@
 2. [x] `scan` (OS listen table)
 3. [x] Dashboard: leases + observed
 4. [x] Firewall sync on claim (Windows / macOS / Linux)
-5. [x] Self-lease `localberth` → 54321
+5. [x] Self-lease `localslip` → 54321
 6. [x] npm package shape (`name` / `bin` / files)
 7. [x] FilePress `site/` (home + install + how-to)
 
@@ -14,7 +14,7 @@
 
 - [x] `release` + `serve`
 - [x] Hide system/RPC observed ports (toggle / `scan --all`)
-- [x] Vite helper `localberthPort()` (`localberth/port`)
+- [x] Vite helper `localslipPort()` (`localslip/port`)
 - [x] Harden firewall backends (pf anchors, firewalld rich rules, loopback skip)
 
 ## Cheap surfaces (draft spec)
@@ -22,7 +22,7 @@
 See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 
 - [x] Log tail + `PORT`/`HOST` on start plan _(B1, 2026-08-25)_
-- [x] `localberth doctor` (read-only) _(B2, 2026-08-25)_
+- [x] `localslip doctor` (read-only) _(B2, 2026-08-25)_
 - [x] Park / unpark (keep the port) _(B3, 2026-08-25)_
 - [x] Family start/stop + save-guess plugin action _(B4+B5, 2026-08-25)_
 - [x] Quiet sites, recipe health, guess-all, Tippy details _(2026-08-25)_
@@ -38,9 +38,9 @@ See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 6. [x] Publish `localberth@0.1.1` so the README mark is in the tarball (you; agent does not)
 7. [x] Publish `localberth@0.1.2` (README dashboard line; you; agent does not)
 8. [x] Publish `localberth@0.2.0` (claim defaults to loopback, `--lan`; you; agent does not)
-9. [x] Sibling LocalBerth rollout — waves 0–2 (FilePress engine + house sites + Engram + DictaWhisper). Wave 3 is other Vite apps.
+9. [x] Sibling LocalSlip rollout — waves 0–2 (FilePress engine + house sites + Engram + DictaWhisper). Wave 3 is other Vite apps.
 10. [ ] Publish `localberth@0.2.1` (better-sqlite3 13 for npm 12 global install; you; agent does not)
-11. [ ] Publish `localberth@0.2.2` (IPv6 scan, `localberthListen`, peek loopback-only; you; agent does not)
+11. [ ] Publish `localberth@0.2.2` (IPv6 scan, `localslipListen`, peek loopback-only; you; agent does not)
 12. [ ] Publish `localberth@0.2.3` (Open icon reuses one tab; you; agent does not)
 13. [ ] Publish `localberth@0.2.4` (compiled CLI, no runtime tsx/esbuild; you; agent does not)
 14. [ ] Publish `localberth@0.2.5` (visitor tiles, listen-bind cards, favicon fallback; you; agent does not)

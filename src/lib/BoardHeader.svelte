@@ -33,7 +33,7 @@
 	<div class="flex flex-wrap items-center gap-x-3 gap-y-1 px-5 py-2">
 		<span class="flex shrink-0 items-center gap-2.5">
 			<BrandMark class="h-11 w-auto" />
-			<span class="text-base font-semibold tracking-tight">LocalBerth</span>
+			<span class="text-base font-semibold tracking-tight">LocalSlip</span>
 		</span>
 		<button
 			type="button"

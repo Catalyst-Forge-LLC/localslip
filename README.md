@@ -14,7 +14,7 @@ Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do 
 
 Formerly **LocalBerth** — the `localberth` CLI name remains as a compatibility alias.
 
-**Docs:** [localslip.com/docs](https://localslip.com/docs) · **Site:** [localslip.com](https://localslip.com) _(domains staked; cutover in progress)_
+**Docs:** [localslip.dev/docs](https://localslip.dev/docs) · **Site:** [localslip.dev](https://localslip.dev)
 
 ## Install
 
@@ -41,7 +41,7 @@ localslip serve --host 0.0.0.0
 
 Named leases. A dashboard on **54321** (operator table on loopback, visitor tiles on the phone). Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port. Flags live in the docs.
 
-Live data stays in `~/.localberth/` for now (`LOCALSLIP_HOME` or `LOCALBERTH_HOME` overrides). Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`.
+Live data is `~/.localslip/` (`LOCALSLIP_HOME`). First run copies `~/.localberth` if that folder still exists.
 
 <!-- xfacts-nutrition-label -->
 

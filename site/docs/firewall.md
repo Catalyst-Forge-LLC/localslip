@@ -5,16 +5,16 @@ title: Firewall
 A loopback claim does not open a WAN hole. `--lan` binds `0.0.0.0` and tries to add an inbound allow.
 
 ```bash
-localberth claim foo --port 5173 --lan
-localberth firewall sync
-localberth firewall status
+localslip claim foo --port 5173 --lan
+localslip firewall sync
+localslip firewall status
 ```
 
-Rules are named `LocalBerth <name> <port>`. Only those are removed on release or move.
+Rules are named `LocalSlip <name> <port>`. Only those are removed on release or move.
 
 ## Privilege
 
-Firewall writes need admin or root. Without that, the lease still saves and LocalBerth prints the command to paste. It does not prompt for UAC or sudo.
+Firewall writes need admin or root. Without that, the lease still saves and LocalSlip prints the command to paste. It does not prompt for UAC or sudo.
 
 Backends: `netsh` on Windows, `pf` on macOS, `ufw` or `firewalld` on Linux.
 

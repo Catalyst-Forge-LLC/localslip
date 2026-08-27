@@ -3,8 +3,8 @@ title: Dashboard
 ---
 
 ```bash
-localberth serve
-localberth serve --host 0.0.0.0
+localslip serve
+localslip serve --host 0.0.0.0
 ```
 
 Default bind is loopback on **54321**. `server` is an alias of `serve`.
@@ -21,4 +21,4 @@ A tile appears when a **named** lease has a process listening past loopback. Vit
 
 ## Peek
 
-Peek is loopback-only. The phone never calls `/api/peek`. LocalBerth reads the HTML on the host and puts the title and icon on the tile.
+Peek is loopback-only. The phone never calls `/api/peek`. LocalSlip reads the HTML on the host and puts the title and icon on the tile.

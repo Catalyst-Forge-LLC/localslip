@@ -7,12 +7,12 @@ describe('rowDetailFields', () => {
 	it('labels lease and process facts', () => {
 		const row: BoardRow = {
 			lease: {
-				name: 'localberth',
+				name: 'localslip',
 				port: 54321,
 				bind: '127.0.0.1',
 				protocol: 'tcp',
 				kind: 'always',
-				notes: 'LocalBerth dashboard',
+				notes: 'LocalSlip dashboard',
 				firewall: 'skipped',
 				updatedAt: '2026-08-18T16:03:25.000Z'
 			},
@@ -22,7 +22,7 @@ describe('rowDetailFields', () => {
 				pid: 18660,
 				process: 'node.exe',
 				seenAt: '2026-08-19T17:00:00.000Z',
-				leaseName: 'localberth'
+				leaseName: 'localslip'
 			},
 			listening: true,
 			conflict: false,
@@ -31,7 +31,7 @@ describe('rowDetailFields', () => {
 		assert.deepEqual(rowDetailFields(row), [
 			{ label: 'Kind', value: 'always' },
 			{ label: 'Recipe health', value: 'No start recipe. Save a guess or set cwd.', wide: true, warn: true },
-			{ label: 'Notes', value: 'LocalBerth dashboard', wide: true },
+			{ label: 'Notes', value: 'LocalSlip dashboard', wide: true },
 			{ label: 'Claimed', value: '2026-08-18 16:03:25' },
 			{ label: 'Claim', value: '127.0.0.1' },
 			{ label: 'Listen', value: '127.0.0.1' },

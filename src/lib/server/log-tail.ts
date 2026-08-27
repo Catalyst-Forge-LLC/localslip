@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { resolveDataRoot } from './paths.js';
 
 export const LOG_TAIL_LINES = 40;
 
@@ -14,12 +14,10 @@ export type LogTail = {
 const EMPTY = 'No log yet — start once.';
 
 function logsDir(): string {
-	const override = process.env.LOCALSLIP_HOME?.trim() || process.env.LOCALBERTH_HOME?.trim();
-	const root = override || join(homedir(), '.localberth');
-	return join(root, 'logs');
+	return join(resolveDataRoot(), 'logs');
 }
 
-/** Read-only. Does not create ~/.localberth or the logs folder. */
+/** Read-only. Does not create ~/.localslip or the logs folder. */
 export function readLogTail(name: string, maxLines = LOG_TAIL_LINES): LogTail {
 	const file = join(logsDir(), `${name}.log`);
 	if (!existsSync(file)) {

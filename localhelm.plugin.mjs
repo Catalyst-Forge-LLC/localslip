@@ -1,5 +1,5 @@
 /**
- * LocalBerth plugin for LocalHelm.
+ * LocalSlip plugin for LocalHelm.
  * LocalHelm hosts the Ports tab; this file calls the sibling board and plan/apply.
  */
 import { spawnSync } from 'node:child_process';
@@ -30,25 +30,25 @@ function bridge(args = []) {
 	const stderr = (result.stderr ?? '').trim();
 	if (result.error) throw new Error(result.error.message);
 	const text = stdout.trim();
-	if (!text) throw new Error(stderr || `localberth bridge failed (exit ${result.status})`);
+	if (!text) throw new Error(stderr || `localslip bridge failed (exit ${result.status})`);
 	try {
 		return JSON.parse(text);
 	} catch {
-		throw new Error(stderr || `localberth bridge returned non-JSON:\n${text.slice(0, 400)}`);
+		throw new Error(stderr || `localslip bridge returned non-JSON:\n${text.slice(0, 400)}`);
 	}
 }
 
 const plugin = {
-	id: 'localberth',
+	id: 'localslip',
 	label: 'Ports',
 	async board() {
 		const boards = bridge();
-		if (!Array.isArray(boards)) throw new Error('localberth bridge did not return boards');
+		if (!Array.isArray(boards)) throw new Error('localslip bridge did not return boards');
 		return boards;
 	},
 	async plan(action, ids) {
 		if (!ACTIONS.has(action)) {
-			throw new Error(`localberth plugin does not plan ${action}`);
+			throw new Error(`localslip plugin does not plan ${action}`);
 		}
 		const args = ['plan', '--action', action];
 		if (ids.length) args.push('--names', ids.join(','));
@@ -56,7 +56,7 @@ const plugin = {
 	},
 	async apply(action, ids) {
 		if (!ACTIONS.has(action)) {
-			throw new Error(`localberth plugin does not apply ${action}`);
+			throw new Error(`localslip plugin does not apply ${action}`);
 		}
 		const args = ['apply', '--action', action];
 		if (ids.length) args.push('--names', ids.join(','));

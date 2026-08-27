@@ -13,27 +13,27 @@ import { getDb } from '../lib/server/db.js';
 import { serveDashboard } from '../lib/server/serve.js';
 
 function usage(): string {
-	return `localberth — named TCP port leases
+	return `localslip — named TCP port leases
 
 Usage:
-  localberth get <name>
-  localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
-  localberth recipe <name> --cwd PATH [--command CMD]
-  localberth recipe <name> --save-guess
-  localberth recipe --guess-all
-  localberth start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]
-  localberth stop <name> [--force] [--family]
-  localberth quiet
-  localberth park <name>
-  localberth unpark <name>
-  localberth release <name> [--force]
-  localberth ls [--parked|--all]
-  localberth scan [--all]
-  localberth doctor [--json]
-  localberth firewall sync
-  localberth firewall status
-  localberth serve [--host ADDR] [--port N]
-  localberth server          same as serve
+  localslip get <name>
+  localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
+  localslip recipe <name> --cwd PATH [--command CMD]
+  localslip recipe <name> --save-guess
+  localslip recipe --guess-all
+  localslip start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]
+  localslip stop <name> [--force] [--family]
+  localslip quiet
+  localslip park <name>
+  localslip unpark <name>
+  localslip release <name> [--force]
+  localslip ls [--parked|--all]
+  localslip scan [--all]
+  localslip doctor [--json]
+  localslip firewall sync
+  localslip firewall status
+  localslip serve [--host ADDR] [--port N]
+  localslip server          same as serve
 
 claim flags:
   --port N       request this TCP port (omit = next free from the pool)
@@ -86,9 +86,9 @@ async function main(): Promise<void> {
 
 	if (cmd === 'get') {
 		const name = argv[0];
-		if (!name) fail('usage: localberth get <name>');
+		if (!name) fail('usage: localslip get <name>');
 		const lease = getLease(name);
-		if (!lease) fail(`no lease named "${name}" — claim it first: localberth claim ${name}`);
+		if (!lease) fail(`no lease named "${name}" — claim it first: localslip claim ${name}`);
 		process.stdout.write(`${lease.port}\n`);
 		return;
 	}
@@ -110,7 +110,7 @@ async function main(): Promise<void> {
 		const name = args[0];
 		if (!name || args.length !== 1) {
 			fail(
-				'usage: localberth claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]'
+				'usage: localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]'
 			);
 		}
 		const port = portRaw !== undefined ? Number(portRaw) : undefined;
@@ -159,7 +159,7 @@ async function main(): Promise<void> {
 		const command = takeOpt(args, '--command');
 		const name = args[0];
 		if (guessAll) {
-			if (name || cwd || command || saveGuess) fail('usage: localberth recipe --guess-all');
+			if (name || cwd || command || saveGuess) fail('usage: localslip recipe --guess-all');
 			let wrote = 0;
 			for (const lease of listLeases()) {
 				if (lease.startCwd) continue;
@@ -174,7 +174,7 @@ async function main(): Promise<void> {
 		}
 		if (saveGuess) {
 			if (!name || args.length !== 1 || cwd || command) {
-				fail('usage: localberth recipe <name> --save-guess');
+				fail('usage: localslip recipe <name> --save-guess');
 			}
 			const result = saveGuessRecipe(name);
 			process.stdout.write(
@@ -184,7 +184,7 @@ async function main(): Promise<void> {
 			return;
 		}
 		if (!name || args.length !== 1 || !cwd) {
-			fail('usage: localberth recipe <name> --cwd PATH [--command CMD]');
+			fail('usage: localslip recipe <name> --cwd PATH [--command CMD]');
 		}
 		const lease = setStartRecipe(name, { cwd, command });
 		process.stdout.write(
@@ -201,7 +201,7 @@ async function main(): Promise<void> {
 		const command = takeOpt(args, '--command');
 		const name = args[0];
 		if (!name || args.length !== 1) {
-			fail('usage: localberth start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]');
+			fail('usage: localslip start <name> [--cwd PATH] [--command CMD] [--save-guess] [--family]');
 		}
 		const names = family
 			? familyMemberNames(name, listLeases().filter((lease) => !lease.parked).map((lease) => lease.name))
@@ -222,7 +222,7 @@ async function main(): Promise<void> {
 		const force = takeFlag(args, '--force');
 		const family = takeFlag(args, '--family');
 		const name = args[0];
-		if (!name || args.length !== 1) fail('usage: localberth stop <name> [--force] [--family]');
+		if (!name || args.length !== 1) fail('usage: localslip stop <name> [--force] [--family]');
 		const names = family
 			? familyMemberNames(name, listLeases().filter((lease) => !lease.parked).map((lease) => lease.name))
 			: [name];
@@ -237,7 +237,7 @@ async function main(): Promise<void> {
 	}
 
 	if (cmd === 'quiet') {
-		if (argv.length) fail('usage: localberth quiet');
+		if (argv.length) fail('usage: localslip quiet');
 		const board = await getBoard();
 		const names = board.leaseRows
 			.filter((row) => row.lease && isQuietSite(row.lease, row.listening))
@@ -258,7 +258,7 @@ async function main(): Promise<void> {
 
 	if (cmd === 'park') {
 		const name = argv[0];
-		if (!name) fail('usage: localberth park <name>');
+		if (!name) fail('usage: localslip park <name>');
 		const result = await parkLease(name);
 		process.stdout.write(`${result.name}\t${result.port}\t${result.action}\t${result.reason}\n`);
 		if (result.action === 'skip') process.exitCode = 1;
@@ -267,7 +267,7 @@ async function main(): Promise<void> {
 
 	if (cmd === 'unpark') {
 		const name = argv[0];
-		if (!name) fail('usage: localberth unpark <name>');
+		if (!name) fail('usage: localslip unpark <name>');
 		const result = await unparkLease(name);
 		process.stdout.write(`${result.name}\t${result.port}\t${result.action}\t${result.reason}\n`);
 		if (result.action === 'skip') process.exitCode = 1;
@@ -278,7 +278,7 @@ async function main(): Promise<void> {
 		const args = [...argv];
 		const force = takeFlag(args, '--force');
 		const name = args[0];
-		if (!name || args.length !== 1) fail('usage: localberth release <name> [--force]');
+		if (!name || args.length !== 1) fail('usage: localslip release <name> [--force]');
 		const lease = release(name, { force });
 		const fw = await removeLeaseRule(lease);
 		process.stdout.write(`${lease.name}\t${lease.port}\treleased\n`);
@@ -325,7 +325,7 @@ async function main(): Promise<void> {
 				`${row.port}\t${row.bind}\t${row.pid ?? '-'}\t${row.process ?? '-'}\t${name}\n`
 			);
 		}
-		if (hidden) console.error(`(${hidden} system ports hidden; localberth scan --all)`);
+		if (hidden) console.error(`(${hidden} system ports hidden; localslip scan --all)`);
 		return;
 	}
 
@@ -348,7 +348,7 @@ async function main(): Promise<void> {
 			}
 			return;
 		}
-		if (sub !== 'sync') fail('usage: localberth firewall sync|status');
+		if (sub !== 'sync') fail('usage: localslip firewall sync|status');
 		const results = await syncAll();
 		for (const r of results) {
 			process.stdout.write(`${r.lease.name}\t${r.lease.port}\t${r.status}\n`);

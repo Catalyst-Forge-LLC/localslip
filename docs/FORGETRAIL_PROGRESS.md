@@ -1,4 +1,4 @@
-# ForgeTrail progress — LocalBerth
+# ForgeTrail progress — LocalSlip
 
 **Phase:** 3-stabilization  
 **Updated:** 2026-08-18

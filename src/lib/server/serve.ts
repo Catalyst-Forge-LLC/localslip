@@ -58,7 +58,7 @@ a { color:var(--ok); }
 code { color:var(--text); }`;
 
 function siteFooter(): string {
-	return `<footer class="sitefoot"><a class="start" href="https://www.catalystforge.com" rel="noopener">Catalyst Forge, LLC</a><a class="mid" href="https://localberth.com" rel="noopener">localberth.com</a><a class="end" href="https://localberth.com/docs" rel="noopener">Docs</a></footer>`;
+	return `<footer class="sitefoot"><a class="start" href="https://www.catalystforge.com" rel="noopener">Catalyst Forge, LLC</a><a class="mid" href="https://localslip.dev" rel="noopener">localslip.dev</a><a class="end" href="https://localslip.dev/docs" rel="noopener">Docs</a></footer>`;
 }
 
 function brandHeader(meta: string): string {
@@ -71,7 +71,7 @@ function brandHeader(meta: string): string {
 		.join('');
 	return `<header>
 <div class="ident">
-<span class="brand"><img src="/logo.png" alt=""/><span class="word">LocalBerth</span></span>
+<span class="brand"><img src="/logo.png" alt=""/><span class="word">LocalSlip</span></span>
 <button type="button" class="copy host" data-copy="${esc(machine.hostname)}">${esc(machine.hostname)}</button>
 ${addrs}
 ${meta ? `<span class="dot" aria-hidden="true">·</span><span class="meta">${meta}</span>` : ''}
@@ -171,7 +171,7 @@ const COPY_SCRIPT = `(function () {
 		});
 	}
 	document.querySelectorAll('[data-copy-url]').forEach(bindHold);
-	window.localberthBindHold = bindHold;
+	window.localslipBindHold = bindHold;
 })();`;
 
 const OPEN_ICON =
@@ -186,8 +186,8 @@ function rowTip(row: BoardRow): string {
 	const bits: string[] = [];
 	if (row.lease) {
 		bits.push(recipeHealth(row.lease).detail);
-		bits.push(`localberth start ${row.lease.name}`);
-		bits.push(`localberth get ${row.lease.name}`);
+		bits.push(`localslip start ${row.lease.name}`);
+		bits.push(`localslip get ${row.lease.name}`);
 	}
 	const href = rowOpenUrl(row);
 	if (href) bits.push(href);
@@ -299,7 +299,7 @@ function page(board: Awaited<ReturnType<typeof getBoard>>, showSystem: boolean):
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" href="/favicon.png" type="image/png"/>
-<title>LocalBerth</title>
+<title>LocalSlip</title>
 <style>
 ${FACE_CSS}
 .ok { color:var(--ok); }
@@ -364,7 +364,7 @@ ${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`)}
 <tbody>${leases}<tr class="empty-filter" hidden><td colspan="7" class="muted">No leases match.</td></tr></tbody></table></div></div>
 <div class="pane" id="pane-observed" data-pane="observed" role="tabpanel" aria-labelledby="tab-observed">${filterBar('observed')}<div class="scroll"><table data-default-sort="port"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
 <tbody>${observed}<tr class="empty-filter" hidden><td colspan="7" class="muted">Nothing matches.</td></tr></tbody></table></div></div>
-<p class="muted hint"><code>localberth claim name --port N</code> · <code>localberth get name</code> · <code>localberth release name</code></p>
+<p class="muted hint"><code>localslip claim name --port N</code> · <code>localslip get name</code> · <code>localslip release name</code></p>
 </div>
 ${siteFooter()}
 </main>
@@ -588,7 +588,7 @@ async function visitorPage(board: Awaited<ReturnType<typeof getBoard>>, pageHost
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" href="/favicon.png" type="image/png"/>
-<title>LocalBerth</title>
+<title>LocalSlip</title>
 <style>
 ${FACE_CSS}
 .tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
@@ -686,7 +686,7 @@ ${COPY_SCRIPT}
 		face.appendChild(name);
 		root.appendChild(face);
 		root.appendChild(port);
-		if (href && window.localberthBindHold) window.localberthBindHold(root);
+		if (href && window.localslipBindHold) window.localslipBindHold(root);
 		return root;
 	}
 	function draw(tiles) {
@@ -784,7 +784,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 			if (err.code === 'EADDRINUSE') {
 				reject(
 					new Error(
-						`port ${port} is already in use. stop the other dashboard, or: localberth serve --port N`
+						`port ${port} is already in use. stop the other dashboard, or: localslip serve --port N`
 					)
 				);
 				return;
@@ -796,7 +796,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 			reject(err);
 		});
 		server.listen(port, host, () => {
-			console.error(`LocalBerth dashboard  http://${host}:${port}/`);
+			console.error(`LocalSlip dashboard  http://${host}:${port}/`);
 			resolve();
 		});
 	});

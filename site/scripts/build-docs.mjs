@@ -248,18 +248,18 @@ function renderPage(item, bodyHtml, toc, prev, next) {
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>${escapeHtml(title)} · LocalBerth docs</title>
-	<meta name="description" content="LocalBerth documentation — ${escapeHtml(title)}" />
+	<title>${escapeHtml(title)} · LocalSlip docs</title>
+	<meta name="description" content="LocalSlip documentation — ${escapeHtml(title)}" />
 	<link rel="stylesheet" href="/docs/assets/docs.css" />
 </head>
 <body>
 	<header class="docs-top">
 		<button type="button" class="docs-menu-btn" data-docs-menu aria-label="Toggle docs menu">Menu</button>
-		<a class="docs-brand" href="/docs/">LocalBerth <span>docs</span></a>
+		<a class="docs-brand" href="/docs/">LocalSlip <span>docs</span></a>
 		<nav class="docs-top-links">
 			<a href="/">Home</a>
 			<a href="/install">Install</a>
-			<a href="https://github.com/Catalyst-Forge-LLC/localberth">GitHub</a>
+			<a href="https://github.com/Catalyst-Forge-LLC/localslip">GitHub</a>
 		</nav>
 	</header>
 	<div class="docs-shell">

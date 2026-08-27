@@ -1,7 +1,7 @@
 import { isLoopbackBind, isLoopbackClient } from './binds.js';
 
 /** One named tab so a second Open replaces the first. Do not use rel=noreferrer — Chrome then ignores the name. */
-export const OPEN_TARGET = 'localberth-open';
+export const OPEN_TARGET = 'localslip-open';
 
 /** Prefer the observed listen address so IPv6-only Vite still opens. */
 export function rowOpenUrl(row: {
@@ -69,7 +69,7 @@ export function visitorHttpUrl(pageHost: string, port: number): string | null {
 	return `http://${pageHost}:${port}/`;
 }
 
-/** Well-known icon files. Phone tries each; LocalBerth does not proxy. */
+/** Well-known icon files. Phone tries each; LocalSlip does not proxy. */
 export const VISITOR_FAVICON_FILES = ['favicon.png', 'favicon.svg', 'favicon.ico'] as const;
 
 /** App icons the phone loads itself. png first — that is what most house sites ship. */

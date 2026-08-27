@@ -66,8 +66,8 @@ export function listenerOnLease(lease: Lease, listeners: Observed[]): Observed |
 export function isSelfDashboard(lease: Lease): boolean {
 	const helm = Number(process.env.LOCALHELM_PORT);
 	if (Number.isInteger(helm) && helm === lease.port) return true;
-	const berth = Number(process.env.LOCALBERTH_PORT);
-	return Number.isInteger(berth) && berth === lease.port;
+	const slip = Number(process.env.LOCALSLIP_PORT ?? process.env.LOCALBERTH_PORT);
+	return Number.isInteger(slip) && slip === lease.port;
 }
 
 export function planStart(
@@ -78,7 +78,7 @@ export function planStart(
 	if (lease.parked) {
 		return {
 			writes: false,
-			reason: `parked — localberth unpark ${lease.name}`
+			reason: `parked — localslip unpark ${lease.name}`
 		};
 	}
 	const propose = opts.propose ?? ((name: string) => proposeRecipe(name));
@@ -87,7 +87,7 @@ export function planStart(
 	if (!guess) {
 		return {
 			writes: false,
-			reason: `no matching folder — localberth recipe ${lease.name} --cwd PATH`
+			reason: `no matching folder — localslip recipe ${lease.name} --cwd PATH`
 		};
 	}
 	const hit = listenerOnLease(lease, listeners);
@@ -202,7 +202,7 @@ export async function startLease(
 		listening: Boolean(listening),
 		reason: listening
 			? `listening pid ${listening.pid ?? child.pid}`
-			: `started pid ${child.pid}; not listening yet (log ~/.localberth/logs/${lease.name}.log)`
+			: `started pid ${child.pid}; not listening yet (log ~/.localslip/logs/${lease.name}.log)`
 	};
 }
 
@@ -210,7 +210,7 @@ export async function stopLease(name: string, opts: { force?: boolean } = {}): P
 	const lease = getLease(name);
 	if (!lease) throw new Error(`no lease named "${name}"`);
 	if (lease.name === DASHBOARD_NAME && !opts.force) {
-		throw new Error('refusing to stop localberth (the dashboard). pass --force if you mean it');
+		throw new Error('refusing to stop localslip (the dashboard). pass --force if you mean it');
 	}
 	if (isSelfDashboard(lease) && !opts.force) {
 		throw new Error('refusing to stop the dashboard you are using. pass --force if you mean it');

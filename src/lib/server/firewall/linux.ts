@@ -48,7 +48,7 @@ async function ufwDeleteByComment(comment: string): Promise<void> {
 	}
 	const hits: number[] = [];
 	for (const line of listed.stdout.split(/\r?\n/)) {
-		const m = line.match(/^\s*\[\s*(\d+)\s*\].*?#\s*(LocalBerth\s+\S+\s+\d+)/);
+		const m = line.match(/^\s*\[\s*(\d+)\s*\].*?#\s*(LocalSlip\s+\S+\s+\d+)/);
 		if (m && m[2] === comment) hits.push(Number(m[1]));
 	}
 	for (const n of hits.sort((a, b) => b - a)) {

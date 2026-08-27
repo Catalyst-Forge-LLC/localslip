@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>LocalBerth</title>
+	<title>LocalSlip</title>
 </svelte:head>
 
 <div class="h-full">

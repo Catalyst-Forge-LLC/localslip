@@ -1,3 +1,3 @@
 @echo off
 pnpm install
-node scripts\ensure-lease.mjs localberth-site 5187
+node scripts\ensure-lease.mjs localslip-site 5187

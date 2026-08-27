@@ -17,6 +17,7 @@ type PkgInfo = {
 
 function workspaceRoots(extra: string[] = []): string[] {
 	const fromEnv = [
+		process.env.LOCALSLIP_WORKSPACE,
 		process.env.LOCALBERTH_WORKSPACE,
 		process.env.LOCALHELM_CWD,
 		process.cwd()

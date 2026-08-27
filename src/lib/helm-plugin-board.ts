@@ -7,7 +7,7 @@ import type { Board } from './server/board.js';
 import type { BoardRow } from './types.js';
 
 export type HelmPluginBoard = {
-	plugin: 'localberth';
+	plugin: 'localslip';
 	tab: 'ports';
 	title: string;
 	note: string;
@@ -32,15 +32,15 @@ function hrefFor(row: BoardRow): string | undefined {
 	return rowOpenUrl(row) ?? undefined;
 }
 
-/** Shape LocalHelm hosts on the Ports tab. LocalBerth still owns leases and observe. */
+/** Shape LocalHelm hosts on the Ports tab. LocalSlip still owns leases and observe. */
 export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 	const hidden = board.hiddenSystem;
 	return [
 		{
-			plugin: 'localberth',
+			plugin: 'localslip',
 			tab: 'ports',
 			title: 'Leases',
-			note: 'Named TCP leases. Start/Stop run the lease recipe (default pnpm serve) detached. Claim, release, and firewall stay on the localberth CLI.',
+			note: 'Named TCP leases. Start/Stop run the lease recipe (default pnpm serve) detached. Claim, release, and firewall stay on the localslip CLI.',
 			rowLabel: 'name',
 			columns: [
 				{ id: 'port', label: 'port' },
@@ -100,7 +100,7 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 			}),
 		},
 		{
-			plugin: 'localberth',
+			plugin: 'localslip',
 			tab: 'ports',
 			title: 'Observed',
 			note: hidden

@@ -10,7 +10,7 @@ When the same file is in an **npm `files` whitelist**, it becomes the public pac
 
 Suggested Lite change: if Phase 1 decides the app is a **published package**, say explicitly that root `README.md` is the **public product page** (install + real commands). Operator/process stay in `CONTEXT_PROMPT.md` / `docs/`. Do not require the §4.5 “Quick start (no terminal)” block at the top of a published README.
 
-Project pointer: LocalBerth D14 / D17.
+Project pointer: LocalSlip D14 / D17.
 
 ## 2. README images must be in the npm `files` whitelist (§14)
 
@@ -18,7 +18,7 @@ npmjs.com resolves relative `<img src>` from the **published tarball**, not the 
 
 Suggested Lite change: when the root README is the public npm page, say that any relative image in it has to be listed in `package.json` `files` (or live under a directory that already is). `npm pack --dry-run` is the check.
 
-Project pointer: LocalBerth 0.1.0 README mark.
+Project pointer: LocalSlip 0.1.0 README mark.
 
 ## 3. npm 12 blocks native install scripts (global CLIs) (§4.1 / §13)
 
@@ -30,7 +30,7 @@ Lite already covers **pnpm** ignoring `better-sqlite3` (`onlyBuiltDependencies`)
 
 Suggested Lite change: next to the pnpm native-addon note, say npm 12 global installs skip dep install scripts; prefer addons that ship prebuilds (or document `--allow-scripts=`).
 
-Project pointer: LocalBerth 0.2.1 / D23.
+Project pointer: LocalSlip 0.2.1 / D23.
 
 ## 4. SvelteKit `$lib/server` in shared UI helpers (agent / Kit)
 
@@ -38,7 +38,7 @@ A `+page.svelte` that imports a `$lib` helper which then imports `$lib/server/*`
 
 Suggested Lite change: in the SvelteKit / agent anti-pattern list, say: keep bind/format helpers used by `+page.svelte` **outside** `$lib/server`. `import type` from `$lib/server` is not enough if a sibling runtime import pulls the folder in. The thrown string “impossible situation” is this class of leak, not a Vite kernel bug.
 
-Project pointer: LocalBerth dashboard `row-detail` → `$lib/server/firewall/names`.
+Project pointer: LocalSlip dashboard `row-detail` → `$lib/server/firewall/names`.
 
 ## 5. Published npm CLI should not depend on tsx (§4.1 / §13)
 
@@ -46,7 +46,7 @@ Project pointer: LocalBerth dashboard `row-detail` → `$lib/server/firewall/nam
 
 Suggested Lite change: if Phase 1 says the app is a **published CLI**, compile with `tsc` (or a bundler) on publish (`prepublishOnly`). Keep `tsx` as a **devDependency** for tests and `pnpm cli`. Do not put the TS runner on the published runtime graph. Platform-native work stays in addons that ship prebuilds (see §3), not in the JS entry.
 
-Project pointer: LocalBerth D26 / 0.2.4.
+Project pointer: LocalSlip D26 / 0.2.4.
 
 ## 6. CLI `tsc` include of `src/lib/**` vs browser helpers (§4.1 / agent)
 
@@ -54,7 +54,7 @@ A published CLI often uses `tsconfig.cli.json` with `"lib": ["ES2022"]`, `"types
 
 Suggested Lite change: next to the compile-on-publish note, say the CLI tsconfig must **exclude** browser-only modules (or keep them out of `src/lib/**`). Do not add `"DOM"` to the CLI lib to silence it.
 
-Project pointer: LocalBerth `copy-text.ts` / `pnpm publish`.
+Project pointer: LocalSlip `copy-text.ts` / `pnpm publish`.
 
 ---
 

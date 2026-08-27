@@ -15,7 +15,7 @@ export {
 	type BindRelation
 } from '../../binds.js';
 
-export const RULE_PREFIX = 'LocalBerth';
+export const RULE_PREFIX = 'LocalSlip';
 
 export function ruleName(lease: Pick<Lease, 'name' | 'port'>): string {
 	return `${RULE_PREFIX} ${lease.name} ${lease.port}`;

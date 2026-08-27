@@ -22,7 +22,7 @@ describe('quiet sites', () => {
 		assert.equal(isQuietSite(lease('aibreze-site'), true), true);
 		assert.equal(isQuietSite(lease('aibreze-site'), false), false);
 		assert.equal(isQuietSite(lease('aibreze'), true), false);
-		assert.equal(isQuietSite(lease('localberth'), true), false);
+		assert.equal(isQuietSite(lease('localslip'), true), false);
 		assert.equal(isQuietSite(lease('aibreze-site', { parked: true }), true), false);
 		assert.deepEqual(
 			quietSiteNames([

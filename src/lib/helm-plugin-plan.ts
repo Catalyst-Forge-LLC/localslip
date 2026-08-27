@@ -98,7 +98,7 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 			} else {
 				const guess = proposeRecipe(lease.name);
 				if (!guess) {
-					reason = `no matching folder — localberth recipe ${lease.name} --cwd PATH`;
+					reason = `no matching folder — localslip recipe ${lease.name} --cwd PATH`;
 				} else {
 					writes = true;
 					nextAction = 'recipe';

@@ -1,22 +1,22 @@
 ---
 title: Install
-description: Install LocalBerth from npm.
+description: Install LocalSlip from npm.
 order: 1
 ---
 
 Requires **Node.js 20+**.
 
 ```bash
-npm i -g localberth
+npm i -g localslip
 ```
 
-or `pnpm add -g localberth`.
+or `pnpm add -g localslip`.
 
 ```bash
-localberth claim foo --port 5173
-localberth serve
+localslip claim foo --port 5173
+localslip serve
 ```
 
-Dashboard: `http://127.0.0.1:54321`. Leases live in `~/.localberth/`.
+Dashboard: `http://127.0.0.1:54321`. Leases live in `~/.localslip/`.
 
 Flags, Vite, firewall, and the visitor menu live in the [docs](/docs).

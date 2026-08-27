@@ -32,7 +32,7 @@ export async function peekPayload(
 	opts: { selfPort?: number } = {}
 ): Promise<HttpPeek & { line: string }> {
 	if (port === DASHBOARD_PORT || (opts.selfPort !== undefined && port === opts.selfPort)) {
-		return { http: true, status: 200, contentType: 'text/html', title: 'LocalBerth', ms: 0, line: 'This dashboard.' };
+		return { http: true, status: 200, contentType: 'text/html', title: 'LocalSlip', ms: 0, line: 'This dashboard.' };
 	}
 	const peek = await peekHttp(port);
 	return { ...peek, line: formatPeek(peek) };
