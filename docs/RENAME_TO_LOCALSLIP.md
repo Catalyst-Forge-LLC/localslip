@@ -34,7 +34,7 @@ First run copies `~/.localberth` into `~/.localslip` if the new folder is missin
 
 ## Still operator-side
 
-- [ ] `gh repo rename localslip` (folder rename follows; fleet enroll id follows the folder)
+- [x] GitHub repo renamed to [Catalyst-Forge-LLC/localslip](https://github.com/Catalyst-Forge-LLC/localslip) (2026-08-27). Local folder is still `localberth` until you rename it; fleet enroll id follows the folder.
 - [ ] Point localslip.dev at the FilePress site; redirect .com and localberth.com
 - [ ] Cloudflare Pages project `localslip` (was `localberth`)
 - [ ] Publish first `localslip` npm cut
