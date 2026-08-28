@@ -869,6 +869,10 @@
     {
       "date": "2026-08-28",
       "summary": "D41: site and README link localhelm.dev. aiBreze pass: cut README command dump; LocalHelm once per public page."
+    },
+    {
+      "date": "2026-08-28",
+      "summary": "localberth deprecated through 0.2.8. Stub localberth@0.2.9 published as the npm page pointer to localslip."
     }
   ],
   "openQuestions": []

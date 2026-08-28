@@ -36,5 +36,5 @@ See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 4. [ ] Public site + GitHub URLs on npm when those are public
 5. [x] Publish `localberth@0.1.0`–`0.2.0` (historical; you; agent does not)
 6. [x] Sibling LocalSlip rollout — waves 0–2 (FilePress engine + house sites + Engram + DictaWhisper). Wave 3 is other Vite apps.
-7. [ ] Publish first `localslip` npm cut (tree is 0.2.9; you; agent does not). Then deprecate `localberth`.
+7. [x] Publish `localslip@0.2.10`; deprecate `localberth`; stub `localberth@0.2.9` points at localslip (you; 2026-08-28)
 

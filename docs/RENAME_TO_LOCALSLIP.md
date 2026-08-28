@@ -39,8 +39,8 @@ First run copies `~/.localberth` into `~/.localslip` if the new folder is missin
 - [x] GitHub repo renamed to [Catalyst-Forge-LLC/localslip](https://github.com/Catalyst-Forge-LLC/localslip) (2026-08-27). Local folder and fleet id are `localslip`. Dashboard recipe cwd is `Z:/workspace/localslip`. Site lease is `localslip-site` on 5187.
 - [ ] Point localslip.dev at the FilePress site; redirect .com and localberth.com
 - [ ] Cloudflare Pages project `localslip` (was `localberth`)
-- [ ] Publish first `localslip` npm cut
-- [ ] `npm deprecate localberth "use localslip"` or unpublish
+- [x] Publish first `localslip` npm cut (`localslip@0.2.10`)
+- [x] `npm deprecate localberth` (all versions through 0.2.8). Stub `localberth@0.2.9` is the npm page pointer. Re-deprecate `0.2.9` if that version still lacks the warning.
 - [ ] Sibling repos still calling `localberth get` / `localberthListen`
 
 Do not publish from an agent unless asked.
