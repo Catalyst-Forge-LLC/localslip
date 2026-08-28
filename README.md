@@ -10,9 +10,9 @@
 
 Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do not.
 
-**localhost** is the machine; **LocalSlip** is the slip. (**LocalHelm** is the wheel.)
+**localhost** is the machine; **LocalSlip** is the slip. [LocalHelm](https://localhelm.dev) is the wheel.
 
-Formerly **LocalBerth** — the `localberth` CLI name remains as a compatibility alias.
+Formerly **LocalBerth**. The `localberth` binary still works.
 
 **Docs:** [localslip.dev/docs](https://localslip.dev/docs) · **Site:** [localslip.dev](https://localslip.dev)
 
@@ -24,7 +24,7 @@ localslip claim foo --port 5173
 localslip serve
 ```
 
-or `pnpm add -g localslip`. Node.js 20+. The `localberth` binary still works and calls the same code.
+or `pnpm add -g localslip`. Node.js 20+.
 
 ## Quick start
 
@@ -35,13 +35,13 @@ localslip get foo
 localslip serve --host 0.0.0.0
 ```
 
-`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. `recipe` / `start` / `stop` run a stored `pnpm serve` (or another command) detached. `park` hides a lease and keeps the number. `doctor` is a read-only check (missing cwd, port conflicts, `PORT` leak risk).
+`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
 
 ## What you get
 
-Named leases. A dashboard on **54321** (operator table on loopback, visitor tiles on the phone). Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port. Flags live in the docs.
+Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port.
 
-Live data is `~/.localslip/` (`LOCALSLIP_HOME`). First run copies `~/.localberth` if that folder still exists.
+Live data is `~/.localslip/`. First run copies `~/.localberth` if that folder still exists.
 
 <!-- xfacts-nutrition-label -->
 

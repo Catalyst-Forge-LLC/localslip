@@ -19,4 +19,4 @@ localslip serve
 
 Dashboard: `http://127.0.0.1:54321`. Leases live in `~/.localslip/`.
 
-Flags, Vite, firewall, and the visitor menu live in the [docs](/docs).
+Flags, Vite, firewall, and the visitor menu live in the [docs](/docs). Start and stop also live on [LocalHelm](https://localhelm.dev).

@@ -542,6 +542,17 @@
       "alternatives_considered": [
         "Allow only .ts.net"
       ]
+    },
+    {
+      "id": "D41",
+      "timestamp": "2026-08-28",
+      "phase": "3-stabilization",
+      "decision": "Public pages mention and link LocalHelm at localhelm.dev. LocalSlip owns the lease; LocalHelm hosts start/stop. Pairing still spends once (localhost / LocalSlip). README may keep “LocalHelm is the wheel” next to that line.",
+      "rationale": "Operator 2026-08-28: the sibling should be findable from the site and npm README.",
+      "alternatives_considered": [
+        "Footer-only, no body mention",
+        "Repeat the wheel gloss on every page"
+      ]
     }
   ],
   "gotchas": [
@@ -854,6 +865,10 @@
     {
       "date": "2026-08-27",
       "summary": "D39: home and README gloss slip, not berth. Rename leftovers: AppFacts URL, overlay, Genesis, Tippy theme, test prefixes, PHASE_1_BRIEF banner."
+    },
+    {
+      "date": "2026-08-28",
+      "summary": "D41: site and README link localhelm.dev. aiBreze pass: cut README command dump; LocalHelm once per public page."
     }
   ],
   "openQuestions": []

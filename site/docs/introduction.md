@@ -28,6 +28,8 @@ It is **not** a reverse proxy. It does not give you `foo.localhost` URLs.
 
 The domain never serves leases.
 
+[LocalHelm](https://localhelm.dev) hosts start and stop on the Ports tab. Claim, release, and firewall stay on this CLI.
+
 ## Next
 
 - [Install](/docs/install) — npm or a checkout

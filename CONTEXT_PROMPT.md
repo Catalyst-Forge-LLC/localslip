@@ -2,7 +2,7 @@
 
 ## What this is
 
-**Local DNS for ports.** **localhost** is the machine; **LocalSlip** is the slip. **LocalHelm** is the wheel. Apps look up a port by name; humans still use the number. Not real DNS and not `*.localhost` URLs. Dashboard shows leases plus observed listeners. Claim/move updates the host firewall (Windows / macOS / Linux).
+**Local DNS for ports.** **localhost** is the machine; **LocalSlip** is the slip. **LocalHelm** is the wheel ([localhelm.dev](https://localhelm.dev)). Apps look up a port by name; humans still use the number. Not real DNS and not `*.localhost` URLs. Dashboard shows leases plus observed listeners. Claim/move updates the host firewall (Windows / macOS / Linux).
 
 Formerly **LocalBerth**. Hard cutover to LocalSlip — see `docs/RENAME_TO_LOCALSLIP.md`. The `localberth` binary remains a one-release alias.
 

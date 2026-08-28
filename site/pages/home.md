@@ -19,8 +19,10 @@ localslip get foo
 
 **localhost** is the machine; **LocalSlip** is the slip.
 
+Start and stop also live on [LocalHelm](https://localhelm.dev). Claim, release, and firewall stay here.
+
 A claim is loopback unless you pass `--lan`.
 
 After you install, `localslip serve` opens the dashboard at `http://127.0.0.1:54321`.
 
-[Docs](/docs) · [Install](/install) · [Napkin math](/posts/napkin-math)
+[Docs](/docs) · [Install](/install) · [LocalHelm](https://localhelm.dev)

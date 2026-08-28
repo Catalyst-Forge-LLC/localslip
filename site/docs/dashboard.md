@@ -11,7 +11,7 @@ Default bind is loopback on **54321**. `server` is an alias of `serve`.
 
 ## Operator
 
-Open `http://127.0.0.1:54321` on the machine. You get the lease table, observed listeners, and a peek of each HTTP port. The Open icon reuses one browser tab.
+Open `http://127.0.0.1:54321` on the machine. You get the lease table, observed listeners, and a peek of each HTTP port. The Open icon reuses one browser tab. Start and stop also live on [LocalHelm](https://localhelm.dev) Ports.
 
 ## Visitor
 
