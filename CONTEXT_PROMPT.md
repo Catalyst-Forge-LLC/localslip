@@ -34,7 +34,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 - Do not hide ports behind name-only URLs
 - Observed-only rows stay read-only. Named leases can start/stop via an explicit command. If no recipe is stored, LocalSlip may guess a sibling folder (`name`, strip `-site` / `-api`, or hyphenless match like `temperpass-site` → `temper-pass`) and `pnpm site:dev` / `start` / `serve` / `dev`. LocalHelm confirm saves that guess; CLI needs `--save-guess`. `start` sets `PORT`/`HOST` to that lease. A recipe that also starts other listeners (dictawhisper UI+API) must give those children their own port.
 - Public README is the operator/npm page (no ForgeTrail or sibling notes)
-- Omit homepage / repository on npm until the site and GitHub repo are public
+- Homepage / repository are on package.json (GitHub is public). README logo uses a raw GitHub URL so npmjs.com does not 404 `site/static/logo.png`.
 
 ## Current phase
 

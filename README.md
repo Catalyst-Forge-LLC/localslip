@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="site/static/logo.png" alt="LocalSlip" width="218" />
+  <img src="https://raw.githubusercontent.com/Catalyst-Forge-LLC/localslip/main/site/static/logo.png" alt="LocalSlip" width="218" />
 </p>
 
 # LocalSlip
