@@ -1,6 +1,6 @@
 /**
  * LocalSlip plugin for LocalHelm.
- * LocalHelm hosts the Ports tab; this file calls the sibling board and plan/apply.
+ * LocalHelm hosts the LocalSlip Ports tab; this file calls the sibling board and plan/apply.
  */
 import { spawnSync } from 'node:child_process';
 import { dirname } from 'node:path';
@@ -40,7 +40,7 @@ function bridge(args = []) {
 
 const plugin = {
 	id: 'localslip',
-	label: 'Ports',
+	label: 'LocalSlip Ports',
 	async board() {
 		const boards = bridge();
 		if (!Array.isArray(boards)) throw new Error('localslip bridge did not return boards');
