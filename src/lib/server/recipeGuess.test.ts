@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { after, describe, it } from 'node:test';
 import { proposeRecipe } from './recipeGuess.js';
 
-const root = join(tmpdir(), `localberth-guess-${Date.now()}`);
+const root = join(tmpdir(), `localslip-guess-${Date.now()}`);
 
 after(() => {
 	rmSync(root, { recursive: true, force: true });

@@ -1,5 +1,7 @@
 # LocalBerth — Phase 1 architecture brief
 
+> **Renamed 2026-08-27:** LocalBerth → LocalSlip. This file is a locked snapshot. Current names: `docs/RENAME_TO_LOCALSLIP.md` and D37 / D38.
+
 _Structured capture before scaffolding. A later session should be able to start from this file + `.forgetrail/workflow_tracking.json`._
 
 **Status:** `locked`  

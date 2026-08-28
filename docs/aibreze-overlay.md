@@ -12,7 +12,7 @@ Point at `aibreze` (`node_modules/aibreze/rules/core.md`). Do not fork core.
 
 ## Terms that pass here
 
-- **slip / berth / lease** — the product metaphor. A name owns a TCP port. Do not swap for “slot” or “reservation.”
+- **slip / lease** — the product metaphor. A name owns a TCP port. Do not swap for “slot” or “reservation.”
 - **localhost** — the loopback name and the pairing word. Not a metaphor to flatten.
 - **Local DNS for ports** — the explainer line. Not real DNS. Do not “correct” it into “port registry” on public pages.
 - **claim / get / release / scan / serve** — CLI verbs. **`--lan`** is the explicit open-past-loopback flag.
@@ -28,7 +28,7 @@ Point at `aibreze` (`node_modules/aibreze/rules/core.md`). Do not fork core.
 ## House extras
 
 - Site copy follows `aibreze` `landing.md`. Max 2 teaching antitheses (site vs dashboard; not a reverse proxy). Spend the pairing once per page.
-- Brand-metaphor budget: **slip** and **Local DNS for ports**. Do not ride berth/harbor through every heading. Home may keep one `.dict` gloss of **berth** under the hero (noun: a ship's allotted place at a dock). The npm README may keep the same line as a blockquote. That is the definition, not a third heading.
+- Brand-metaphor budget: **slip** and **Local DNS for ports**. Do not ride harbor through every heading. Home may keep one `.dict` gloss of **slip** under the hero (noun: a boat's allotted place at a dock). The npm README may keep the same line as a blockquote. That is the definition, not a third heading.
 - README is the npm page: short install, pointer to [docs](https://localslip.dev/docs). Flag lists live under `/docs`, not the README.
 - “Harbor board” is house slang. Public pages say dashboard or board.
 - Em dashes in `<title>` and meta: prefer a comma or colon.

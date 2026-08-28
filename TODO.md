@@ -34,15 +34,7 @@ See [`docs/specs/cheap-surfaces.md`](docs/specs/cheap-surfaces.md).
 2b. [x] `claim --or-next` when the requested port is leased or listening
 3. [ ] Dogfood: elevated `firewall sync` for non-loopback leases
 4. [ ] Public site + GitHub URLs on npm when those are public
-5. [x] Publish `localberth@0.1.0` (you; agent does not)
-6. [x] Publish `localberth@0.1.1` so the README mark is in the tarball (you; agent does not)
-7. [x] Publish `localberth@0.1.2` (README dashboard line; you; agent does not)
-8. [x] Publish `localberth@0.2.0` (claim defaults to loopback, `--lan`; you; agent does not)
-9. [x] Sibling LocalSlip rollout — waves 0–2 (FilePress engine + house sites + Engram + DictaWhisper). Wave 3 is other Vite apps.
-10. [ ] Publish `localberth@0.2.1` (better-sqlite3 13 for npm 12 global install; you; agent does not)
-11. [ ] Publish `localberth@0.2.2` (IPv6 scan, `localslipListen`, peek loopback-only; you; agent does not)
-12. [ ] Publish `localberth@0.2.3` (Open icon reuses one tab; you; agent does not)
-13. [ ] Publish `localberth@0.2.4` (compiled CLI, no runtime tsx/esbuild; you; agent does not)
-14. [ ] Publish `localberth@0.2.5` (visitor tiles, listen-bind cards, favicon fallback; you; agent does not)
-15. [ ] Publish `localberth@0.2.6` (operator face needs loopback Host; you; agent does not)
+5. [x] Publish `localberth@0.1.0`–`0.2.0` (historical; you; agent does not)
+6. [x] Sibling LocalSlip rollout — waves 0–2 (FilePress engine + house sites + Engram + DictaWhisper). Wave 3 is other Vite apps.
+7. [ ] Publish first `localslip` npm cut (tree is 0.2.9; you; agent does not). Then deprecate `localberth`.
 

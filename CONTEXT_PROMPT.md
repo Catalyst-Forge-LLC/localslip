@@ -40,7 +40,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 `3-stabilization`
 
-Rename: D37 + D38 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip, hard cutover).
+Rename: D37 + D38 + D39 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip, hard cutover; public gloss is slip).
 
 ## Recent gotchas (last 3–5)
 

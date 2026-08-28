@@ -346,9 +346,9 @@ tr.detail.open .inner { padding:.75rem 1rem .9rem; }
 .facts .log-tail { grid-column:1 / -1; }
 .facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--muted); font-size:.78rem; line-height:1.35; }
 a { color:var(--ok); }
-.tippy-box[data-theme~='berth'] { background:#1a1917; color:#faf8f3; border:1px solid #4d4a44; border-radius:6px; font-size:.78rem; }
-.tippy-box[data-theme~='berth'] .tippy-arrow { color:#1a1917; }
-.tippy-box[data-theme~='berth'] .tippy-content { white-space:pre-wrap; max-width:min(26rem,90vw); line-height:1.45; padding:.45rem .6rem; }
+.tippy-box[data-theme~='slip'] { background:#1a1917; color:#faf8f3; border:1px solid #4d4a44; border-radius:6px; font-size:.78rem; }
+.tippy-box[data-theme~='slip'] .tippy-arrow { color:#1a1917; }
+.tippy-box[data-theme~='slip'] .tippy-content { white-space:pre-wrap; max-width:min(26rem,90vw); line-height:1.45; padding:.45rem .6rem; }
 </style>
 <link rel="stylesheet" href="/vendor/tippy.css"/>
 </head>
@@ -375,7 +375,7 @@ if (window.tippy) {
 	document.querySelectorAll('[data-copy]').forEach(function (el) {
 		if (!el.getAttribute('data-tippy-content')) el.setAttribute('data-tippy-content', 'Copy');
 	});
-	window.tippy('[data-tippy-content]', { theme: 'berth', appendTo: document.body, delay: 80 });
+	window.tippy('[data-tippy-content]', { theme: 'slip', appendTo: document.body, delay: 80 });
 }
 (function () {
 	function showTab(id) {

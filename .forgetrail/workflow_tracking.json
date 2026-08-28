@@ -522,6 +522,16 @@
         "Make localslip.com the primary site",
         "Keep the localberth self-lease name"
       ]
+    },
+    {
+      "id": "D39",
+      "timestamp": "2026-08-27",
+      "phase": "3-stabilization",
+      "decision": "Public dictionary gloss is slip (a boat's allotted place at a dock), not berth. Home .dict and README blockquote match. Overlay product words are slip / lease.",
+      "rationale": "Operator 2026-08-27: home must say slip. Berth was the old public name; riding it after LocalSlip is leftover metaphor.",
+      "alternatives_considered": [
+        "Keep a berth gloss under the LocalSlip hero"
+      ]
     }
   ],
   "gotchas": [
@@ -830,6 +840,10 @@
     {
       "date": "2026-08-23",
       "summary": "Filter pills grouped under Listen, Bind, Lease, and Firewall."
+    },
+    {
+      "date": "2026-08-27",
+      "summary": "D39: home and README gloss slip, not berth. Rename leftovers: AppFacts URL, overlay, Genesis, Tippy theme, test prefixes, PHASE_1_BRIEF banner."
     }
   ],
   "openQuestions": []

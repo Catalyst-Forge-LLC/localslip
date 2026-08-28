@@ -41,7 +41,7 @@ function row(item: Lease, listening: boolean, extras: Partial<BoardRow> = {}): B
 
 describe('doctor', () => {
 	it('fails when the recipe cwd is missing', () => {
-		const demo = lease({ name: 'demo', port: 5179, startCwd: 'Z:/definitely-missing-localberth-cwd' });
+		const demo = lease({ name: 'demo', port: 5179, startCwd: 'Z:/definitely-missing-localslip-cwd' });
 		const board: Board = {
 			leaseRows: [row(demo, false)],
 			observedRows: [],

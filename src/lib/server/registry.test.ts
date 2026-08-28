@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { after, before, describe, it } from 'node:test';
 
-const home = mkdtempSync(join(tmpdir(), 'localberth-test-'));
+const home = mkdtempSync(join(tmpdir(), 'localslip-test-'));
 process.env.LOCALSLIP_HOME = home;
 
 const { resetDb } = await import('./db.js');

@@ -31,7 +31,7 @@
 				placement,
 				delay,
 				arrow: true,
-				theme: 'berth',
+				theme: 'slip',
 				appendTo: appendToBody,
 				zIndex: 80,
 			});

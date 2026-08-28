@@ -1,11 +1,11 @@
 ---
 app_facts_version: 0.1.0
-name: localberth
+name: localslip
 type: "web app (SSR)"
 status: active
 license: Apache-2.0
-homepage: https://localberth.com
-repository: https://github.com/Catalyst-Forge-LLC/localberth
+homepage: https://localslip.dev
+repository: https://github.com/Catalyst-Forge-LLC/localslip
 stack:
   language: "TypeScript, Svelte, JavaScript, CSS, Shell, HTML"
   runtime: Node.js
@@ -32,7 +32,7 @@ generated:
   inputs_fingerprint: 781cbab31d853ca4
 ---
 
-# localberth
+# localslip
 
 `web app (SSR)` · **active** · Apache-2.0
 
@@ -40,7 +40,7 @@ Curated stack label for this repository — aimed at an under-a-minute skim.
 
 **[Open visual label →][appfacts-label]** · or scan `APP_FACTS.png`
 
-[Repository](https://github.com/Catalyst-Forge-LLC/localberth)
+[Repository](https://github.com/Catalyst-Forge-LLC/localslip)
 
 ### Stack
 

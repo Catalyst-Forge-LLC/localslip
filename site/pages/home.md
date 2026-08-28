@@ -4,7 +4,7 @@ description: Local DNS for ports.
 ---
 
 <aside class="dict">
-<p><strong>berth</strong> <span class="pos">n.</span> a ship's allotted place at a dock.</p>
+<p><strong>slip</strong> <span class="pos">n.</span> a boat's allotted place at a dock.</p>
 </aside>
 
 You start a Svelte app. Vite takes **5173**. You start a second one. It takes **5174**. After a reboot you start them in the other order. The ports swap. Bookmarks, firewall rules, and the phone now hit the wrong app.

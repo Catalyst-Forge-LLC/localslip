@@ -8,7 +8,7 @@ import { recipeHealth } from './recipe-health.js';
 describe('recipeHealth', () => {
 	it('reports no recipe, missing cwd, missing script, and ok', () => {
 		assert.equal(recipeHealth({ startCwd: null }).status, 'no-recipe');
-		assert.equal(recipeHealth({ startCwd: join(tmpdir(), 'no-such-localberth-cwd') }).status, 'cwd-missing');
+		assert.equal(recipeHealth({ startCwd: join(tmpdir(), 'no-such-localslip-cwd') }).status, 'cwd-missing');
 
 		const root = join(tmpdir(), `lb-health-${Date.now()}`);
 		mkdirSync(root, { recursive: true });

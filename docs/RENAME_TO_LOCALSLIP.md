@@ -31,6 +31,8 @@ First run copies `~/.localberth` into `~/.localslip` if the new folder is missin
 - [x] Dashboard chrome, visitor tiles, built-in serve footer
 - [x] Site FilePress + docs copy → localslip.dev
 - [x] Helm plugin id + board copy `localslip`
+- [x] Public gloss is **slip** (home + README); overlay no longer treats berth as a product word
+- [x] README AppFacts raw URL → `Catalyst-Forge-LLC/localslip`
 
 ## Still operator-side
 

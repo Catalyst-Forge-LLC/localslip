@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { after, describe, it } from 'node:test';
 
-const home = mkdtempSync(join(tmpdir(), 'localberth-log-'));
+const home = mkdtempSync(join(tmpdir(), 'localslip-log-'));
 process.env.LOCALSLIP_HOME = home;
 
 const { readLogTail } = await import('./log-tail.js');
