@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => {
 		server: {
 			host,
 			port: Number.isFinite(port) ? port : 54321,
-			strictPort: true
+			strictPort: true,
+			// Phone / Tailscale MagicDNS (*.ts.net). IPs are already allowed.
+			allowedHosts: true
 		},
 		ssr: {
 			external: ['better-sqlite3']

@@ -532,6 +532,16 @@
       "alternatives_considered": [
         "Keep a berth gloss under the LocalSlip hero"
       ]
+    },
+    {
+      "id": "D40",
+      "timestamp": "2026-08-28",
+      "phase": "3-stabilization",
+      "decision": "Vite server.allowedHosts is true so a phone on Tailscale MagicDNS (*.ts.net) can open the LocalSlip dashboard.",
+      "rationale": "Same Vite 403 Helm already hit. IPs were allowed; hostnames were not.",
+      "alternatives_considered": [
+        "Allow only .ts.net"
+      ]
     }
   ],
   "gotchas": [

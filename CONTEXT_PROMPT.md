@@ -8,6 +8,8 @@ Formerly **LocalBerth**. Hard cutover to LocalSlip — see `docs/RENAME_TO_LOCAL
 
 ## Hero workflow
 
+Dashboard Vite `allowedHosts: true` so a phone on `*.ts.net` is not 403’d. IPs were already allowed.
+
 Vite 5173/5174 swap after reboot is the common story. Public examples use `fizzbuzz`, not sibling app names. Hero: `localslip claim fizzbuzz --port 5193` is loopback. Phone/LAN: add `--lan` (binds `0.0.0.0`, firewall). Then `PORT=$(localslip get fizzbuzz)` → dashboard at `:54321` → phone uses `http://100.x.x.x:5193`.
 
 ## Stack
