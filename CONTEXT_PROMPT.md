@@ -4,7 +4,7 @@
 
 **Local DNS for ports.** **localhost** is the machine; **LocalSlip** is the slip. **LocalHelm** is the wheel ([localhelm.dev](https://localhelm.dev)). Apps look up a port by name; humans still use the number. Not real DNS and not `*.localhost` URLs. Dashboard shows leases plus observed listeners. Claim/move updates the host firewall (Windows / macOS / Linux).
 
-Formerly **LocalBerth**. Hard cutover to LocalSlip — see `docs/RENAME_TO_LOCALSLIP.md`. The `localberth` binary remains a one-release alias.
+Formerly **LocalBerth**. Hard cutover to LocalSlip — see `docs/RENAME_TO_LOCALSLIP.md`. The npm package ships only the `localslip` bin (D42).
 
 ## Hero workflow
 
@@ -42,7 +42,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 
 `3-stabilization`
 
-Rename: D37 + D38 + D39 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip, hard cutover; public gloss is slip).
+Rename: D37 + D38 + D39 + D42 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → LocalSlip, hard cutover; public gloss is slip; `localslip` bin only).
 
 ## Recent gotchas (last 3–5)
 

@@ -12,7 +12,7 @@ Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do 
 
 **localhost** is the machine; **LocalSlip** is the slip. [LocalHelm](https://localhelm.dev) is the wheel.
 
-Formerly **LocalBerth**. The `localberth` binary still works.
+Formerly **LocalBerth**. Install `localslip`.
 
 **Docs:** [localslip.dev/docs](https://localslip.dev/docs) · **Site:** [localslip.dev](https://localslip.dev)
 

@@ -553,6 +553,17 @@
         "Footer-only, no body mention",
         "Repeat the wheel gloss on every page"
       ]
+    },
+    {
+      "id": "D42",
+      "timestamp": "2026-08-31",
+      "phase": "3-stabilization",
+      "decision": "localslip ships only the localslip bin. Do not ship a localberth bin. The deprecated localberth npm stub is the pointer. LOCALBERTH_HOME and localberthListen/Port exports stay as data/API leftovers.",
+      "rationale": "Operator 2026-08-31: dual bin collided with a leftover global localberth shim (EEXIST). The alias was already old news.",
+      "alternatives_considered": [
+        "Keep localberth bin for one more release",
+        "Overwrite with npm i -g localslip --force"
+      ]
     }
   ],
   "gotchas": [
@@ -873,6 +884,10 @@
     {
       "date": "2026-08-28",
       "summary": "localberth deprecated through 0.2.8. Stub localberth@0.2.9 published as the npm page pointer to localslip."
+    },
+    {
+      "date": "2026-08-31",
+      "summary": "D42: drop the localberth bin from the localslip package. Global install no longer fights the old shim."
     }
   ],
   "openQuestions": []

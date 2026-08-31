@@ -15,8 +15,7 @@
     "url": "https://github.com/Catalyst-Forge-LLC/localslip/issues"
   },
   "bin": {
-    "localslip": "./bin/localslip.mjs",
-    "localberth": "./bin/localberth.mjs"
+    "localslip": "./bin/localslip.mjs"
   },
   "exports": {
     "./port": {

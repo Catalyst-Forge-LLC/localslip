@@ -8,7 +8,7 @@ Hard cutover. LocalBerth as a public name goes away.
 |---|---|
 | Public name | **LocalSlip** |
 | Tagline | Local DNS for ports |
-| npm / CLI | `localslip` (`localberth` bin is a one-release alias) |
+| npm / CLI | `localslip` only (no `localberth` bin; D42) |
 | Site | **localslip.dev** (primary, same family as localhelm.dev) |
 | Redirects | localslip.com → localslip.dev; localberth.com → localslip.dev |
 | Pairing | LocalSlip is the slip; LocalHelm is the wheel |
@@ -21,7 +21,7 @@ First run copies `~/.localberth` into `~/.localslip` if the new folder is missin
 
 ## Done in code
 
-- [x] Dual bin: `localslip` + `localberth`
+- [x] Dual bin removed (D42): `localslip` only. `bin/localberth.mjs` deleted.
 - [x] package.json `name`: `localslip`
 - [x] README / AGENTS / CONTEXT
 - [x] `~/.localslip` + `LOCALSLIP_HOME` + `localslip.sqlite`
