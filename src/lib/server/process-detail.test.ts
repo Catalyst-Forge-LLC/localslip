@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { applyProcessDetails, parseCimProcessJson, parsePsDetail } from './process-detail.js';
+import {
+	applyProcessDetails,
+	exeFromCommand,
+	linuxStartFromStat,
+	parseCimProcessJson,
+	parseLsofFn,
+	parsePsDetail,
+	parsePsLstart
+} from './process-detail.js';
 
 describe('parseCimProcessJson', () => {
 	it('reads a CIM array', () => {
@@ -63,6 +71,49 @@ describe('parsePsDetail', () => {
 	});
 });
 
+describe('exeFromCommand', () => {
+	it('takes an absolute or quoted image path', () => {
+		assert.equal(exeFromCommand('/usr/local/bin/node vite.js'), '/usr/local/bin/node');
+		assert.equal(
+			exeFromCommand('"C:\\Program Files\\nodejs\\node.exe" serve'),
+			'C:\\Program Files\\nodejs\\node.exe'
+		);
+		assert.equal(exeFromCommand('node vite.js'), null);
+	});
+});
+
+describe('parsePsLstart', () => {
+	it('reads a BSD ctime line', () => {
+		const map = parsePsLstart('  31312 Fri Aug  7 09:01:02 2026\n');
+		assert.equal(map.get(31312), new Date('Fri Aug  7 09:01:02 2026').toISOString());
+	});
+});
+
+describe('parseLsofFn', () => {
+	it('takes the first txt and the cwd', () => {
+		const map = parseLsofFn(
+			['p31312', 'ftxt', 'n/usr/local/bin/node', 'ftxt', 'n/usr/lib/dyld', 'fcwd', 'n/Users/me/app', ''].join(
+				'\n'
+			)
+		);
+		assert.deepEqual(map.get(31312), { exe: '/usr/local/bin/node', cwd: '/Users/me/app' });
+	});
+
+	it('skips missing cwd names', () => {
+		const map = parseLsofFn(['p8', 'fcwd', 'n (cwd no longer exists)', 'ftxt', 'n/bin/zsh'].join('\n'));
+		assert.deepEqual(map.get(8), { exe: '/bin/zsh', cwd: null });
+	});
+});
+
+describe('linuxStartFromStat', () => {
+	it('adds start ticks to btime', () => {
+		const rest = Array(20).fill('0');
+		rest[19] = '200';
+		const line = `9 (node) ${rest.join(' ')}`;
+		assert.equal(linuxStartFromStat(line, 1_700_000_000, 100), new Date(1_700_000_000 * 1000 + 2000).toISOString());
+	});
+});
+
 describe('applyProcessDetails', () => {
 	it('copies detail onto matching pids', () => {
 		const rows = [
@@ -99,5 +150,26 @@ describe('applyProcessDetails', () => {
 		assert.equal(rows[0]?.command, 'pnpm dev');
 		assert.equal((rows[0] as { parentProcess?: string }).parentProcess, 'npm.cmd');
 		assert.equal(rows[1]?.command, undefined);
+	});
+
+	it('fills exe from an absolute command when CIM/lsof omitted it', () => {
+		const rows = [{ pid: 3, process: 'node' }];
+		applyProcessDetails(
+			rows,
+			new Map([
+				[
+					3,
+					{
+						name: 'node',
+						command: '/usr/local/bin/node vite.js',
+						exe: null,
+						cwd: null,
+						parentPid: null,
+						startedAt: null
+					}
+				]
+			])
+		);
+		assert.equal(rows[0]?.exe, '/usr/local/bin/node');
 	});
 });

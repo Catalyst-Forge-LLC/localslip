@@ -569,7 +569,7 @@
       "id": "D43",
       "timestamp": "2026-08-31",
       "phase": "3-stabilization",
-      "decision": "Observed rows carry command line, executable, parent process, start time, and cwd when the OS gives them. Expand panel and /api/board show them. scan TSV stays compact. Windows has no cheap cwd. Table columns stay name/pid only.",
+      "decision": "Observed rows carry command line, executable, parent process, start time, and cwd when the OS gives them. Expand panel and /api/board show them. scan TSV stays compact. Windows: CIM (no cwd). Linux: /proc including start from stat+btime. macOS: ps command/lstart + lsof cwd,txt. Command-line path is the exe fallback. Table columns stay name/pid only.",
       "rationale": "Operator 2026-08-31: node.exe rows are useless without the command. WMI CommandLine is the useful fact.",
       "alternatives_considered": [
         "Keep PowerShell as an operator-only lookup",
@@ -902,7 +902,7 @@
     },
     {
       "date": "2026-08-31",
-      "summary": "D43: observed expand shows command, exe, parent PID, start time; cwd on Unix."
+      "summary": "D43: observed expand shows command, exe, parent, start time; cwd on Unix. macOS fills exe (lsof txt) and start (ps lstart)."
     }
   ],
   "openQuestions": []
