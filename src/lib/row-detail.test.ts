@@ -21,6 +21,11 @@ describe('rowDetailFields', () => {
 				bind: '127.0.0.1',
 				pid: 18660,
 				process: 'node.exe',
+				command: 'tsx src/cli/main.ts serve',
+				exe: 'C:\\Program Files\\nodejs\\node.exe',
+				parentPid: 100,
+				parentProcess: 'npm.cmd',
+				startedAt: '2026-08-19T16:59:00.000Z',
 				seenAt: '2026-08-19T17:00:00.000Z',
 				leaseName: 'localslip'
 			},
@@ -37,7 +42,11 @@ describe('rowDetailFields', () => {
 			{ label: 'Listen', value: '127.0.0.1' },
 			{ label: 'Firewall', value: 'skipped' },
 			{ label: 'Process', value: 'node.exe' },
-			{ label: 'PID', value: '18660' }
+			{ label: 'PID', value: '18660' },
+			{ label: 'Parent', value: 'npm.cmd (100)' },
+			{ label: 'Started', value: '2026-08-19 16:59:00' },
+			{ label: 'Executable', value: 'C:\\Program Files\\nodejs\\node.exe', wide: true, wrap: true },
+			{ label: 'Command', value: 'tsx src/cli/main.ts serve', wide: true, wrap: true }
 		]);
 	});
 

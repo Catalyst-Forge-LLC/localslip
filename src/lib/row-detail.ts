@@ -2,7 +2,7 @@ import { bindRelation, displayBind } from './binds.js';
 import { recipeHealth } from './recipe-health.js';
 import type { BoardRow } from './types.js';
 
-export type DetailField = { label: string; value: string; wide?: boolean; warn?: boolean };
+export type DetailField = { label: string; value: string; wide?: boolean; warn?: boolean; wrap?: boolean };
 
 /** Bind the table should show: the listen address when up, else the claim. */
 export function rowBindDisplay(row: BoardRow): string {
@@ -67,5 +67,26 @@ export function rowDetailFields(row: BoardRow): DetailField[] {
 	if (row.lease) fields.push({ label: 'Firewall', value: row.lease.firewall });
 	if (row.observed?.process) fields.push({ label: 'Process', value: row.observed.process });
 	if (row.observed?.pid != null) fields.push({ label: 'PID', value: String(row.observed.pid) });
+	if (row.observed?.parentPid != null) {
+		const parent = row.observed.parentProcess
+			? `${row.observed.parentProcess} (${row.observed.parentPid})`
+			: String(row.observed.parentPid);
+		fields.push({ label: 'Parent', value: parent });
+	}
+	if (row.observed?.startedAt) {
+		fields.push({
+			label: 'Started',
+			value: row.observed.startedAt.slice(0, 19).replace('T', ' ')
+		});
+	}
+	if (row.observed?.exe) {
+		fields.push({ label: 'Executable', value: row.observed.exe, wide: true, wrap: true });
+	}
+	if (row.observed?.cwd) {
+		fields.push({ label: 'Cwd', value: row.observed.cwd, wide: true, wrap: true });
+	}
+	if (row.observed?.command) {
+		fields.push({ label: 'Command', value: row.observed.command, wide: true, wrap: true });
+	}
 	return fields;
 }

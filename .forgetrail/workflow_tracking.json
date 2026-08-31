@@ -564,6 +564,17 @@
         "Keep localberth bin for one more release",
         "Overwrite with npm i -g localslip --force"
       ]
+    },
+    {
+      "id": "D43",
+      "timestamp": "2026-08-31",
+      "phase": "3-stabilization",
+      "decision": "Observed rows carry command line, executable, parent process, start time, and cwd when the OS gives them. Expand panel and /api/board show them. scan TSV stays compact. Windows has no cheap cwd. Table columns stay name/pid only.",
+      "rationale": "Operator 2026-08-31: node.exe rows are useless without the command. WMI CommandLine is the useful fact.",
+      "alternatives_considered": [
+        "Keep PowerShell as an operator-only lookup",
+        "Put the full command in the Process column"
+      ]
     }
   ],
   "gotchas": [
@@ -888,6 +899,10 @@
     {
       "date": "2026-08-31",
       "summary": "D42: drop the localberth bin from the localslip package. Global install no longer fights the old shim."
+    },
+    {
+      "date": "2026-08-31",
+      "summary": "D43: observed expand shows command, exe, parent PID, start time; cwd on Unix."
     }
   ],
   "openQuestions": []

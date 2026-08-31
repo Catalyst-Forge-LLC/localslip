@@ -25,6 +25,16 @@ export type Observed = {
 	bind: string;
 	pid: number | null;
 	process: string | null;
+	/** Full command line when the OS gives it. */
+	command?: string | null;
+	/** Executable path. */
+	exe?: string | null;
+	/** Working directory. Often missing on Windows. */
+	cwd?: string | null;
+	parentPid?: number | null;
+	/** Image name of the parent process when we looked it up. */
+	parentProcess?: string | null;
+	startedAt?: string | null;
 	seenAt: string;
 	leaseName: string | null;
 };

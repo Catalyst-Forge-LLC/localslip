@@ -122,6 +122,12 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 					cells: {
 						bind: rowBindDisplay(row),
 						process: processLabel(row),
+						command: row.observed?.command ?? '—',
+						exe: row.observed?.exe ?? '—',
+						cwd: row.observed?.cwd ?? '—',
+						parentPid: row.observed?.parentPid != null ? String(row.observed.parentPid) : '—',
+						parentProcess: row.observed?.parentProcess ?? '—',
+						startedAt: row.observed?.startedAt ?? '—',
 					},
 					actions: [],
 				};

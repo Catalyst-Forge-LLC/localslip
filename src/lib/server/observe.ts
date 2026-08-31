@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { normalizeBind } from './firewall/names.js';
+import { applyProcessDetails, processDetails } from './process-detail.js';
 import { leaseByPort } from './registry.js';
 import type { Observed } from './types.js';
 
@@ -75,6 +76,7 @@ async function scanWindows(): Promise<Omit<Observed, 'seenAt' | 'leaseName'>[]> 
 	for (const row of rows) {
 		if (row.pid) row.process = names.get(row.pid) ?? null;
 	}
+	applyProcessDetails(rows, await processDetails(pids));
 	return rows;
 }
 
@@ -116,13 +118,20 @@ function parseCsv(line: string): string[] {
 }
 
 async function scanUnix(): Promise<Omit<Observed, 'seenAt' | 'leaseName'>[]> {
+	let rows: Omit<Observed, 'seenAt' | 'leaseName'>[];
 	try {
 		const { stdout } = await run('lsof', ['-nP', '-iTCP', '-sTCP:LISTEN']);
-		return parseLsof(stdout);
+		rows = parseLsof(stdout);
 	} catch {
 		const { stdout } = await run('ss', ['-lntup']);
-		return parseSs(stdout);
+		rows = parseSs(stdout);
 	}
+	const pids = new Set<number>();
+	for (const row of rows) {
+		if (row.pid && row.pid > 0) pids.add(row.pid);
+	}
+	applyProcessDetails(rows, await processDetails(pids));
+	return rows;
 }
 
 function parseLsof(stdout: string): Omit<Observed, 'seenAt' | 'leaseName'>[] {

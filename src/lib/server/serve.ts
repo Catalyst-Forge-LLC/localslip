@@ -203,7 +203,11 @@ function facts(row: BoardRow): string {
 	const fields = rowDetailFields(row);
 	const items = fields
 		.map((f) => {
-			const cls = [f.wide || f.label === 'Notes' ? 'wide' : '', f.warn ? 'warn-field' : '']
+			const cls = [
+				f.wide || f.label === 'Notes' ? 'wide' : '',
+				f.warn ? 'warn-field' : '',
+				f.wrap ? 'wrap' : ''
+			]
 				.filter(Boolean)
 				.join(' ');
 			const attr = cls ? ` class="${cls}"` : '';
@@ -343,6 +347,7 @@ tr.detail.open .inner { padding:.75rem 1rem .9rem; }
 .facts .warn-field dd { color:var(--warn); }
 .facts .http { grid-column:1 / -1; }
 .facts .peek { color:var(--ok); }
+.facts .wrap dd { word-break:break-all; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.78rem; line-height:1.35; }
 .facts .log-tail { grid-column:1 / -1; }
 .facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--muted); font-size:.78rem; line-height:1.35; }
 a { color:var(--ok); }

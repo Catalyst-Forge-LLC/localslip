@@ -46,6 +46,7 @@ describe('helm plugin boards', () => {
 						bind: '127.0.0.1',
 						pid: 2,
 						process: 'vite',
+						command: 'vite dev --host',
 						seenAt: '2026-08-23T12:00:00.000Z',
 						leaseName: null,
 					},
@@ -77,5 +78,7 @@ describe('helm plugin boards', () => {
 		assert.equal(boards[1]?.title, 'Observed');
 		assert.match(boards[1]?.note ?? '', /3 system ports hidden/);
 		assert.equal(boards[1]?.rows[0]?.label, '5173');
+		assert.equal(boards[1]?.rows[0]?.cells.command, 'vite dev --host');
+		assert.ok(!boards[1]?.columns.some((col) => col.id === 'command'));
 	});
 });
