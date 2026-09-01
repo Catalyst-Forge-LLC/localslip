@@ -33,9 +33,9 @@ importers:
       '@types/node':
         specifier: ^24.3.0
         version: 24.13.3
-      aibreze:
-        specifier: ^0.1.5
-        version: 0.1.5
+      smellcheck:
+        specifier: ^0.2.0
+        version: 0.2.0
       svelte:
         specifier: ^5.56.6
         version: 5.56.9
@@ -678,10 +678,6 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  aibreze@0.1.5:
-    resolution: {integrity: sha512-dZm08hAtUf2fKA0PXbtJSip+wlDl2zlF4Js2idmTypUajBBXhkqG5qm0/DIUidgjoLIg1D5j9fCzJ+eSsMtlcQ==}
-    engines: {node: '>=20'}
-
   aria-query@5.3.1:
     resolution: {integrity: sha512-Z/ZeOgVl7bcSYZ/u/rh0fOpvEpq//LZmdbkXyc7syVzjPAhfOa9ebsdTSjEBDU4vs5nC98Kfduj1uFo0qyET3g==}
     engines: {node: '>= 0.4'}
@@ -1013,6 +1009,10 @@ packages:
   sirv@3.0.2:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
     engines: {node: '>=18'}
+
+  smellcheck@0.2.0:
+    resolution: {integrity: sha512-jgv+IXXL41MZVKxTtHf7/v+B1DXrxUKkWinynJbpVaBK2ulBr54ntZoVtVR9+CRNhI+KBLIj2Eh4p8LiwKHrvA==}
+    engines: {node: '>=20'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -1521,8 +1521,6 @@ snapshots:
 
   acorn@8.18.0: {}
 
-  aibreze@0.1.5: {}
-
   aria-query@5.3.1: {}
 
   axobject-query@4.1.0: {}
@@ -1826,6 +1824,8 @@ snapshots:
       '@polka/url': 1.0.0-next.29
       mrmime: 2.0.1
       totalist: 3.0.1
+
+  smellcheck@0.2.0: {}
 
   source-map-js@1.2.1: {}
 

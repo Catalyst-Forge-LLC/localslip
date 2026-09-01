@@ -21,7 +21,7 @@ This repository uses **ForgeTrail Lite**. Full protocol: `.forgetrail/FORGETRAIL
 ## Conventions
 
 - Package manager: **pnpm**. Language: **TypeScript ESM**. Dashboard port **54321**. Live data **`~/.localslip/`** (`LOCALSLIP_HOME`; `LOCALBERTH_HOME` still accepted). Public name **LocalSlip**; CLI **`localslip`** only. Site **localslip.dev**.
-- Public copy: **aiBreze** (`docs/aibreze-overlay.md`). Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`.
+- Public copy: **Smell Check** (`docs/smellcheck-overlay.md`). Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`.
 
 ## Session start
 

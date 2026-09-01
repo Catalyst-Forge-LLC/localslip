@@ -25,7 +25,7 @@ SvelteKit 5 + Tailwind 4 + pnpm + TypeScript ESM + `@sveltejs/adapter-node` + SQ
 - `src/lib/server/observe.ts` — OS listen table (read-only)
 - `src/lib/server/firewall/` — netsh (named rules), pf anchor, ufw comments / firewalld rich rules; loopback skips inbound
 - `src/routes/` — local dashboard (not localslip.dev)
-- Public copy: `docs/aibreze-overlay.md`
+- Public copy: `docs/smellcheck-overlay.md`
 - `site/` — FilePress explainer
 
 ## Conventions

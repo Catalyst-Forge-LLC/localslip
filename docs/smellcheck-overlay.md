@@ -1,6 +1,6 @@
-# LocalSlip aiBreze overlay
+# LocalSlip Smell Check overlay
 
-Point at `aibreze` (`node_modules/aibreze/rules/core.md`). Do not fork core.
+Point at `smellcheck` (`node_modules/smellcheck/rules/core.md`). Do not fork core.
 
 ## Pronouns
 
@@ -28,7 +28,7 @@ Point at `aibreze` (`node_modules/aibreze/rules/core.md`). Do not fork core.
 
 ## House extras
 
-- Site copy follows `aibreze` `landing.md`. Max 2 teaching antitheses (site vs dashboard; not a reverse proxy). Spend the pairing once per page. Public pages mention [LocalHelm](https://localhelm.dev) once, with a link. Do not ride “the wheel” through every heading. The npm README may keep it next to the pairing.
+- Site copy follows `smellcheck` `landing.md`. Max 2 teaching antitheses (site vs dashboard; not a reverse proxy). Spend the pairing once per page. Public pages mention [LocalHelm](https://localhelm.dev) once, with a link. Do not ride “the wheel” through every heading. The npm README may keep it next to the pairing.
 - Brand-metaphor budget: **slip** and **Local DNS for ports**. Do not ride harbor through every heading. Home may keep one `.dict` gloss of **slip** under the hero (noun: a boat's allotted place at a dock). The npm README may keep the same line as a blockquote. That is the definition, not a third heading.
 - README is the npm page: short install, pointer to [docs](https://localslip.dev/docs). Flag lists live under `/docs`, not the README.
 - “Harbor board” is house slang. Public pages say dashboard or board.
