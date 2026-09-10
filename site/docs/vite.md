@@ -18,4 +18,8 @@ export default defineConfig({
 
 If the name is missing and you pass a fallback, you get `127.0.0.1` and that port. If there is no fallback, it throws.
 
-For a phone tile, start Vite with `--host` (or `server.host: true`) so the process listens past loopback.
+`strictPort: true` is required for the stable mapping. Without it Vite can pick another port and ignore the claim.
+
+If the claimed port is busy, Vite exits. LocalSlip does not move the lease. Use `localslip ls` and `localslip scan` to see the claim versus the listener.
+
+For a phone tile, start Vite with `--host` (or `server.host: true`) so the process listens past loopback. A loopback claim does not stop you from doing that. `--lan` is what records the intended bind and firewall rule.

@@ -1,12 +1,12 @@
 ---
 title: About
-description: Local DNS for ports, not a reverse proxy.
+description: Named local port registry, not DNS and not a reverse proxy.
 order: 3
 ---
 
-LocalSlip is **local DNS for ports**. Names map to TCP numbers on this machine, the way DNS maps names to addresses.
+LocalSlip is a **named local port registry**. Names map to TCP numbers on this machine. You still type the port.
 
-It is not a reverse proxy. It does not give you `fizzbuzz.localhost` URLs. You still type the port.
+It is not DNS. It is not a reverse proxy. It does not give you `fizzbuzz.localhost` URLs. A claim does not reserve the port at the OS.
 
 [LocalHelm](https://localhelm.dev) hosts start and stop. This CLI still owns the lease.
 

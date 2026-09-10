@@ -2,10 +2,10 @@ import { defineFilepressConfig } from 'getfilepress';
 
 export default defineFilepressConfig({
 	title: 'LocalSlip',
-	description: 'Local DNS for ports.',
+	description: 'Named local port registry for development apps.',
 	url: 'https://localslip.dev',
 	author: 'Catalyst Forge, LLC',
-	tagline: 'Local DNS for ports',
+	tagline: 'Named local port registry',
 	lede: 'Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do not.',
 	logo: '/logo.png',
 	ogImage: '/logo.png',
