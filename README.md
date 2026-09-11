@@ -4,15 +4,15 @@
 
 # LocalSlip
 
-**Named local port registry.**
+**Local DNS for ports.**
 
 > **slip** *n.* *a boat's allotted place at a dock.*
 
 Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do not.
 
-**localhost** is the machine. **LocalSlip** is the slip. [LocalHelm](https://localhelm.dev) is the wheel.
+**localhost** is the machine; **LocalSlip** is the slip. [LocalHelm](https://localhelm.dev) is the wheel.
 
-Formerly **LocalBerth**. Install `localslip`. This is a stored name-to-port map, not DNS and not a reverse proxy.
+Formerly **LocalBerth**. Install `localslip`.
 
 **Docs:** [localslip.dev/docs](https://localslip.dev/docs) · **Site:** [localslip.dev](https://localslip.dev)
 
@@ -32,14 +32,14 @@ or `pnpm add -g localslip`. Node.js 20+.
 localslip claim foo --port 5173
 localslip claim bar --port 5174
 localslip get foo
-localslip serve
+localslip serve --host 0.0.0.0
 ```
 
-`get` prints only the port, for scripts. `--lan` on **claim** stores bind `0.0.0.0` and syncs an inbound firewall allow. It does not start the app. Dashboard: `http://127.0.0.1:54321`. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
+`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
 
 ## What you get
 
-Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port with `strictPort`. A claim is a registry row, not an OS reservation.
+Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port.
 
 Live data is `~/.localslip/`. First run copies `~/.localberth` if that folder still exists.
 

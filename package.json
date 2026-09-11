@@ -3,7 +3,7 @@
 	"version": "0.2.16",
   "private": false,
   "type": "module",
-  "description": "Named local port registry. Named TCP port leases for a local machine.",
+  "description": "Local DNS for ports. Named TCP port leases for a local machine.",
   "license": "Apache-2.0",
   "author": "Catalyst Forge, LLC",
   "homepage": "https://localslip.dev",
