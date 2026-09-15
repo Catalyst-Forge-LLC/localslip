@@ -43,9 +43,9 @@ Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Lin
 
 Live data is `~/.localslip/`. First run copies `~/.localberth` if that folder still exists.
 
-<!-- xfacts-nutrition-label -->
+<!-- xfacts-label -->
 
-## Nutrition label
+## xFacts label
 
 - **AppFacts:** [viewer](https://appfacts.dev/v#af1.eNpNUkFu2zAQ_ArBUwtIdprefGphIEhaJUCj3IqioKiNxJgiGe5KjmDk71lSqt2TgOHszOyOTnKSuy-FdGoAuZPWa2XRmiALSXNI0BEaoUIQn-r68TPDSIpG5AelyUzAiDUaHCbu96B0D-X15moh6oPcnaRVrhtVlwhPrFnraAIVop7AEhTih5rUP2xf1_zQg7WFuH26r1gmjo5MDvfgW9i8IGPPkeMefWR5ucj8NJQtZ2tcl4yUsUfj2qTID60i1aicsf5VGUqxe4-0kPPW8p1pEHiz3yfpGP2GWfkFt4csHtZjnM3Fs4-CehCtwr7xKrasscw2QASxxFfLXl_X4QARDRI4Ekg-8kWyQvCRhAVOh-d5WuNrxHV4XU2MZFhzvjDxbWVcbivgDTQTvcsG--pOYH5ggz-FbEZj21QMt3XgFH8H5fgTU0QXhlQ9ICXPfICSK-UiC6kNY6NrDWrrEdK2fMQBwtJtTxRwt92e_6FNC1MqEIJHwwvP_5E6Q_3YbLQftnvuxs5I5Y2PHZRVtb9IyPcPZOHjHg) · [raw](https://github.com/Catalyst-Forge-LLC/localslip/blob/main/APP_FACTS.md)
 
