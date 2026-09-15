@@ -27,24 +27,26 @@ $env:PORT = localslip get notes
 Same claims after you start the apps in either order.
 
 ```ts
-// notes/vite.config.ts
-import { localslipListen } from 'localslip/port';
-const listen = localslipListen('notes', 5173);
-export default defineConfig({
-  server: { host: listen.host, port: listen.port, strictPort: true }
-});
+// notes/vite.config.ts — see /docs/vite
+server: { host: '127.0.0.1', port: localslipPort('notes', 5173), strictPort: true }
 ```
 
 ```ts
 // shop/vite.config.ts
-import { localslipListen } from 'localslip/port';
-const listen = localslipListen('shop', 5174);
-export default defineConfig({
-  server: { host: listen.host, port: listen.port, strictPort: true }
-});
+server: { host: '127.0.0.1', port: localslipPort('shop', 5174), strictPort: true }
 ```
 
 Start `shop` first, then `notes`, or the other way around. `notes` is still 5173. `shop` is still 5174. LocalHelm is optional. You can start the processes yourself.
+
+## FilePress
+
+Lease name = site `package.json` `name`. Claim, then let FilePress read it:
+
+```bash
+localslip claim detangler-site --port 5203 && filepress dev --host 0.0.0.0
+```
+
+Do not pass `--port`. See [FilePress](/docs/filepress).
 
 If something else is already bound to 5173, the notes app exits instead of moving to 5175. That is the occupied-port outcome. Pass `--or-next` only when you want a different number recorded.
 

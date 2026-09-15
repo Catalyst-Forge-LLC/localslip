@@ -2,21 +2,30 @@
 title: Vite
 ---
 
-Pin `host` and `port` from the lease. Vite’s default host is `localhost`, which on Windows is often `[::1]` only while the claim is `127.0.0.1`. Same port, two sockets.
+Do not add the `localslip` npm package just to read a port. That package pulls `better-sqlite3`. Use the CLI (already on PATH if you claimed the slip):
 
 ```ts
-import { localslipListen } from 'localslip/port';
+import { spawnSync } from 'node:child_process';
 
-const listen = localslipListen('foo', 5173);
+function localslipPort(name: string, fallback: number): number {
+	const r = spawnSync('localslip', ['get', name], {
+		encoding: 'utf8',
+		timeout: 5000,
+		windowsHide: true,
+		shell: process.platform === 'win32',
+	});
+	const n = Number((r.stdout || '').trim());
+	return Number.isInteger(n) && n > 0 ? n : fallback;
+}
 
 export default defineConfig({
-	server: { host: listen.host, port: listen.port, strictPort: true }
+	server: { host: '127.0.0.1', port: localslipPort('foo', 5173), strictPort: true }
 });
 ```
 
-`localslipPort(name, fallback)` still returns just the number.
+Pin `host` to `127.0.0.1`. Vite’s default `localhost` is often `[::1]` on Windows while the claim is IPv4.
 
-If the name is missing and you pass a fallback, you get `127.0.0.1` and that port. If there is no fallback, it throws.
+`import { localslipListen } from 'localslip/port'` is only for the LocalSlip app itself. It opens the lease database.
 
 `strictPort: true` is required for the stable mapping. Without it Vite can pick another port and ignore the claim.
 

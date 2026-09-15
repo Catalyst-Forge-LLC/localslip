@@ -51,5 +51,7 @@ The domain never serves leases.
 ## Next
 
 - [Install](/docs/install) — npm or a checkout
-- [Quick start](/docs/quick-start) — claim, get, serve, reboot-order
+- [Quick start](/docs/quick-start) — claim, get, Vite, FilePress
+- [Vite](/docs/vite) — `localslip get` in `vite.config`
+- [FilePress](/docs/filepress) — claim, then `filepress dev`
 - [Commands](/docs/commands) — full reference

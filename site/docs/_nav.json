@@ -14,7 +14,8 @@
 				{ "id": "claim", "title": "Claim" },
 				{ "id": "dashboard", "title": "Dashboard" },
 				{ "id": "firewall", "title": "Firewall" },
-				{ "id": "vite", "title": "Vite" }
+				{ "id": "vite", "title": "Vite" },
+				{ "id": "filepress", "title": "FilePress" }
 			]
 		},
 		{
