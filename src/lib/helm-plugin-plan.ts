@@ -15,12 +15,13 @@ export type HelmLifecycleAction =
 	| 'recipe-all'
 	| 'quiet'
 	| 'family-start'
-	| 'family-stop';
+	| 'family-stop'
+	| 'claim';
 
 export type HelmLifecyclePlanRow = {
 	id: string;
 	writes: boolean;
-	action: 'start' | 'stop' | 'park' | 'unpark' | 'recipe' | 'skip';
+	action: 'start' | 'stop' | 'park' | 'unpark' | 'recipe' | 'claim' | 'skip';
 	reason: string;
 	port: number;
 	host: string;
@@ -57,6 +58,43 @@ function wantedNames(board: Board, action: HelmLifecycleAction, ids: string[]): 
 }
 
 export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids: string[]): HelmLifecyclePlan {
+	if (action === 'claim') {
+		const names = [...new Set(ids.map((id) => id.trim()).filter(Boolean))];
+		const known = new Map(
+			board.leaseRows
+				.map((row) => row.lease)
+				.filter((lease): lease is NonNullable<typeof lease> => Boolean(lease))
+				.map((lease) => [lease.name, lease]),
+		);
+		return {
+			action,
+			rows: names.map((name) => {
+				const existing = known.get(name);
+				if (existing) {
+					return {
+						id: name,
+						writes: false,
+						action: 'skip',
+						reason: `already claimed :${existing.port}`,
+						port: existing.port,
+						host: existing.bind,
+						listening: false,
+						recipe: existing.startCommand,
+					};
+				}
+				return {
+					id: name,
+					writes: true,
+					action: 'claim',
+					reason: `localslip claim ${name} --or-next`,
+					port: 0,
+					host: '127.0.0.1',
+					listening: false,
+					recipe: null,
+				};
+			}),
+		};
+	}
 	const want = wantedNames(board, action, ids);
 	const rows: HelmLifecyclePlanRow[] = [];
 	const life = startStopAction(action);

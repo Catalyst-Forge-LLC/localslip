@@ -3,7 +3,7 @@
  * Invoked by localhelm.plugin.mjs in this repo.
  *
  *   (no args)                         → boards
- *   plan --action start|stop|park|unpark|recipe|recipe-all|quiet|family-start|family-stop [--names a,b]
+ *   plan --action start|stop|park|unpark|recipe|recipe-all|quiet|family-start|family-stop|claim [--names a,b]
  *   apply --action … [--names a,b]
  *
  * Must process.exit: start detaches a child, and tsx/sqlite handles can keep
@@ -15,6 +15,8 @@ import { getBoard } from '../src/lib/server/board.ts';
 import { getDb } from '../src/lib/server/db.ts';
 import { startLease, stopLease } from '../src/lib/server/lifecycle.ts';
 import { parkLease, unparkLease } from '../src/lib/server/park.ts';
+import { claim } from '../src/lib/server/registry.ts';
+import { proposeRecipe } from '../src/lib/server/recipeGuess.ts';
 import { saveGuessRecipe } from '../src/lib/server/recipe-save.ts';
 
 const ACTIONS = new Set<HelmLifecycleAction>([
@@ -27,6 +29,7 @@ const ACTIONS = new Set<HelmLifecycleAction>([
 	'quiet',
 	'family-start',
 	'family-stop',
+	'claim',
 ]);
 
 function takeOpt(args: string[], name: string): string | undefined {
@@ -62,6 +65,19 @@ async function applyRow(
 	if (action === 'unpark') {
 		const result = await unparkLease(id);
 		return { id: result.name, action: result.action, reason: result.reason, writes: result.action !== 'skip' };
+	}
+	if (action === 'claim') {
+		const guess = proposeRecipe(id);
+		const { lease, fallbackFrom } = claim({
+			name: id,
+			orNext: true,
+			cwd: guess?.cwd,
+			command: guess?.command,
+		});
+		const reason = fallbackFrom
+			? `claimed :${lease.port} (pool; ${fallbackFrom} was taken)`
+			: `claimed :${lease.port}`;
+		return { id: lease.name, action: 'claim', reason, writes: true };
 	}
 	const result = saveGuessRecipe(id);
 	return { id: result.name, action: result.action, reason: result.reason, writes: result.action !== 'skip' };

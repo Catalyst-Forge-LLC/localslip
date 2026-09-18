@@ -18,6 +18,7 @@ const ACTIONS = new Set([
 	'quiet',
 	'family-start',
 	'family-stop',
+	'claim',
 ]);
 
 function bridge(args = []) {

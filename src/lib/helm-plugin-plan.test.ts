@@ -121,4 +121,16 @@ describe('helm lifecycle plan', () => {
 		assert.equal(plan.rows.find((r) => r.id === 'quiet-site')?.writes, false);
 		assert.equal(plan.rows.find((r) => r.id === 'up')?.writes, false);
 	});
+
+	it('claims a named slip that is not already leased', () => {
+		const plan = helmLifecyclePlan(board, 'claim', ['coldeye-site', 'demo']);
+		assert.deepEqual(
+			plan.rows.map((r) => [r.id, r.writes, r.action]),
+			[
+				['coldeye-site', true, 'claim'],
+				['demo', false, 'skip'],
+			],
+		);
+		assert.match(plan.rows[0]?.reason ?? '', /localslip claim coldeye-site --or-next/);
+	});
 });
