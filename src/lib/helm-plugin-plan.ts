@@ -79,7 +79,7 @@ export function helmLifecyclePlan(board: Board, action: HelmLifecycleAction, ids
 						port: existing.port,
 						host: existing.bind,
 						listening: false,
-						recipe: existing.startCommand,
+						recipe: existing.startCommand ?? null,
 					};
 				}
 				return {
