@@ -29,11 +29,11 @@ It is **not** DNS. It does not give you `foo.localhost` URLs. It is **not** a re
 
 Without `--or-next`, a second name cannot take a port another lease owns. You can still claim a port that is already listening so you can name an app that is already up. That does not evict the listener.
 
-The Vite helper returns the claimed host and port and the documented config uses `strictPort: true`. The app fails if that port is busy. It does not silently take the next free port.
+The documented [Vite config](/docs/vite) reads the claimed port with `localslip get` and sets `strictPort: true`. The app fails if that port is busy. It does not silently take the next free port.
 
 ## Network scope
 
-Default claim bind is `127.0.0.1`. `--lan` changes the stored bind to `0.0.0.0` and asks for an inbound firewall allow. It does not launch the app. `localslip serve --host 0.0.0.0` only exposes the dashboard. The consuming app reads host and port from `localslipListen('foo', 5173)` or `localslip get foo`.
+Default claim bind is `127.0.0.1`. `--lan` changes the stored bind to `0.0.0.0` and asks for an inbound firewall allow. It does not launch the app. `localslip serve --host 0.0.0.0` only exposes the dashboard. The consuming app reads the port from `localslip get foo` and must set its own host to match.
 
 Allocating a port does not protect a service that you start on all interfaces yourself.
 
@@ -50,8 +50,8 @@ The domain never serves leases.
 
 ## Next
 
-- [Install](/docs/install) — npm or a checkout
-- [Quick start](/docs/quick-start) — claim, get, Vite, FilePress
-- [Vite](/docs/vite) — `localslip get` in `vite.config`
-- [FilePress](/docs/filepress) — claim, then `filepress dev`
-- [Commands](/docs/commands) — full reference
+- [Install](/docs/install): npm or a checkout
+- [Quick start](/docs/quick-start): claim, get, Vite, FilePress
+- [Vite](/docs/vite): `localslip get` in `vite.config`
+- [FilePress](/docs/filepress): claim, then `filepress dev`
+- [Commands](/docs/commands): full reference

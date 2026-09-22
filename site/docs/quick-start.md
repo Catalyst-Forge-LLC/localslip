@@ -27,7 +27,7 @@ $env:PORT = localslip get notes
 Same claims after you start the apps in either order.
 
 ```ts
-// notes/vite.config.ts — see /docs/vite
+// notes/vite.config.ts (localslipPort from /docs/vite)
 server: { host: '127.0.0.1', port: localslipPort('notes', 5173), strictPort: true }
 ```
 

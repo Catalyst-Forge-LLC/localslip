@@ -4,11 +4,11 @@
 
 # LocalSlip
 
-**Local DNS for ports.**
+**A named port registry for local development.**
 
 > **slip** *n.* *a boat's allotted place at a dock.*
 
-Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do not.
+Vite hands out 5173, then 5174. Reboot, and they swap. Name the port so they do not. A claim is a record in `~/.localslip/`, not an OS reservation: another process can still bind the port, so the app has to read its claim.
 
 **localhost** is the machine; **LocalSlip** is the slip. [LocalHelm](https://localhelm.dev) is the wheel.
 
@@ -20,26 +20,58 @@ Formerly **LocalBerth**. Install `localslip`.
 
 ```bash
 npm i -g localslip
-localslip claim foo --port 5173
-localslip serve
 ```
 
-or `pnpm add -g localslip`. Node.js 20+.
+or `pnpm add -g localslip`. Node.js 20+. `localslip serve` opens the dashboard at `http://127.0.0.1:54321`.
 
-## Quick start
+## Claim a port, then make the app read it
+
+Two steps. The claim only writes a record. The app keeps its old port until its config reads the claim.
+
+**1. Record the claim.**
 
 ```bash
-localslip claim foo --port 5173
-localslip claim bar --port 5174
-localslip get foo
+localslip claim notes --port 5173
+localslip get notes      # prints 5173
+```
+
+**2. Make the app read it.** In the app's `vite.config.ts`:
+
+```ts
+import { execSync } from 'node:child_process';
+import { defineConfig } from 'vite';
+
+function localslipPort(name: string, fallback: number): number {
+	try {
+		const out = execSync(`localslip get ${name}`, { encoding: 'utf8', timeout: 5000, windowsHide: true });
+		const port = Number(out.trim());
+		return Number.isInteger(port) && port > 0 ? port : fallback;
+	} catch {
+		return fallback;
+	}
+}
+
+export default defineConfig({
+	// keep your existing plugins
+	server: { host: '127.0.0.1', port: localslipPort('notes', 5173), strictPort: true },
+});
+```
+
+`strictPort: true` makes Vite exit when the port is busy instead of moving on. The fallback applies only when `localslip get` fails (LocalSlip not installed, or no claim). Do not import `localslip/port` in your app; it opens the lease database and pulls `better-sqlite3`. See [Vite](https://localslip.dev/docs/vite).
+
+## More commands
+
+```bash
+localslip claim shop --port 5174
+localslip claim notes --port 5173 --lan
 localslip serve --host 0.0.0.0
 ```
 
-`get` prints only the port, for scripts. `--lan` binds `0.0.0.0` and syncs an inbound firewall allow. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
+`--lan` stores bind `0.0.0.0` and syncs an inbound firewall allow. It does not start the app. `serve --host 0.0.0.0` exposes only the dashboard. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
 
 ## What you get
 
-Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Linux. A Vite helper that pins host and port.
+Named leases. A dashboard on **54321**. Firewall sync on Windows, macOS, and Linux. A documented Vite config that reads the claim and pins host and port.
 
 Live data is `~/.localslip/`. First run copies `~/.localberth` if that folder still exists.
 
