@@ -92,3 +92,5 @@ pnpm cli ls
 Site (FilePress + docs mount): `pnpm --dir site ship`
 
 Apache-2.0 · Catalyst Forge, LLC
+
+[See the rest of the Catalyst Forge shelf.](https://catalystforge.com/tools/)

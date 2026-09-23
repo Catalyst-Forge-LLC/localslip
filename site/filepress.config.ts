@@ -19,6 +19,7 @@ export default defineFilepressConfig({
 		{ label: 'LocalHelm', href: 'https://localhelm.dev' }
 	],
 	footerLinks: [
+		{ label: 'See the rest of the Catalyst Forge shelf.', href: 'https://catalystforge.com/tools/' },
 		{ label: 'Docs', href: '/docs' },
 		{ label: 'Notes', href: '/writing' },
 		{ label: 'Install', href: '/install' },
