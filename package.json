@@ -1,6 +1,6 @@
 {
   "name": "localslip",
-	"version": "0.2.24",
+	"version": "0.2.25",
   "private": false,
   "type": "module",
   "description": "Named TCP port leases for a local machine.",
