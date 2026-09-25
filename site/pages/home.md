@@ -1,5 +1,5 @@
 ---
-title: Named local ports
+title: The same port each time the app starts.
 description: Named local port registry for development apps.
 ---
 
