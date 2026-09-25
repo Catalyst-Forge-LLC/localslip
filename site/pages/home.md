@@ -15,7 +15,7 @@ Name the port so that does not happen. `notes` stays on 5173. `shop` stays on 51
 
 ## Claim a port, then make the app read it
 
-These are two separate steps. A claim only writes a record. The app keeps its old port until its config reads the claim.
+Creating a claim does not start or reconfigure the app. Add the integration, then start the app and confirm the printed URL. The app keeps its old port until its config reads the claim.
 
 **1. Record the claim.**
 
