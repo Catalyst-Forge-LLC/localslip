@@ -1,5 +1,5 @@
 ---
-title: LocalSlip
+title: Named local ports
 description: Named local port registry for development apps.
 ---
 
@@ -12,6 +12,11 @@ Give local development apps stable, named port assignments. LocalSlip lets your 
 You start a Svelte app. Vite takes **5173**. You start a second one. It takes **5174**. After a reboot you start them in the other order. The ports swap. Bookmarks, firewall rules, and the phone now hit the wrong app.
 
 Name the port so that does not happen. `notes` stays on 5173. `shop` stays on 5174. The app asks LocalSlip for its number instead of hoping Vite picked the same one again.
+
+<div class="cta-row">
+  <a class="cta cta-primary" href="/install">Install LocalSlip</a>
+  <a class="cta cta-secondary" href="https://github.com/Catalyst-Forge-LLC/localslip">View on GitHub</a>
+</div>
 
 ## Claim a port, then make the app read it
 
