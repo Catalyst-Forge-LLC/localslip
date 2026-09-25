@@ -5,7 +5,7 @@ export default defineFilepressConfig({
 	description: 'Named local port registry for development apps.',
 	url: 'https://localslip.dev',
 	author: 'Catalyst Forge, LLC',
-	tagline: 'A named registry for local development ports.',
+	tagline: 'A named registry for local ports.',
 	lede: 'Claim · lookup · same port',
 	logo: '/logo.png',
 	ogImage: '/logo.png',
