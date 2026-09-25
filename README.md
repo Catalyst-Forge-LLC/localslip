@@ -57,6 +57,8 @@ export default defineConfig({
 });
 ```
 
+This example reads the claimed port and binds Vite to `127.0.0.1`. A LAN claim records your intended wider bind, but the application must be configured to use that bind separately. This sample does not read the stored host.
+
 `strictPort: true` makes Vite exit when the port is busy instead of moving on. The fallback applies only when `localslip get` fails (LocalSlip not installed, or no claim). Do not import `localslip/port` in your app; it opens the lease database and pulls `better-sqlite3`. See [Vite](https://localslip.dev/docs/vite).
 
 ## More commands

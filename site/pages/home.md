@@ -48,6 +48,8 @@ export default defineConfig({
 });
 ```
 
+This example reads the claimed port and binds Vite to `127.0.0.1`. A LAN claim records your intended wider bind, but the application must be configured to use that bind separately. This sample does not read the stored host.
+
 `strictPort: true` makes Vite exit when 5173 is busy instead of moving to 5174. The fallback applies only when `localslip get` fails, for example when LocalSlip is not installed or the claim does not exist. More in [Vite](/docs/vite).
 
 **localhost** is the machine. **LocalSlip** is the slip. The mechanism is a named registry on this computer (`~/.localslip/`). It is not DNS, not a reverse proxy, and not an OS port reservation. Another process can still bind the port. You still type the port.
