@@ -14,7 +14,7 @@ This repository uses **ForgeTrail Lite**. Full protocol: `.forgetrail/FORGETRAIL
 - **Phase 1 before code:** do not write project code until `docs/PHASE_1_BRIEF.md` is **locked** and stack is agreed.
 - **Phase 2 = full runnable spine** in one pass (CLI get/claim/ls/scan + dashboard + firewall hook).
 - **Log decisions** in `.forgetrail/workflow_tracking.json → decisions[]`.
-- **Git commits:** plain `-m` or `-F` only; no unrequested attribution trailers.
+- **Git commits:** plain `-m` or `-F` only.
 - **Lists:** numbered = order; bullets = parallel; letters = pick-one.
 - **No interactive CLIs** without every flag.
 
