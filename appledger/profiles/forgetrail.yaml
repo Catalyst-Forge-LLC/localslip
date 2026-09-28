@@ -1,0 +1,131 @@
+profile: forgetrail
+profile_version: 0.1.0
+archetype: product
+project_status: active
+current_phase_instance: phase-67c064f28401
+phase_instances:
+  - id: phase-1bd49ed90130
+    phase: plan
+    status: not_started
+    started_at: 2026-08-18T00:00:00Z
+    completed_at: 2026-08-18T00:00:00Z
+    criteria:
+      - id: crit-1b8ff7975075
+        text: Product shape locked (leases + dashboard + firewall, observed rows,
+          LocalBerth, path /localberth)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-95f6a3db3812
+        text: PHASE_1_BRIEF.md locked (docs/)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-8bf7de790abe
+        text: Name collisions researched and recorded
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-bf1cd758cf03
+        text: Stack confirmed (same as Engram)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-f5b06ff51c5d
+        text: Data home ~/.localberth/ + dashboard port 54321 + Apache-2.0
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-677234635cf9
+        text: Public site = FilePress at site/ (localberth.com); app = published npm
+          localberth
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-fd5bef7da086
+        text: "npm name reserved: localberth@0.0.0 (2026-08-18)"
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-b04e90518e3e
+        text: "Cross-platform: CLI + scan + firewall on Windows / macOS / Linux"
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-144a531f3175
+        text: Public npm README is short (0.0.1)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+  - id: phase-65df5370e72e
+    phase: build
+    status: not_started
+    started_at: 2026-08-18T00:00:00Z
+    completed_at: 2026-08-18T00:00:00Z
+    criteria:
+      - id: crit-45f44866afa9
+        text: App runs with pnpm (dashboard :54321, CLI get/claim/ls/scan)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-f9bef8bd5306
+        text: "Hero flow: claim → get → dashboard → firewall command on miss"
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-3f8a12b4a1d1
+        text: FilePress site/ builds
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-56a3a538c3f5
+        text: CONTEXT_PROMPT.md / README / TODO from brief
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+  - id: phase-67c064f28401
+    phase: stabilize
+    status: in_progress
+    started_at: 2026-08-18T00:00:00Z
+    criteria:
+      - id: crit-6a6c05c0c17d
+        text: README matches the real CLI (install, serve, firewall, Vite helper,
+          checkout)
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-6983484f1980
+        text: "Sad paths: missing get, busy serve port, registry tests"
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-efaef635cf00
+        text: claim --or-next when port is leased or listening; claim flags documented
+        status: met
+        evidence_refs: []
+        disposition_reason: Imported as a historical assertion. Verification was not recorded.
+      - id: crit-16ad50545578
+        text: Elevated firewall sync dogfood for non-loopback leases
+        status: pending
+        evidence_refs: []
+      - id: crit-352ae57fc628
+        text: Critical bugs from further dogfood
+        status: pending
+        evidence_refs: []
+  - id: phase-c9d2e8f99e10
+    phase: iterate
+    status: not_started
+    criteria: []
+  - id: phase-a3c2ead17054
+    phase: refine
+    status: not_started
+    criteria: []
+  - id: phase-380029fbbb62
+    phase: align
+    status: not_started
+    criteria: []
+  - id: phase-cca13442d6ba
+    phase: harden
+    status: not_started
+    criteria: []
+transitions: []
