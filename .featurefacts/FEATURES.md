@@ -1,4 +1,4 @@
-# Feature register: localslip
+# Feature register: LocalSlip
 
 Scan `scan-init`. Candidates are not confirmed capabilities.
 

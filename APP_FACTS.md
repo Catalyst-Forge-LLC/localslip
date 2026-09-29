@@ -1,6 +1,6 @@
 ---
 app_facts_version: 0.1.0
-name: localslip
+name: LocalSlip
 type: "web app (SSR)"
 status: active
 license: Apache-2.0
@@ -32,7 +32,7 @@ generated:
   inputs_fingerprint: 781cbab31d853ca4
 ---
 
-# localslip
+# LocalSlip
 
 `web app (SSR)` · **active** · Apache-2.0
 
@@ -68,4 +68,4 @@ Curated stack label for this repository — aimed at an under-a-minute skim.
 ---
 *Generated with [AppFacts](https://appfacts.dev) · Scan `APP_FACTS.png` or open the [visual label][appfacts-label]*
 
-[appfacts-label]: https://appfacts.dev/v#af1.eNpNUsuu0zAQ_RVrViA5LY9dVqBKiEdAgtwdQmjizE1849jGM0lvVPXfkZPQsh2f18zxBWYoX2vwOBKU4IJBx85G0CBLzKMzNQpjVC_q-sdL0MCCMjGUgEbsTKDBWUOeM_Z9RNNT8ebwagOaAcoLOPTdhF0GPCyRapNsFK3qmZyQVp9xxn-zU11rVffknFYfH75WoCFNXuwa7lto6fDEoOEx4UjnkAYoYZP5YmW1XJz1XTZC687Wt1kRNLQo2OCasf5eWcmx-8Cygdet4aqhpchQ_ryAhxLe8ar8xMdhFY_7MW7m6jEkJT2pFrlvAqYWrnrjNiRCqeA_zgq93cmRElsW8qJYQsKOVoUYkihHyMQ3vuzxDfNO3ldTk1hnZbkj-XlH3G-r6JnMJDb41eBUfVK8PjBcf2loJuvaXExEM2BHv0f02FHKEX0cc_XEkj3XAxSmJzOABmOhhMm3lo0LTHlb6MNIceu2F4lcHo-3P3Roac4FUgxsJaTlP1BnpZ-agwnj8YSCbmEpPoTUUVFVp7sEXP8CZOHjHg
+[appfacts-label]: https://appfacts.dev/v#af1.eNpNUU2P0zAQ_SvWnEBy2wVuOYEqIRYCEmRvCKGJM5vM1rGNZ9JuVPW_I6dhy9V-X_PeGY5QvbEQcCSooI4OfeM5gQWdU3k6UWswJfOqaX68BguiqJNABeiUjwQWPDsKUrAfErqBNm-3d1egO0B1Bo-hn7AvgIc5UeMyJ7WmOZJXsuYzHvHf275prGkG8t6aTw9fa7CQp6C8hPsWO9o-CVh4zDjSKeYDVHCV-cK6WM6eQ1-MkP2JQ1cUwUKHii0uGZvvNWuJPUTRK9iXq-FioaMkUP08Q4AK3sui_CS7wyKe1jJezM1jzEYHMh3K0EbMHVzslduSKuWN_PGs9G4lJ8rCohTUiMaMPS0KKWY1nlBIXvi6xnciK3k9zUzKnnW-IeV5Rdy6NfRMblKOYTHY1_dGlg-Byy8L7cS-K8MkdAfs6feIAXvKJWJIY5meRIvnUsDGDeQOYMExVDCFjsX5KFSuhSGOlK7bDqpJqt1uaVM8p21HxzIgpSisMc__gXrWYWq3Lo67PSr6WXTzMeaeNnW9v0nA5S_A8uLe

@@ -2,7 +2,7 @@
   "schemaVersion": "0.2.0",
   "scan_id": "scan-init",
   "product": {
-    "name": "localslip",
+    "name": "LocalSlip",
     "type": "unknown",
     "status": "unknown"
   },
