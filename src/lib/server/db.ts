@@ -1,4 +1,5 @@
 import Database from 'better-sqlite3';
+import { isLoopbackBind } from '../binds.js';
 import { DASHBOARD_NAME, DASHBOARD_PORT, dbPath } from './paths.js';
 
 let dbSingleton: Database.Database | null = null;
@@ -63,18 +64,34 @@ function addColumn(db: Database.Database, table: string, column: string, sqlType
 
 function ensureSelfLease(db: Database.Database): void {
 	const row = db.prepare('SELECT name FROM leases WHERE name = ?').get(DASHBOARD_NAME);
-	if (row) return;
-	const legacy = db.prepare('SELECT name FROM leases WHERE name = ?').get('localberth');
-	if (legacy) {
-		db.prepare(
-			`UPDATE leases SET name = ?, notes = CASE WHEN notes = 'LocalBerth dashboard' THEN 'LocalSlip dashboard' ELSE notes END, updated_at = ? WHERE name = 'localberth'`
-		).run(DASHBOARD_NAME, new Date().toISOString());
-		return;
+	if (!row) {
+		const legacy = db.prepare('SELECT name FROM leases WHERE name = ?').get('localberth');
+		if (legacy) {
+			db.prepare(
+				`UPDATE leases SET name = ?, notes = CASE WHEN notes = 'LocalBerth dashboard' THEN 'LocalSlip dashboard' ELSE notes END, updated_at = ? WHERE name = 'localberth'`
+			).run(DASHBOARD_NAME, new Date().toISOString());
+		} else {
+			const taken = db.prepare('SELECT name FROM leases WHERE port = ?').get(DASHBOARD_PORT);
+			if (!taken) {
+				db.prepare(
+					`INSERT INTO leases (name, port, bind, protocol, kind, notes, firewall, updated_at)
+					 VALUES (?, ?, '0.0.0.0', 'tcp', 'always', 'LocalSlip dashboard', 'wanted', ?)`
+				).run(DASHBOARD_NAME, DASHBOARD_PORT, new Date().toISOString());
+			}
+		}
 	}
-	const taken = db.prepare('SELECT name FROM leases WHERE port = ?').get(DASHBOARD_PORT);
-	if (taken) return;
-	db.prepare(
-		`INSERT INTO leases (name, port, bind, protocol, kind, notes, firewall, updated_at)
-		 VALUES (?, ?, '127.0.0.1', 'tcp', 'always', 'LocalSlip dashboard', 'wanted', ?)`
-	).run(DASHBOARD_NAME, DASHBOARD_PORT, new Date().toISOString());
+	widenDashboardBind(db);
+}
+
+/** The dashboard socket is all interfaces. A leftover loopback claim would show a false mismatch. */
+function widenDashboardBind(db: Database.Database): void {
+	const row = db.prepare('SELECT bind FROM leases WHERE name = ?').get(DASHBOARD_NAME) as
+		| { bind: string }
+		| undefined;
+	if (!row || !isLoopbackBind(row.bind)) return;
+	db.prepare('UPDATE leases SET bind = ?, updated_at = ? WHERE name = ?').run(
+		'0.0.0.0',
+		new Date().toISOString(),
+		DASHBOARD_NAME
+	);
 }

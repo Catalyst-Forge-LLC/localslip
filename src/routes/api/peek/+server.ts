@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
-import { isLoopbackClient } from '$lib/binds';
+import { isOperatorFace } from '$lib/dashboard-url';
 import { parsePeekPort, peekLoopbackDenied, peekPayload } from '$lib/server/http-peek';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ url, getClientAddress }) => {
-	if (!isLoopbackClient(getClientAddress())) {
+export const GET: RequestHandler = async ({ url, getClientAddress, request }) => {
+	if (!isOperatorFace(getClientAddress(), request.headers.get('host'))) {
 		return json(peekLoopbackDenied(), { status: 403 });
 	}
 	const port = parsePeekPort(url.searchParams.get('port'));

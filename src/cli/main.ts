@@ -35,6 +35,8 @@ Usage:
   localslip serve [--host ADDR] [--port N]
   localslip server          same as serve
 
+serve binds 0.0.0.0 unless --host or HOST is set. http://127.0.0.1:54321 is the lease table. Any other host gets the visitor tiles.
+
 claim flags:
   --port N       request this TCP port (omit = next free from the pool)
   --bind ADDR    listen address (default 127.0.0.1)

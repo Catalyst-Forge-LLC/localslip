@@ -20,7 +20,7 @@ title: Commands
 | `localslip scan [--all]` | List listening sockets |
 | `localslip firewall sync` | Apply inbound rules for `--lan` leases |
 | `localslip firewall status` | Show rule state |
-| `localslip serve [--host ADDR] [--port N]` | Open the dashboard |
+| `localslip serve [--host ADDR] [--port N]` | Dashboard on all interfaces (54321). `--host` pins one address |
 | `localslip server` | Same as `serve` |
 
 ```bash

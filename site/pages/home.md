@@ -63,6 +63,6 @@ Start and stop also live on [LocalHelm](https://localhelm.dev). Claim, release, 
 
 A claim records loopback (`127.0.0.1`) unless you pass `--lan`. `--lan` stores bind `0.0.0.0` and tries to add an inbound firewall allow. It does not start the app or bind the app's socket. The app must honor the stored host and port.
 
-After you install, `localslip serve` opens the dashboard at `http://127.0.0.1:54321`.
+After you install, `localslip serve` listens on all interfaces. The lease table is `http://127.0.0.1:54321`. A Tailscale or LAN address shows the visitor tiles.
 
 [Docs](/docs) · [Install](/install) · [LocalHelm](https://localhelm.dev)

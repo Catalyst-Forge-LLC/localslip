@@ -3,7 +3,6 @@ import { createServer } from 'node:http';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { rowIsLan } from '../board-view.js';
-import { isLoopbackClient } from '../binds.js';
 import {
 	OPEN_TARGET,
 	isOperatorFace,
@@ -18,6 +17,7 @@ import { addressCaption } from '../address.js';
 import { machineCard } from '../machine.js';
 import { recipeHealth } from '../recipe-health.js';
 import { rowBindDisplay, rowDetailFields } from '../row-detail.js';
+import { dashboardListenLine, resolveDashboardHost } from './dashboard-host.js';
 import { parsePeekPort, peekLoopbackDenied, peekPayload } from './http-peek.js';
 import { visitorFeed } from './visitor-feed.js';
 import { DASHBOARD_PORT } from './paths.js';
@@ -722,7 +722,7 @@ ${COPY_SCRIPT}
 }
 
 export async function serveDashboard(opts: { host?: string; port?: number } = {}): Promise<void> {
-	const host = opts.host ?? process.env.HOST?.trim() ?? '127.0.0.1';
+	const host = resolveDashboardHost(opts.host);
 	const port = opts.port ?? Number(process.env.PORT || DASHBOARD_PORT);
 	const server = createServer(async (req, res) => {
 		try {
@@ -732,10 +732,9 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 			if (url.pathname === '/logo.png' && sendSiteAsset(res, 'logo.png', 'image/png')) return;
 			if (url.pathname === '/favicon.png' && sendSiteAsset(res, 'favicon.png', 'image/png')) return;
 			if (url.pathname === '/favicon.svg' && sendSiteAsset(res, 'favicon.svg', 'image/svg+xml')) return;
-			const loopback = isLoopbackClient(req.socket.remoteAddress);
 			const operator = isOperatorFace(req.socket.remoteAddress, req.headers.host);
 			if (url.pathname === '/api/peek') {
-				if (!loopback) {
+				if (!operator) {
 					res.writeHead(403, { 'content-type': 'application/json; charset=utf-8' });
 					res.end(JSON.stringify(peekLoopbackDenied()));
 					return;
@@ -757,7 +756,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 				return;
 			}
 			if (url.pathname === '/api/board') {
-				if (!loopback) {
+				if (!operator) {
 					res.writeHead(403, { 'content-type': 'application/json; charset=utf-8' });
 					res.end(JSON.stringify({ error: 'loopback only', line: 'Board API is loopback-only.' }));
 					return;
@@ -801,7 +800,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 			reject(err);
 		});
 		server.listen(port, host, () => {
-			console.error(`LocalSlip dashboard  http://${host}:${port}/`);
+			console.error(dashboardListenLine(host, port));
 			resolve();
 		});
 	});

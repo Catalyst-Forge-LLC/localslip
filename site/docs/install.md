@@ -19,7 +19,7 @@ localslip claim foo --port 5173
 localslip serve
 ```
 
-The dashboard is `http://127.0.0.1:54321`. Leases live in `~/.localslip/` on the machine that ran the CLI.
+The lease table is `http://127.0.0.1:54321`. `localslip serve` also listens on the other addresses of this machine, which show the visitor tiles. Leases live in `~/.localslip/` on the machine that ran the CLI.
 
 ## From a checkout
 

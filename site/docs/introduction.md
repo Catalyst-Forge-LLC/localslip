@@ -33,7 +33,7 @@ The documented [Vite config](/docs/vite) reads the claimed port with `localslip 
 
 ## Network scope
 
-Default claim bind is `127.0.0.1`. `--lan` changes the stored bind to `0.0.0.0` and asks for an inbound firewall allow. It does not launch the app. `localslip serve --host 0.0.0.0` only exposes the dashboard. The consuming app reads the port from `localslip get foo` and must set its own host to match.
+Default claim bind is `127.0.0.1`. `--lan` changes the stored bind to `0.0.0.0` and asks for an inbound firewall allow. It does not launch the app. `localslip serve` listens on all interfaces. `http://127.0.0.1:54321` is the lease table. Any other host shows the visitor tiles. The consuming app reads the port from `localslip get foo` and must set its own host to match.
 
 Allocating a port does not protect a service that you start on all interfaces yourself.
 

@@ -94,7 +94,7 @@ _Same stack as Engram. Locked 2026-08-18._
 | CLI runner | `tsx` / `package.json` bin `localberth` | **confirmed** | |
 | DB | SQLite (`better-sqlite3`) | **confirmed** | Leases + observed snapshots under `~/.localberth/` |
 | Auth | None | **confirmed** | Single operator |
-| App deploy | Local only (npm install) | **confirmed** | Dashboard default bind `127.0.0.1`; `0.0.0.0` optional for phone |
+| App deploy | Local only (npm install) | **confirmed** | Dashboard listens on `0.0.0.0`. Lease table is a loopback Host. Other hosts see visitor tiles |
 | License | Apache-2.0 | **confirmed** | Same as Engram / ForgeTrail |
 | Dashboard port | **54321** | **confirmed** | High, easy to remember (not Postgres 5432) |
 

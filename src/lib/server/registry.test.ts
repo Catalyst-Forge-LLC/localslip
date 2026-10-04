@@ -7,7 +7,7 @@ import { after, before, describe, it } from 'node:test';
 const home = mkdtempSync(join(tmpdir(), 'localslip-test-'));
 process.env.LOCALSLIP_HOME = home;
 
-const { resetDb } = await import('./db.js');
+const { getDb, resetDb } = await import('./db.js');
 const { claim, getLease, release, resolveClaimBind, setStartRecipe } = await import('./registry.js');
 
 describe('registry sad paths', () => {
@@ -85,6 +85,18 @@ describe('registry sad paths', () => {
 		});
 		assert.equal(lease.port, 7777);
 		assert.equal(fallbackFrom, undefined);
+	});
+
+	it('records the dashboard lease on all interfaces and widens an old loopback row', () => {
+		assert.equal(getLease('localslip')?.bind, '0.0.0.0');
+		assert.equal(getLease('localslip')?.port, 54321);
+		getDb().prepare(`UPDATE leases SET bind = '127.0.0.1' WHERE name = 'localslip'`).run();
+		resetDb();
+		assert.equal(getLease('localslip')?.bind, '0.0.0.0');
+		getDb().prepare(`UPDATE leases SET bind = '100.74.12.14' WHERE name = 'localslip'`).run();
+		resetDb();
+		assert.equal(getLease('localslip')?.bind, '100.74.12.14');
+		getDb().prepare(`UPDATE leases SET bind = '0.0.0.0' WHERE name = 'localslip'`).run();
 	});
 
 	it('stores a start recipe and keeps it on reclaim', () => {

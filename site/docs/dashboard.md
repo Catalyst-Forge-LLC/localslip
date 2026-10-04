@@ -4,10 +4,10 @@ title: Dashboard
 
 ```bash
 localslip serve
-localslip serve --host 0.0.0.0
+localslip serve --host 127.0.0.1
 ```
 
-Default bind is loopback on **54321**. `server` is an alias of `serve`.
+Default bind is all interfaces on **54321**. `server` is an alias of `serve`. `--host` pins one address.
 
 ## Operator
 

@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 	for (const [key, value] of Object.entries(env)) {
 		if (process.env[key] === undefined) process.env[key] = value;
 	}
-	const host = env.HOST?.trim() || process.env.HOST?.trim() || '127.0.0.1';
+	const host = env.HOST?.trim() || process.env.HOST?.trim() || '0.0.0.0';
 	const port = Number(env.PORT || process.env.PORT || 54321);
 
 	return {

@@ -56,16 +56,16 @@ If something else is already bound to 5173, the notes app exits instead of movin
 localslip serve
 ```
 
-Then visit `http://127.0.0.1:54321`. Loopback is the operator board. A phone on Tailscale or LAN sees the visitor tiles.
+Then visit `http://127.0.0.1:54321`. That Host is the lease table. A phone on Tailscale or LAN sees the visitor tiles.
 
 To reach an app from the phone, claim with `--lan` and start the app on the stored bind (`0.0.0.0`):
 
 ```bash
 localslip claim notes --port 5173 --lan
-localslip serve --host 0.0.0.0
+localslip serve
 ```
 
-`--lan` on claim is the lease and firewall. `--host` on serve is the dashboard only.
+`--lan` on claim is the lease and firewall. `serve` already listens on all interfaces. The phone still needs the app itself on `0.0.0.0`.
 
 ## See what is listening
 

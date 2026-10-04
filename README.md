@@ -22,7 +22,7 @@ Formerly **LocalBerth**. Install `localslip`.
 npm i -g localslip
 ```
 
-or `pnpm add -g localslip`. Node.js 20+. `localslip serve` opens the dashboard at `http://127.0.0.1:54321`.
+or `pnpm add -g localslip`. Node.js 20+. `localslip serve` listens on all interfaces and opens the lease table at `http://127.0.0.1:54321`. A Tailscale or LAN address shows the visitor tiles.
 
 ## Claim a port, then make the app read it
 
@@ -66,10 +66,10 @@ This example reads the claimed port and binds Vite to `127.0.0.1`. A LAN claim r
 ```bash
 localslip claim shop --port 5174
 localslip claim notes --port 5173 --lan
-localslip serve --host 0.0.0.0
+localslip serve
 ```
 
-`--lan` stores bind `0.0.0.0` and syncs an inbound firewall allow. It does not start the app. `serve --host 0.0.0.0` exposes only the dashboard. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
+`--lan` stores bind `0.0.0.0` and syncs an inbound firewall allow. It does not start the app. `localslip serve` listens on all interfaces. The lease table is `http://127.0.0.1:54321`. A Tailscale or LAN address shows the visitor tiles. Start, stop, park, and the rest live in the [docs](https://localslip.dev/docs).
 
 ## What you get
 
