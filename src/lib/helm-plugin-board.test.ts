@@ -70,6 +70,9 @@ describe('helm plugin boards', () => {
 			boards[0]?.rows[0]?.actions.map((act) => act.id),
 			['stop', 'park'],
 		);
+		assert.equal(boards[0]?.rows[0]?.cells.firewall, 'skipped');
+		assert.equal(boards[0]?.rows[0]?.cells.firewallLabel, 'private');
+		assert.match(boards[0]?.rows[0]?.cells.firewallTip ?? '', /Loopback/);
 		assert.equal(boards[0]?.rows[0]?.cells.recipe, '—');
 		assert.equal(boards[0]?.rows[0]?.cells.cwdOk, '—');
 		assert.equal(boards[0]?.rows[0]?.cells.log, 'No log yet — start once.');

@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { rowOpenUrl } from './dashboard-url.js';
+import { firewallLabel, firewallTip } from './firewall-label.js';
 import { recipeHealth } from './recipe-health.js';
 import { rowBindDisplay } from './row-detail.js';
 import { readLogTail } from './server/log-tail.js';
@@ -85,6 +86,10 @@ export function helmPluginBoards(board: Board): HelmPluginBoard[] {
 						listening: row.listening ? 'yes' : 'no',
 						process: processLabel(row),
 						firewall: row.lease?.firewall ?? '—',
+						firewallLabel: row.lease
+							? firewallLabel(row.lease.firewall, row.lease.bind)
+							: '—',
+						firewallTip: row.lease ? firewallTip(row.lease.firewall, row.lease.bind) : '',
 						conflict: row.conflict ? 'yes' : 'no',
 						recipe: cwd ? row.lease?.startCommand || 'pnpm serve' : '—',
 						cwdOk,
