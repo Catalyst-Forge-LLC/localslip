@@ -55,6 +55,7 @@ Rename: D37 + D38 + D39 + D42 + `docs/RENAME_TO_LOCALSLIP.md` (LocalBerth → Lo
 
 - Brief: `docs/PHASE_1_BRIEF.md`
 - Cheap surfaces (draft): `docs/specs/cheap-surfaces.md`. B1–B5 plus quiet / recipe health / `--guess-all`. Tippy on the board for Open, copy, and recipe facts. `localslip quiet` (alias `localslip quiet`) stops listening `*-site` (dashboard stays).
+- Slip HUD (draft): `docs/specs/slip-hud.md`. Board and Deck adopt LocalHelm’s sea-space-punk tokens. Spec only until locked.
 - Rename checklist: `docs/RENAME_TO_LOCALSLIP.md`
 - Tracking: `.forgetrail/workflow_tracking.json`
 - TODO: `TODO.md`
