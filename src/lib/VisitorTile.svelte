@@ -37,10 +37,7 @@
 	});
 
 	const favicon = $derived(!broken && iconIndex < candidates.length ? (candidates[iconIndex] ?? null) : null);
-
-	const tileClass =
-		'flex min-h-[9.5rem] flex-col overflow-hidden rounded-[10px] border bg-[var(--bg-elevated)] p-0 text-center text-[var(--text)] no-underline shadow-sm select-none [-webkit-touch-callout:none]';
-	const tileTone = $derived(here ? 'border-[var(--accent)]/35' : 'border-[var(--line)]');
+	const tileClass = $derived(`deck-tile hud-frame${here ? ' here' : ''}`);
 
 	function clearPress() {
 		if (pressTimer) clearTimeout(pressTimer);
@@ -82,15 +79,11 @@
 </script>
 
 {#snippet face()}
-	<span class="flex flex-1 flex-col items-center justify-center gap-2 px-3 pt-4 pb-3">
-		<span
-			class="relative flex size-12 items-center justify-center overflow-hidden rounded-xl bg-black/[0.06] text-lg font-semibold text-[var(--muted)]"
-			aria-hidden="true"
-		>
+	<span class="face">
+		<span class="icon" aria-hidden="true">
 			{letter}
 			{#if favicon && !broken}
 				<img
-					class="absolute inset-0 size-full object-contain"
 					src={favicon}
 					alt=""
 					onerror={() => {
@@ -100,20 +93,14 @@
 				/>
 			{/if}
 		</span>
-		<span class="w-full truncate text-sm font-medium">{copied ? 'Copied' : heading}</span>
+		<span class="title">{copied ? 'Copied' : heading}</span>
 	</span>
-	<span
-		class="flex h-[18%] min-h-7 w-full items-center justify-center bg-[var(--tile-band)] text-[var(--tile-band-ink)] {here
-			? 'text-xs font-medium'
-			: 'font-mono text-sm'}"
-	>
-		{here ? 'This app' : `:${port}`}
-	</span>
+	<span class="band">{here ? 'This app' : `:${port}`}</span>
 {/snippet}
 
 {#if href && !here}
 	<a
-		class="{tileClass} {tileTone} hover:bg-[var(--wash)]"
+		class={tileClass}
 		{href}
 		target={OPEN_TARGET}
 		rel="noopener"
@@ -128,7 +115,7 @@
 		{@render face()}
 	</a>
 {:else}
-	<div class="{tileClass} {tileTone}" aria-current={here ? 'page' : undefined}>
+	<div class={tileClass} aria-current={here ? 'page' : undefined}>
 		{@render face()}
 	</div>
 {/if}

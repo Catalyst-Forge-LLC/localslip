@@ -48,4 +48,6 @@ export type BoardRow = {
 	also: Observed[];
 	/** Last log lines for a named lease. Filled by getBoard. */
 	logTail?: { preview: string; text: string };
+	/** Recipe check from the server. The browser does not read the filesystem. */
+	recipe?: { detail: string; warn: boolean };
 };

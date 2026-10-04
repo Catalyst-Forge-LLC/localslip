@@ -16,18 +16,11 @@
 	const active = $derived(sort.key === col);
 </script>
 
-<th
-	class="sticky top-0 z-10 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-3.5 py-2.5"
-	aria-sort={active ? (sort.dir === 1 ? 'ascending' : 'descending') : 'none'}
->
-	<button
-		type="button"
-		class="inline-flex items-center gap-1 text-left hover:text-[var(--text)]"
-		onclick={() => onsort(col)}
-	>
+<th aria-sort={active ? (sort.dir === 1 ? 'ascending' : 'descending') : 'none'}>
+	<button type="button" onclick={() => onsort(col)}>
 		{label}
 		{#if active}
-			<span class="normal-case tracking-normal" aria-hidden="true">{sort.dir === 1 ? '↑' : '↓'}</span>
+			<span aria-hidden="true">{sort.dir === 1 ? '↑' : '↓'}</span>
 		{/if}
 	</button>
 </th>

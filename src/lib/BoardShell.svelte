@@ -9,7 +9,7 @@
 	}: { header: Snippet; children: Snippet; fill?: boolean } = $props();
 </script>
 
-<div class="flex h-dvh flex-col overflow-hidden">
+<div class="slip-chart flex h-dvh flex-col overflow-hidden">
 	<div class="shrink-0">
 		{@render header()}
 	</div>

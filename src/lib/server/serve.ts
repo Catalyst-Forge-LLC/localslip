@@ -1,6 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { dirname, join } from 'node:path';
+import { dirname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { rowIsLan } from '../board-view.js';
 import {
@@ -28,40 +28,102 @@ function esc(value: string): string {
 	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
-const SITE_STATIC = join(dirname(fileURLToPath(import.meta.url)), '../../../site/static');
-const PKG_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../..');
+const HERE = dirname(fileURLToPath(import.meta.url));
+const SITE_STATIC = join(HERE, '../../../site/static');
+const PKG_ROOT = join(HERE, '../../..');
 
-const FACE_CSS = `:root { --bg:#faf8f3; --elev:#fff; --line:#e7e2d8; --text:#1a1917; --muted:#4d4a44; --ok:#2a6f6a; --warn:#9a6b12; --tile-band:#000; --tile-band-ink:#faf8f3; }
-html,body { height:100%; overflow:hidden; }
-body { margin:0; background:var(--bg); color:var(--text); font:14px/1.4 ui-sans-serif,system-ui,sans-serif; }
+const LAYOUT_CSS = `html,body { height:100%; overflow:hidden; }
+body { margin:0; font:14px/1.4 ui-sans-serif,system-ui,sans-serif; }
 main { display:flex; flex-direction:column; height:100%; min-height:100dvh; padding:0; overflow:hidden; }
-.muted { color:var(--muted); }
-header { flex-shrink:0; margin:0; padding:.5rem 1.25rem; background:#000; color:var(--tile-band-ink); }
-header .ident { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .75rem; }
-header .brand { display:flex; flex-shrink:0; align-items:center; gap:.65rem; margin:0; }
-header .brand img { display:block; height:2.75rem; width:auto; }
-header .word { margin:0; font-size:1rem; font-weight:600; letter-spacing:-0.02em; }
-header .host { font-size:.875rem; color:rgba(250,248,243,.85); }
-header .addrs, header .addrs button { font-size:.875rem; color:rgba(250,248,243,.7); font-variant-numeric:tabular-nums; }
-header .meta { font-size:.875rem; color:rgba(250,248,243,.7); }
-header .meta a { color:#8fd4cf; text-decoration:none; }
-header .dot { color:rgba(250,248,243,.3); }
-header button.copy { margin:0; padding:0; border:0; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer; }
 .feed { flex:1; min-height:0; overflow:auto; padding:0 1.25rem 1rem; }
 .feed.board { display:flex; flex-direction:column; overflow:hidden; padding-top:1rem; }
-.sitefoot { display:grid; grid-template-columns:1fr 1fr 1fr; align-items:center; flex-shrink:0; border-top:1px solid rgba(250,248,243,.2); background:var(--tile-band); padding:.75rem 1.25rem; padding-bottom:max(.75rem, env(safe-area-inset-bottom)); }
-.sitefoot a { color:rgba(250,248,243,.8); text-decoration:none; font-size:.875rem; }
-.sitefoot .start { justify-self:start; }
-.sitefoot .mid { justify-self:center; }
-.sitefoot .end { justify-self:end; }
-a { color:var(--ok); }
-code { color:var(--text); }`;
+.tabs { display:flex; gap:.15rem; flex-shrink:0; margin-bottom:.75rem; }
+.pane { display:none; flex:1; min-height:0; }
+.pane.on { display:flex; flex-direction:column; }
+.scroll { flex:1; min-height:0; overflow:auto; }
+.hint { flex-shrink:0; margin:.75rem 0 0; }
+.filters { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.65rem 1.15rem; flex-shrink:0; margin-bottom:.65rem; }
+.fg { display:flex; flex-direction:column; gap:.25rem; }
+.fl { font-size:.65rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; color:var(--dim); }
+.fc { display:flex; flex-wrap:wrap; gap:.35rem; }
+.filters .shown { font-size:.75rem; font-variant-numeric:tabular-nums; padding-bottom:.15rem; }
+.num { font-variant-numeric:tabular-nums; }
+.warn { font-size:.75rem; }
+tr.detail td { padding:0; border:0; }
+tr.detail .panel { display:grid; grid-template-rows:0fr; transition:grid-template-rows .18s ease; }
+tr.detail .inner { overflow:hidden; min-height:0; }
+tr.detail.open .panel { grid-template-rows:1fr; }
+tr.detail.open .inner { padding:.75rem 1rem .9rem; }
+.facts { display:grid; grid-template-columns:repeat(auto-fill,minmax(12.5rem,1fr)); gap:.7rem 1.75rem; margin:0; }
+.facts div { min-width:0; }
+.facts dt { font-size:.68rem; letter-spacing:.04em; text-transform:uppercase; }
+.facts dd { margin:.2rem 0 0; }
+.facts .wide { grid-column:span 2; }
+.facts .http { grid-column:1 / -1; }
+.facts .wrap dd { word-break:break-all; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.78rem; line-height:1.35; }
+.facts .log-tail { grid-column:1 / -1; }
+.facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--dim); font-size:.78rem; line-height:1.35; }
+.tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
+@media (min-width:640px) { .tiles { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+#feed { flex:1; }`;
 
-function siteFooter(): string {
-	return `<footer class="sitefoot"><a class="start" href="https://www.catalystforge.com" rel="noopener">Catalyst Forge, LLC</a><a class="mid" href="https://localslip.dev" rel="noopener">localslip.dev</a><a class="end" href="https://localslip.dev/docs" rel="noopener">Docs</a></footer>`;
+let hudCssCache: string | null = null;
+
+function slipHudCss(): string {
+	if (hudCssCache) return hudCssCache;
+	const candidates = [join(HERE, '../slip-hud.css'), join(PKG_ROOT, 'src/lib/slip-hud.css')];
+	const file = candidates.find((path) => existsSync(path));
+	if (!file) throw new Error('slip-hud.css missing');
+	hudCssCache = readFileSync(file, 'utf8').replace(/@import[^;]+;\s*/g, '');
+	return hudCssCache;
 }
 
-function brandHeader(meta: string): string {
+function hudStyle(extra = ''): string {
+	return `<link rel="stylesheet" href="/vendor/fonts/syne/latin-700.css"/>
+<link rel="stylesheet" href="/vendor/fonts/oxanium/latin-600.css"/>
+<style>
+${slipHudCss()}
+${LAYOUT_CSS}
+${extra}
+</style>`;
+}
+
+function sendPackagedFont(res: import('node:http').ServerResponse, pathname: string): boolean {
+	const match = pathname.match(/^\/vendor\/fonts\/(syne|oxanium)\/(.+)$/);
+	if (!match) return false;
+	const rel = match[2] ?? '';
+	if (!/^(latin-700\.css|latin-600\.css|files\/[A-Za-z0-9._-]+\.woff2?)$/.test(rel)) return false;
+	const root = join(PKG_ROOT, 'node_modules', '@fontsource', match[1] ?? '');
+	const file = normalize(join(root, rel));
+	if (!file.startsWith(root)) return false;
+	try {
+		const body = readFileSync(file);
+		const type = rel.endsWith('.css')
+			? 'text/css; charset=utf-8'
+			: rel.endsWith('.woff2')
+				? 'font/woff2'
+				: 'font/woff';
+		res.writeHead(200, { 'content-type': type, 'cache-control': 'public, max-age=86400' });
+		res.end(body);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+function siteFooter(): string {
+	return `<footer class="slip-footer"><a class="start" href="https://www.catalystforge.com" rel="noopener">Catalyst Forge, LLC</a><a class="mid" href="https://localslip.dev" rel="noopener">localslip.dev</a><a class="end" href="https://localslip.dev/docs" rel="noopener">Docs</a></footer>`;
+}
+
+function brandMark(face: 'board' | 'deck'): string {
+	const word =
+		face === 'deck'
+			? `<span class="slip-word">Deck</span>`
+			: `<span class="slip-lockup" aria-label="LocalSlip"><span class="local">local</span><span class="slip">SLIP</span></span>`;
+	return `<span class="brand"><img src="/logo.png" alt=""/>${word}</span>`;
+}
+
+function brandHeader(meta: string, face: 'board' | 'deck' = 'board'): string {
 	const machine = machineCard();
 	const addrs = machine.addresses
 		.map(
@@ -69,14 +131,19 @@ function brandHeader(meta: string): string {
 				`<span class="dot" aria-hidden="true">·</span><button type="button" class="copy addrs" data-copy="${esc(addr)}">${esc(addressCaption(addr))}</button>`
 		)
 		.join('');
-	return `<header>
+	return `<header class="slip-header hud-frame">
 <div class="ident">
-<span class="brand"><img src="/logo.png" alt=""/><span class="word">LocalSlip</span></span>
+${brandMark(face)}
 <button type="button" class="copy host" data-copy="${esc(machine.hostname)}">${esc(machine.hostname)}</button>
 ${addrs}
 ${meta ? `<span class="dot" aria-hidden="true">·</span><span class="meta">${meta}</span>` : ''}
 </div>
 </header>`;
+}
+
+function firewallTone(status: string | undefined): string {
+	if (status === 'wanted' || status === 'needs-elevation') return 'tone-wait';
+	return 'tone-dim';
 }
 
 function sendVendor(res: import('node:http').ServerResponse, rel: string, type: string): boolean {
@@ -229,10 +296,11 @@ function rowPair(row: BoardRow): string {
 	const port = row.lease?.port ?? row.observed?.port ?? 0;
 	const bind = rowBindDisplay(row);
 	const href = rowOpenUrl(row);
-	const listening = row.listening ? '<span class="ok">yes</span>' : '<span class="muted">no</span>';
+	const listening = row.listening ? '<span class="tone-live">yes</span>' : '<span class="tone-dim">no</span>';
 	const proc = row.observed?.process ?? '—';
-	const pid = row.observed?.pid ? ` <span class="muted">(${row.observed.pid})</span>` : '';
+	const pid = row.observed?.pid ? ` <span class="tone-dim">(${row.observed.pid})</span>` : '';
 	const fw = row.lease?.firewall ?? '—';
+	const fwTone = firewallTone(row.lease?.firewall);
 	const key = esc(rowKey(row));
 	const attrs = [
 		`data-key="${key}"`,
@@ -246,7 +314,7 @@ function rowPair(row: BoardRow): string {
 		`data-conflict="${row.conflict ? '1' : '0'}"`,
 		`data-kind="${esc(row.lease?.kind ?? '')}"`
 	].join(' ');
-	return `<tr class="row" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="muted">${esc(bind)}</td><td>${listening}</td><td class="muted">${esc(proc)}${pid}</td><td class="muted">${esc(fw)}</td>${openCell(href)}</tr>
+	return `<tr class="row${row.conflict ? ' conflict' : ''}" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="tone-dim">${esc(bind)}</td><td>${listening}</td><td class="tone-dim">${esc(proc)}${pid}</td><td class="${fwTone}">${esc(fw)}</td>${openCell(href)}</tr>
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
 }
 
@@ -293,7 +361,7 @@ function sortHead(label: string, col: string): string {
 function page(board: Awaited<ReturnType<typeof getBoard>>, showSystem: boolean): string {
 	const leases = board.leaseRows.map(rowPair).join('');
 	const observed = board.observedRows.map(rowPair).join('') ||
-		'<tr><td colspan="7" class="muted">Nothing extra listening (system ports hidden).</td></tr>';
+		'<tr><td colspan="7" class="tone-dim">Nothing extra listening (system ports hidden).</td></tr>';
 	const toggle = showSystem
 		? '<a href="/">Hide system ports</a>'
 		: `<a href="/?system=1">Show ${board.hiddenSystem} system port${board.hiddenSystem === 1 ? '' : 's'}</a>`;
@@ -304,72 +372,22 @@ function page(board: Awaited<ReturnType<typeof getBoard>>, showSystem: boolean):
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" href="/favicon.png" type="image/png"/>
 <title>LocalSlip</title>
-<style>
-${FACE_CSS}
-.ok { color:var(--ok); }
-.warn { color:var(--warn); font-size:.75rem; }
-.num { font-variant-numeric:tabular-nums; }
-.tabs { display:flex; gap:.15rem; flex-shrink:0; margin-bottom:.75rem; }
-.tabs button { margin:0; padding:.35rem .75rem; border:0; border-bottom:2px solid transparent; background:none; color:var(--muted); font:inherit; font-size:.875rem; cursor:pointer; }
-.tabs button[aria-selected="true"] { color:var(--text); font-weight:500; border-bottom-color:var(--ok); }
-.tabs .n { font-variant-numeric:tabular-nums; color:var(--muted); margin-left:.25rem; }
-.pane { display:none; flex:1; min-height:0; }
-.pane.on { display:flex; flex-direction:column; }
-.scroll { flex:1; min-height:0; overflow:auto; border:1px solid var(--line); border-radius:10px; background:var(--elev); }
-.hint { flex-shrink:0; margin:.75rem 0 0; }
-.filters { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.65rem 1.15rem; flex-shrink:0; margin-bottom:.65rem; }
-.fg { display:flex; flex-direction:column; gap:.25rem; }
-.fl { font-size:.65rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
-.fc { display:flex; flex-wrap:wrap; gap:.35rem; }
-.chip { margin:0; padding:.15rem .65rem; border:1px solid var(--line); border-radius:999px; background:none; color:var(--muted); font:inherit; font-size:.75rem; cursor:pointer; }
-.chip[aria-pressed="true"] { border-color:var(--ok); color:var(--text); background:rgba(42,111,106,.1); }
-.filters .shown { font-size:.75rem; font-variant-numeric:tabular-nums; padding-bottom:.15rem; }
-table { width:100%; min-width:40rem; border-collapse:separate; border-spacing:0; }
-th,td { text-align:left; padding:.55rem .85rem; }
-th { position:sticky; top:0; z-index:1; background:var(--elev); color:var(--muted); font-size:.68rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; border-bottom:1px solid var(--line); }
-th button { margin:0; padding:0; border:0; background:none; color:inherit; font:inherit; letter-spacing:inherit; text-transform:inherit; cursor:pointer; display:inline-flex; align-items:center; gap:.25rem; }
-.go { width:2.1rem; text-align:right; padding-left:.25rem; padding-right:.65rem; }
-.go a { display:inline-flex; color:var(--ok); }
-tr.row td { border-top:1px solid var(--line); }
-tr.row { cursor:pointer; }
-tr.row:nth-child(4n+3) { background:rgba(26,25,23,.03); }
-tr.row:hover, tr.row.open { background:rgba(26,25,23,.05); }
-tr.detail td { padding:0; border:0; }
-tr.detail .panel { display:grid; grid-template-rows:0fr; transition:grid-template-rows .18s ease; }
-tr.detail .inner { overflow:hidden; min-height:0; }
-tr.detail.open .panel { grid-template-rows:1fr; }
-tr.detail.open .inner { padding:.75rem 1rem .9rem; }
-.facts { display:grid; grid-template-columns:repeat(auto-fill,minmax(12.5rem,1fr)); gap:.7rem 1.75rem; margin:0; }
-.facts div { min-width:0; }
-.facts dt { color:var(--muted); font-size:.68rem; letter-spacing:.04em; text-transform:uppercase; }
-.facts dd { margin:.2rem 0 0; }
-.facts .wide { grid-column:span 2; }
-.facts .warn-field dd { color:var(--warn); }
-.facts .http { grid-column:1 / -1; }
-.facts .peek { color:var(--ok); }
-.facts .wrap dd { word-break:break-all; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.78rem; line-height:1.35; }
-.facts .log-tail { grid-column:1 / -1; }
-.facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--muted); font-size:.78rem; line-height:1.35; }
-a { color:var(--ok); }
-.tippy-box[data-theme~='slip'] { background:#1a1917; color:#faf8f3; border:1px solid #4d4a44; border-radius:6px; font-size:.78rem; }
-.tippy-box[data-theme~='slip'] .tippy-arrow { color:#1a1917; }
-.tippy-box[data-theme~='slip'] .tippy-content { white-space:pre-wrap; max-width:min(26rem,90vw); line-height:1.45; padding:.45rem .6rem; }
-</style>
+${hudStyle()}
 <link rel="stylesheet" href="/vendor/tippy.css"/>
 </head>
-<body>
+<body class="slip-chart">
 <main>
 ${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`)}
 <div class="feed board">
 <div class="tabs" role="tablist" aria-label="Board">
-<button type="button" role="tab" id="tab-leases" data-tab="leases" aria-controls="pane-leases" aria-selected="true">Leases <span class="n">${board.leaseRows.length}</span></button>
-<button type="button" role="tab" id="tab-observed" data-tab="observed" aria-controls="pane-observed" aria-selected="false">Observed <span class="n">${board.observedRows.length}</span></button>
+<button type="button" class="station" role="tab" id="tab-leases" data-tab="leases" aria-controls="pane-leases" aria-selected="true">Leases <span class="n">${board.leaseRows.length}</span></button>
+<button type="button" class="station" role="tab" id="tab-observed" data-tab="observed" aria-controls="pane-observed" aria-selected="false">Observed <span class="n">${board.observedRows.length}</span></button>
 </div>
-<div class="pane on" id="pane-leases" data-pane="leases" role="tabpanel" aria-labelledby="tab-leases">${filterBar('leases')}<div class="scroll"><table data-default-sort="name"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
-<tbody>${leases}<tr class="empty-filter" hidden><td colspan="7" class="muted">No leases match.</td></tr></tbody></table></div></div>
-<div class="pane" id="pane-observed" data-pane="observed" role="tabpanel" aria-labelledby="tab-observed">${filterBar('observed')}<div class="scroll"><table data-default-sort="port"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
-<tbody>${observed}<tr class="empty-filter" hidden><td colspan="7" class="muted">Nothing matches.</td></tr></tbody></table></div></div>
-<p class="muted hint"><code>localslip claim name --port N</code> · <code>localslip get name</code> · <code>localslip release name</code></p>
+<div class="pane on" id="pane-leases" data-pane="leases" role="tabpanel" aria-labelledby="tab-leases">${filterBar('leases')}<div class="scroll slip-panel hud-frame"><table data-default-sort="name"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
+<tbody>${leases}<tr class="empty-filter" hidden><td colspan="7" class="tone-dim">No leases match.</td></tr></tbody></table></div></div>
+<div class="pane" id="pane-observed" data-pane="observed" role="tabpanel" aria-labelledby="tab-observed">${filterBar('observed')}<div class="scroll slip-panel hud-frame"><table data-default-sort="port"><thead><tr>${sortHead('Name', 'name')}${sortHead('Port', 'port')}${sortHead('Bind', 'bind')}${sortHead('Listening', 'listening')}${sortHead('Process', 'process')}${sortHead('Firewall', 'firewall')}<th class="go"></th></tr></thead>
+<tbody>${observed}<tr class="empty-filter" hidden><td colspan="7" class="tone-dim">Nothing matches.</td></tr></tbody></table></div></div>
+<p class="tone-dim hint"><code>localslip claim name --port N</code> · <code>localslip get name</code> · <code>localslip release name</code></p>
 </div>
 ${siteFooter()}
 </main>
@@ -569,18 +587,19 @@ function visitorTile(
 			: [];
 	const img = visitorIconImg(candidates);
 	const caption = here ? 'This app' : `:${port}`;
-	const face = `<span class="face"><span class="logo" aria-hidden="true">${letter}${img}</span><span class="name">${esc(heading)}</span></span><span class="port${here ? ' here' : ''}">${esc(caption)}</span>`;
+	const face = `<span class="face"><span class="icon" aria-hidden="true">${letter}${img}</span><span class="title">${esc(heading)}</span></span><span class="band${here ? ' here' : ''}">${esc(caption)}</span>`;
+	const cls = `deck-tile hud-frame${here ? ' here' : ''}`;
 	if (!href || here) {
-		return `<div class="tile${here ? ' here' : ''}"${here ? ' aria-current="page"' : ''}>${face}</div>`;
+		return `<div class="${cls}"${here ? ' aria-current="page"' : ''}>${face}</div>`;
 	}
-	return `<a class="tile" href="${esc(href)}" target="${OPEN_TARGET}" rel="noopener" aria-label="Open ${esc(heading)}" data-copy-url="${esc(href)}">${face}</a>`;
+	return `<a class="${cls}" href="${esc(href)}" target="${OPEN_TARGET}" rel="noopener" aria-label="Open ${esc(heading)}" data-copy-url="${esc(href)}">${face}</a>`;
 }
 
 async function visitorPage(board: Awaited<ReturnType<typeof getBoard>>, pageHost: string | null): Promise<string> {
 	const feed = await visitorFeed(board.leaseRows, machineCard());
 	const body =
 		feed.tiles.length === 0
-			? `<p class="muted">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
+			? `<p class="tone-dim">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
 			: `<div class="tiles">${feed.tiles
 					.map((tile) => {
 						const href = pageHost ? visitorHttpUrl(pageHost, tile.port) : null;
@@ -594,27 +613,11 @@ async function visitorPage(board: Awaited<ReturnType<typeof getBoard>>, pageHost
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" href="/favicon.png" type="image/png"/>
 <title>LocalSlip</title>
-<style>
-${FACE_CSS}
-.tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
-@media (min-width:640px) { .tiles { grid-template-columns:repeat(3,minmax(0,1fr)); } }
-.tile { display:flex; flex-direction:column; align-items:stretch; min-height:9.5rem; padding:0; overflow:hidden; text-align:center; text-decoration:none; color:var(--text); background:var(--elev); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 2px rgba(26,25,23,.04); user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
-.tile.here { border-color:rgba(42,111,106,.35); }
-a.tile:hover { background:rgba(26,25,23,.04); }
-.face { display:flex; flex:1; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; padding:1rem .75rem .75rem; }
-.logo { position:relative; display:flex; width:3rem; height:3rem; align-items:center; justify-content:center; overflow:hidden; border-radius:12px; background:rgba(26,25,23,.06); color:var(--muted); font-size:1.125rem; font-weight:600; }
-.logo img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
-.name { width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.875rem; font-weight:500; }
-.port { display:flex; align-items:center; justify-content:center; flex:0 0 18%; min-height:1.75rem; width:100%; background:var(--tile-band); color:var(--tile-band-ink); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.8125rem; }
-.port.here { font-family:inherit; font-size:.75rem; font-weight:500; }
-#feed { flex:1; }
-a { color:var(--ok); }
-code { color:var(--text); }
-</style>
+${hudStyle()}
 </head>
-<body>
+<body class="slip-chart">
 <main>
-${brandHeader('')}
+${brandHeader('', 'deck')}
 <div class="feed" id="feed">${body}</div>
 ${siteFooter()}
 </main>
@@ -624,7 +627,7 @@ ${COPY_SCRIPT}
 	var pageHost = ${JSON.stringify(pageHost)};
 	var last = '';
 	var empty = ${JSON.stringify(
-		`<p class="muted">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
+		`<p class="tone-dim">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
 	)};
 	function nextIcon(img) {
 		var n;
@@ -656,7 +659,7 @@ ${COPY_SCRIPT}
 		var href = pageHost ? ('http://' + pageHost + ':' + tile.port + '/') : null;
 		var heading = (tile.title && String(tile.title).trim()) || tile.name;
 		var root = document.createElement(href ? 'a' : 'div');
-		root.className = 'tile';
+		root.className = 'deck-tile hud-frame';
 		if (href) {
 			root.href = href;
 			root.target = ${JSON.stringify(OPEN_TARGET)};
@@ -665,7 +668,7 @@ ${COPY_SCRIPT}
 			root.setAttribute('aria-label', 'Open ' + heading);
 		}
 		var logo = document.createElement('span');
-		logo.className = 'logo';
+		logo.className = 'icon';
 		logo.setAttribute('aria-hidden', 'true');
 		logo.textContent = (tile.name.trim().charAt(0) || '?').toUpperCase();
 		if (href) {
@@ -682,10 +685,10 @@ ${COPY_SCRIPT}
 		var face = document.createElement('span');
 		face.className = 'face';
 		var name = document.createElement('span');
-		name.className = 'name';
+		name.className = 'title';
 		name.textContent = heading;
 		var port = document.createElement('span');
-		port.className = 'port';
+		port.className = 'band';
 		port.textContent = ':' + tile.port;
 		face.appendChild(logo);
 		face.appendChild(name);
@@ -727,6 +730,7 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 	const server = createServer(async (req, res) => {
 		try {
 			const url = new URL(req.url ?? '/', `http://${host}:${port}`);
+			if (url.pathname.startsWith('/vendor/fonts/') && sendPackagedFont(res, url.pathname)) return;
 			if (url.pathname === '/vendor/tippy.css' && sendVendor(res, 'tippy.js/dist/tippy.css', 'text/css')) return;
 			if (url.pathname === '/vendor/tippy.umd.min.js' && sendVendor(res, 'tippy.js/dist/tippy-bundle.umd.min.js', 'text/javascript')) return;
 			if (url.pathname === '/logo.png' && sendSiteAsset(res, 'logo.png', 'image/png')) return;

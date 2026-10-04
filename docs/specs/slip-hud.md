@@ -1,7 +1,7 @@
 # Slip HUD — board and Deck
 
 **Spec kind:** Visual  
-**Status:** Draft (2026-10-04)  
+**Status:** Locked (2026-10-04)  
 **Related:** LocalHelm `docs/specs/bridge-header.md` (locked), `app/src/lib/helm-hud.css`, `app/src/lib/VisitorFace.svelte`, `app/src/lib/VisitorTile.svelte`  
 **Surfaces:** `localslip serve` HTML in `src/lib/server/serve.ts`, and the Svelte board in `src/routes/+page.svelte`
 

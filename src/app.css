@@ -1,40 +1,5 @@
 @import 'tailwindcss';
 
-.tippy-box[data-theme~='slip'] {
-	background: #1a1917;
-	color: #faf8f3;
-	border: 1px solid #4d4a44;
-	border-radius: 6px;
-	font-size: 0.78rem;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
-}
-.tippy-box[data-theme~='slip'] .tippy-arrow {
-	color: #1a1917;
-}
-.tippy-box[data-theme~='slip'] .tippy-arrow::before {
-	border-style: solid;
-}
-.tippy-box[data-theme~='slip'] .tippy-content {
-	white-space: pre-wrap;
-	max-width: min(26rem, 90vw);
-	line-height: 1.45;
-	padding: 0.45rem 0.6rem;
-}
-
-:root {
-	--bg: #faf8f3;
-	--bg-elevated: #ffffff;
-	--line: #e7e2d8;
-	--text: #1a1917;
-	--muted: #4d4a44;
-	--accent: #2a6f6a;
-	--warn: #9a6b12;
-	--danger: #a33b3b;
-	--wash: rgb(26 25 23 / 0.04);
-	--tile-band: #000000;
-	--tile-band-ink: #faf8f3;
-}
-
 html,
 body {
 	height: 100%;
@@ -42,8 +7,8 @@ body {
 
 body {
 	margin: 0;
-	background: var(--bg);
-	color: var(--text);
+	background: var(--hull, #03060c);
+	color: #ececef;
 	font-family:
 		ui-sans-serif,
 		system-ui,

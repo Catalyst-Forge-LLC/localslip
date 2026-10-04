@@ -7,12 +7,12 @@
 	let {
 		hostname,
 		addresses,
-		class: className = '',
+		deck = false,
 		children
 	}: {
 		hostname: string;
 		addresses: string[];
-		class?: string;
+		deck?: boolean;
 		children?: Snippet;
 	} = $props();
 
@@ -29,32 +29,31 @@
 	}
 </script>
 
-<header class="bg-black text-[var(--tile-band-ink)] {className}">
-	<div class="flex flex-wrap items-center gap-x-3 gap-y-1 px-5 py-2">
-		<span class="flex shrink-0 items-center gap-2.5">
-			<BrandMark class="h-11 w-auto" />
-			<span class="text-base font-semibold tracking-tight">LocalSlip</span>
+<header class="slip-header hud-frame">
+	<div class="ident">
+		<span class="brand">
+			<BrandMark class="h-10 w-auto" />
+			{#if deck}
+				<span class="slip-word">Deck</span>
+			{:else}
+				<span class="slip-lockup" aria-label="LocalSlip">
+					<span class="local">local</span>
+					<span class="slip">SLIP</span>
+				</span>
+			{/if}
 		</span>
-		<button
-			type="button"
-			class="cursor-pointer text-left text-sm text-white/85 hover:text-white"
-			onclick={() => copy(hostname)}
-		>
+		<button type="button" class="copy host" onclick={() => copy(hostname)}>
 			{copied === hostname ? 'Copied' : hostname}
 		</button>
 		{#each addresses as addr}
-			<span class="text-white/30" aria-hidden="true">·</span>
-			<button
-				type="button"
-				class="cursor-pointer text-left text-sm tabular-nums text-white/70 hover:text-white"
-				onclick={() => copy(addr)}
-			>
+			<span class="dot" aria-hidden="true">·</span>
+			<button type="button" class="copy addrs" onclick={() => copy(addr)}>
 				{copied === addr ? 'Copied' : addressCaption(addr)}
 			</button>
 		{/each}
 		{#if children}
-			<span class="text-white/30" aria-hidden="true">·</span>
-			<span class="text-sm text-white/70 [&_a]:text-[#8fd4cf] [&_a]:no-underline hover:[&_a]:text-white">
+			<span class="dot" aria-hidden="true">·</span>
+			<span class="meta">
 				{@render children()}
 			</span>
 		{/if}

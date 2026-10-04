@@ -9,7 +9,6 @@
 	import VisitorTile from '$lib/VisitorTile.svelte';
 	import { nextSort, viewRows, type BoardFilters, type SortKey, type SortState } from '$lib/board-view';
 	import Tooltip from '$lib/Tooltip.svelte';
-	import { recipeHealth } from '$lib/recipe-health';
 	import { OPEN_TARGET, rowOpenUrl, visitorHttpUrl } from '$lib/dashboard-url';
 	import { rowBindDisplay } from '$lib/row-detail';
 	import type { BoardRow } from '$lib/types';
@@ -31,6 +30,11 @@
 
 	const visitorMachine = $derived(visitorFeed ?? data.machine);
 	const visitorTiles = $derived(visitorFeed?.tiles ?? data.visitorTiles);
+
+	function fwTone(status: string | undefined): string {
+		if (status === 'wanted' || status === 'needs-elevation') return 'tone-wait';
+		return 'tone-dim';
+	}
 
 	function rowId(row: BoardRow): string {
 		if (row.lease) return `lease:${row.lease.name}`;
@@ -81,12 +85,12 @@
 {#if data.face === 'visitor'}
 	<BoardShell>
 		{#snippet header()}
-			<BoardHeader hostname={visitorMachine.hostname} addresses={visitorMachine.addresses} />
+			<BoardHeader deck hostname={visitorMachine.hostname} addresses={visitorMachine.addresses} />
 		{/snippet}
 		{#if visitorTiles.length === 0}
-			<p class="text-sm text-[var(--muted)]">
+			<p class="tone-dim text-sm">
 				Nothing listening past loopback. Claim with
-				<code class="text-[var(--text)]">--lan</code>
+				<code>--lan</code>
 				or start the app on all interfaces.
 			</p>
 		{:else}
@@ -122,40 +126,36 @@
 		<div class="mb-3 flex shrink-0 gap-1" role="tablist" aria-label="Board">
 			<button
 				type="button"
+				class="station"
 				role="tab"
 				id="tab-leases"
 				aria-controls="pane-leases"
 				aria-selected={tab === 'leases'}
-				class="rounded-t px-3 py-1.5 text-sm {tab === 'leases'
-					? 'border-b-2 border-[var(--accent)] font-medium text-[var(--text)]'
-					: 'text-[var(--muted)] hover:text-[var(--text)]'}"
 				onclick={() => (tab = 'leases')}
 			>
 				Leases
-				<span class="tabular-nums text-[var(--muted)]">{data.leaseRows.length}</span>
+				<span class="n">{data.leaseRows.length}</span>
 			</button>
 			<button
 				type="button"
+				class="station"
 				role="tab"
 				id="tab-observed"
 				aria-controls="pane-observed"
 				aria-selected={tab === 'observed'}
-				class="rounded-t px-3 py-1.5 text-sm {tab === 'observed'
-					? 'border-b-2 border-[var(--accent)] font-medium text-[var(--text)]'
-					: 'text-[var(--muted)] hover:text-[var(--text)]'}"
 				onclick={() => (tab = 'observed')}
 			>
 				Observed
-				<span class="tabular-nums text-[var(--muted)]">{data.observedRows.length}</span>
+				<span class="n">{data.observedRows.length}</span>
 			</button>
 		</div>
 
 		{#if tab === 'leases'}
 			<div id="pane-leases" role="tabpanel" aria-labelledby="tab-leases" class="flex min-h-0 flex-1 flex-col">
 				<FilterBar bind:filters={leaseFilters} variant="leases" shown={leaseView.length} total={data.leaseRows.length} />
-				<div class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
-				<table class="w-full min-w-[40rem] border-separate border-spacing-0 text-left text-sm">
-					<thead class="text-[0.68rem] font-medium tracking-wide text-[var(--muted)] uppercase">
+				<div class="slip-panel hud-frame min-h-0 flex-1 overflow-auto">
+				<table>
+					<thead>
 						<tr>
 							<SortHead label="Name" col="name" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
 							<SortHead label="Port" col="port" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
@@ -163,45 +163,42 @@
 							<SortHead label="Listening" col="listening" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
 							<SortHead label="Process" col="process" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
 							<SortHead label="Firewall" col="firewall" sort={leaseSort} onsort={(key: SortKey) => (leaseSort = nextSort(leaseSort, key))} />
-							<th class="sticky top-0 z-10 w-8 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-2 py-2.5"></th>
+							<th class="go"></th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each leaseView as row, i}
+						{#each leaseView as row}
 							{@const href = rowOpenUrl(row)}
 							{@const key = rowId(row)}
 							<tr
-								class="cursor-pointer hover:bg-[var(--wash)] {i % 2 === 1
-									? 'bg-black/[0.03]'
-									: ''} {expanded === key ? 'bg-[var(--wash)]' : ''}"
+								class="slip-row {row.conflict ? 'conflict' : ''} {expanded === key ? 'open' : ''}"
 								onclick={(event) => toggle(row, event)}
 							>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 font-medium">
-									<Tooltip title={row.lease ? recipeHealth(row.lease).detail : row.lease?.name ?? ''}>
+								<td>
+									<Tooltip title={row.recipe?.detail ?? row.lease?.name ?? ''}>
 										{row.lease?.name}
 									</Tooltip>
 								</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 tabular-nums">{row.lease?.port}</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">{rowBindDisplay(row)}</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5">
+								<td class="num">{row.lease?.port}</td>
+								<td class="tone-dim">{rowBindDisplay(row)}</td>
+								<td>
 									{#if row.listening}
-										<span class="text-[var(--accent)]">yes</span>
+										<span class="tone-live">yes</span>
 									{:else}
-										<span class="text-[var(--muted)]">no</span>
+										<span class="tone-dim">no</span>
 									{/if}
 								</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">
+								<td class="tone-dim">
 									{row.observed?.process ?? '—'}
 									{#if row.observed?.pid}
 										<span class="text-xs">({row.observed.pid})</span>
 									{/if}
 								</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">{row.lease?.firewall}</td>
-								<td class="w-8 border-t border-[var(--line)] px-2 py-2 text-right">
+								<td class={fwTone(row.lease?.firewall)}>{row.lease?.firewall}</td>
+								<td class="go">
 									{#if href}
 										<Tooltip title={`Open ${href}`}>
 											<a
-												class="inline-flex text-[var(--accent)]"
 												href={href}
 												target={OPEN_TARGET}
 												rel="noopener"
@@ -233,7 +230,7 @@
 							</tr>
 						{:else}
 							<tr>
-								<td class="px-3.5 py-2.5 text-[var(--muted)]" colspan="7">
+								<td class="tone-dim" colspan="7">
 									{data.leaseRows.length === 0 ? 'No leases.' : 'No leases match.'}
 								</td>
 							</tr>
@@ -245,39 +242,36 @@
 		{:else}
 			<div id="pane-observed" role="tabpanel" aria-labelledby="tab-observed" class="flex min-h-0 flex-1 flex-col">
 				<FilterBar bind:filters={observedFilters} variant="observed" shown={observedView.length} total={data.observedRows.length} />
-				<div class="min-h-0 flex-1 overflow-auto rounded-[10px] border border-[var(--line)] bg-[var(--bg-elevated)]">
-				<table class="w-full min-w-[40rem] border-separate border-spacing-0 text-left text-sm">
-					<thead class="text-[0.68rem] font-medium tracking-wide text-[var(--muted)] uppercase">
+				<div class="slip-panel hud-frame min-h-0 flex-1 overflow-auto">
+				<table>
+					<thead>
 						<tr>
 							<SortHead label="Port" col="port" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
 							<SortHead label="Bind" col="bind" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
 							<SortHead label="Process" col="process" sort={observedSort} onsort={(key: SortKey) => (observedSort = nextSort(observedSort, key))} />
-							<th class="sticky top-0 z-10 w-8 border-b border-[var(--line)] bg-[var(--bg-elevated)] px-2 py-2.5"></th>
+							<th class="go"></th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each observedView as row, i}
+						{#each observedView as row}
 							{@const href = rowOpenUrl(row)}
 							{@const key = rowId(row)}
 							<tr
-								class="cursor-pointer hover:bg-[var(--wash)] {i % 2 === 1
-									? 'bg-black/[0.03]'
-									: ''} {expanded === key ? 'bg-[var(--wash)]' : ''}"
+								class="slip-row {expanded === key ? 'open' : ''}"
 								onclick={(event) => toggle(row, event)}
 							>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 tabular-nums">{row.observed?.port}</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">{row.observed?.bind}</td>
-								<td class="border-t border-[var(--line)] px-3.5 py-2.5 text-[var(--muted)]">
+								<td class="num">{row.observed?.port}</td>
+								<td class="tone-dim">{row.observed?.bind}</td>
+								<td class="tone-dim">
 									{row.observed?.process ?? '—'}
 									{#if row.observed?.pid}
 										<span class="text-xs">({row.observed.pid})</span>
 									{/if}
 								</td>
-								<td class="w-8 border-t border-[var(--line)] px-2 py-2 text-right">
+								<td class="go">
 									{#if href}
 										<Tooltip title={`Open ${href}`}>
 											<a
-												class="inline-flex text-[var(--accent)]"
 												href={href}
 												target={OPEN_TARGET}
 												rel="noopener"
@@ -309,7 +303,7 @@
 							</tr>
 						{:else}
 							<tr>
-								<td class="px-3 py-2 text-[var(--muted)]" colspan="4">
+								<td class="tone-dim" colspan="4">
 									{data.observedRows.length === 0
 										? 'Nothing extra listening (system ports hidden).'
 										: 'Nothing matches.'}
@@ -322,14 +316,14 @@
 			</div>
 		{/if}
 
-		<p class="mt-3 shrink-0 text-sm text-[var(--muted)]">
-			<code class="text-[var(--text)]">localslip claim name --port N</code>
+		<p class="tone-dim mt-3 shrink-0 text-sm">
+			<code>localslip claim name --port N</code>
 			·
-			<code class="text-[var(--text)]">localslip get name</code>
+			<code>localslip get name</code>
 			·
-			<code class="text-[var(--text)]">localslip release name</code>
+			<code>localslip release name</code>
 			·
-			<code class="text-[var(--text)]">localslip serve</code>
+			<code>localslip serve</code>
 		</p>
 	</div>
 	</BoardShell>
