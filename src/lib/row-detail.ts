@@ -1,4 +1,5 @@
 import { bindRelation, displayBind } from './binds.js';
+import { firewallLabel } from './firewall-label.js';
 import type { BoardRow } from './types.js';
 
 export type DetailField = { label: string; value: string; wide?: boolean; warn?: boolean; wrap?: boolean };
@@ -66,7 +67,9 @@ export function rowDetailFields(row: BoardRow): DetailField[] {
 			warn: true
 		});
 	}
-	if (row.lease) fields.push({ label: 'Firewall', value: row.lease.firewall });
+	if (row.lease) {
+		fields.push({ label: 'Firewall', value: firewallLabel(row.lease.firewall, row.lease.bind) });
+	}
 	if (row.observed?.process) fields.push({ label: 'Process', value: row.observed.process });
 	if (row.observed?.pid != null) fields.push({ label: 'PID', value: String(row.observed.pid) });
 	if (row.observed?.parentPid != null) {

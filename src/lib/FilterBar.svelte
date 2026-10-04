@@ -76,7 +76,7 @@
 			<span class="fl">Firewall</span>
 			<div class="flex flex-wrap gap-1.5">
 				<button type="button" class="chip" aria-pressed={filters.firewall === 'applied'} onclick={() => setFirewall('applied')}>
-					Applied
+					Allowed
 				</button>
 				<button
 					type="button"
@@ -84,13 +84,13 @@
 					aria-pressed={filters.firewall === 'needs-elevation'}
 					onclick={() => setFirewall('needs-elevation')}
 				>
-					Needs elevation
+					Needs admin
 				</button>
 				<button type="button" class="chip" aria-pressed={filters.firewall === 'skipped'} onclick={() => setFirewall('skipped')}>
-					Skipped
+					Private
 				</button>
 				<button type="button" class="chip" aria-pressed={filters.firewall === 'wanted'} onclick={() => setFirewall('wanted')}>
-					Wanted
+					Pending
 				</button>
 			</div>
 		</div>

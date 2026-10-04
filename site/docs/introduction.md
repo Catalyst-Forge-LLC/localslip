@@ -27,7 +27,7 @@ It is **not** DNS. It does not give you `foo.localhost` URLs. It is **not** a re
 | Listener | A process actually accepting connections |
 | Occupied port | Something is listening, or another lease already owns the number |
 
-Without `--or-next`, a second name cannot take a port another lease owns. You can still claim a port that is already listening so you can name an app that is already up. That does not evict the listener.
+Without `--or-next`, a second name cannot take a port another lease owns. You can claim a port that is already listening when the process belongs to the project you are in. A listener from another project is refused unless you pass `--force`. That does not evict the listener.
 
 The documented [Vite config](/docs/vite) reads the claimed port with `localslip get` and sets `strictPort: true`. The app fails if that port is busy. It does not silently take the next free port.
 

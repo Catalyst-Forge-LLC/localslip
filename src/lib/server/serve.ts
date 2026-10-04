@@ -14,6 +14,7 @@ import {
 	visitorTileLetter
 } from '../dashboard-url.js';
 import { addressCaption } from '../address.js';
+import { firewallLabel, firewallTip } from '../firewall-label.js';
 import { machineCard } from '../machine.js';
 import { recipeHealth } from '../recipe-health.js';
 import { rowBindDisplay, rowDetailFields } from '../row-detail.js';
@@ -299,7 +300,8 @@ function rowPair(row: BoardRow): string {
 	const listening = row.listening ? '<span class="tone-live">yes</span>' : '<span class="tone-dim">no</span>';
 	const proc = row.observed?.process ?? '—';
 	const pid = row.observed?.pid ? ` <span class="tone-dim">(${row.observed.pid})</span>` : '';
-	const fw = row.lease?.firewall ?? '—';
+	const fw = firewallLabel(row.lease?.firewall, row.lease?.bind);
+	const fwTip = firewallTip(row.lease?.firewall, row.lease?.bind);
 	const fwTone = firewallTone(row.lease?.firewall);
 	const key = esc(rowKey(row));
 	const attrs = [
@@ -314,7 +316,7 @@ function rowPair(row: BoardRow): string {
 		`data-conflict="${row.conflict ? '1' : '0'}"`,
 		`data-kind="${esc(row.lease?.kind ?? '')}"`
 	].join(' ');
-	return `<tr class="row${row.conflict ? ' conflict' : ''}" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="tone-dim">${esc(bind)}</td><td>${listening}</td><td class="tone-dim">${esc(proc)}${pid}</td><td class="${fwTone}">${esc(fw)}</td>${openCell(href)}</tr>
+	return `<tr class="row${row.conflict ? ' conflict' : ''}" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="tone-dim">${esc(bind)}</td><td>${listening}</td><td class="tone-dim">${esc(proc)}${pid}</td><td class="${fwTone}"${fwTip ? ` data-tippy-content="${esc(fwTip)}"` : ''}>${esc(fw)}</td>${openCell(href)}</tr>
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
 }
 
@@ -345,10 +347,10 @@ function filterBar(kind: 'leases' | 'observed'): string {
 				) +
 				filterGroup(
 					'Firewall',
-					`<button type="button" class="chip" data-dim="firewall" data-val="applied">Applied</button>
-<button type="button" class="chip" data-dim="firewall" data-val="needs-elevation">Needs elevation</button>
-<button type="button" class="chip" data-dim="firewall" data-val="skipped">Skipped</button>
-<button type="button" class="chip" data-dim="firewall" data-val="wanted">Wanted</button>`
+					`<button type="button" class="chip" data-dim="firewall" data-val="applied">Allowed</button>
+<button type="button" class="chip" data-dim="firewall" data-val="needs-elevation">Needs admin</button>
+<button type="button" class="chip" data-dim="firewall" data-val="skipped">Private</button>
+<button type="button" class="chip" data-dim="firewall" data-val="wanted">Pending</button>`
 				)
 			: '';
 	return `<div class="filters" aria-label="Filters">${listen}${bind}${extra}<span class="shown muted" hidden></span></div>`;

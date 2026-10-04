@@ -40,7 +40,7 @@ describe('rowDetailFields', () => {
 			{ label: 'Claimed', value: '2026-08-18 16:03:25' },
 			{ label: 'Claim', value: '127.0.0.1' },
 			{ label: 'Listen', value: '127.0.0.1' },
-			{ label: 'Firewall', value: 'skipped' },
+			{ label: 'Firewall', value: 'private' },
 			{ label: 'Process', value: 'node.exe' },
 			{ label: 'PID', value: '18660' },
 			{ label: 'Parent', value: 'npm.cmd (100)' },

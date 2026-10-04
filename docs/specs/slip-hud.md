@@ -57,7 +57,7 @@ Sea-space-punk, as locked on the Helm bridge: a ship’s bridge drawn as a HUD. 
 | Hull | dark navy, chart paper | faint cyan grid | both faces |
 | Frames | brass corner fittings | thin cyan ticks, not full boxes | header, panels, tiles |
 | Live marks | running lights | cyan `#7ef4ff` | listening, active station, `:port`, host line |
-| Waiting marks | engine telegraph | gold `#c9a227` / `#fde68a` | conflict, mismatch, firewall still wanted |
+| Waiting marks | engine telegraph | gold `#c9a227` / `#fde68a` | conflict, mismatch, firewall still pending |
 | Broken | alarm | `#f87171` | peek/bind errors already called danger |
 | Words | slip, deck, lease | none on the glass | “Deck” on the phone face only |
 
@@ -150,7 +150,7 @@ Leases and Observed are stations, not cream tabs.
 
 ### 6.3 Filters
 
-Chips are small plates, not pills. Steel border, dim label. Pressed: cyan edge and cyan text. Words stay (Listening, LAN, Applied, and the rest).
+Chips are small plates, not pills. Steel border, dim label. Pressed: cyan edge and cyan text. Listen, bind, and lease words stay. Firewall chips read Allowed, Needs admin, Private, and Pending.
 
 ### 6.4 Table
 
@@ -158,7 +158,7 @@ Chips are small plates, not pills. Steel border, dim label. Pressed: cyan edge a
 - Header labels stay uppercase and tracked.
 - Listening yes: cyan. Not listening: dim.
 - Conflict or bind mismatch: gold text, and a 2px gold tick on the row’s inline start. Do not paint the whole row.
-- Firewall `wanted` and `needs-elevation`: gold. `applied` and `skipped`: dim.
+- Firewall pending and needs admin: gold. Allowed, private, and no rule: dim. A skipped claim that is not loopback reads "no rule".
 - Row hover: a low cyan wash.
 - Expanded facts: mono, dim labels, same well. Warn lines use `--gold-soft`.
 - Open control: cyan. One tab, unchanged.
@@ -176,9 +176,9 @@ Reuse Helm’s rule. Map the marks LocalSlip already computes.
 | Fact | Tone |
 | ---- | ---- |
 | Listening, active station, port band, copy hover | cyan |
-| Conflict, wider/narrower/other bind, firewall wanted or needs elevation | gold |
+| Conflict, wider/narrower/other bind, firewall pending or needs admin | gold |
 | Peek error, failed recipe health | alarm |
-| Idle copy, applied firewall, skipped, not listening | dim |
+| Idle copy, allowed firewall, private, not listening | dim |
 
 No green “ok”. The old `--accent` teal does not survive on these faces.
 

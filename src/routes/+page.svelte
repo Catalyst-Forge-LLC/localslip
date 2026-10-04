@@ -10,6 +10,7 @@
 	import { nextSort, viewRows, type BoardFilters, type SortKey, type SortState } from '$lib/board-view';
 	import Tooltip from '$lib/Tooltip.svelte';
 	import { OPEN_TARGET, rowOpenUrl, visitorHttpUrl } from '$lib/dashboard-url';
+	import { firewallLabel, firewallTip } from '$lib/firewall-label';
 	import { rowBindDisplay } from '$lib/row-detail';
 	import type { BoardRow } from '$lib/types';
 	import type { VisitorSnapshot } from '$lib/visitor';
@@ -194,7 +195,11 @@
 										<span class="text-xs">({row.observed.pid})</span>
 									{/if}
 								</td>
-								<td class={fwTone(row.lease?.firewall)}>{row.lease?.firewall}</td>
+								<td class={fwTone(row.lease?.firewall)}>
+									<Tooltip title={firewallTip(row.lease?.firewall, row.lease?.bind)}>
+										{firewallLabel(row.lease?.firewall, row.lease?.bind)}
+									</Tooltip>
+								</td>
 								<td class="go">
 									{#if href}
 										<Tooltip title={`Open ${href}`}>

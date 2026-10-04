@@ -20,10 +20,13 @@ localslip release foo
 | `--ephemeral` | Scratch lease. Pool is `47000–47999` if you omit `--port`. |
 | `--notes TEXT` | Stored on the lease. |
 | `--or-next` | If `--port` is already leased or something is already listening, take the next free pool port instead. |
+| `--force` | Name a port even when the process listening there belongs to another project. |
 
-Without `--or-next` you can still claim a port that is already listening. That is how you name an app that is already up. A second name cannot take a port another lease already owns. Pass `--or-next` to get a free pool port instead of the one you asked for. The CLI tells you when it fell back.
+A second name cannot take a port another lease already owns. You can claim a port that is already listening when that process belongs to the directory you claimed from (its cwd, or a `node_modules` path in the command). That names an app that is already up. It does not evict the listener. A dev script that re-claims its own port still succeeds when the process matches.
 
-Occupied-port outcome: if `foo` already owns 5173, `localslip claim bar --port 5173` fails. If nothing is leased but Vite is already on 5173, `claim foo --port 5173` succeeds as a name for that listener. The Vite helper with `strictPort: true` then refuses to start a second process on 5173.
+If the listener is another project, the claim fails. Pass `--force` to name it anyway, or `--or-next` for a free port. The CLI tells you when it fell back.
+
+Occupied-port outcome: if `foo` already owns 5173, `localslip claim bar --port 5173` fails. If Vite is already on 5173 and you claim from that app's directory, `claim foo --port 5173` names that listener. From a different project it fails unless you pass `--force`. The Vite helper with `strictPort: true` then refuses to start a second process on 5173.
 
 ```bash
 localslip claim scratch --port 5173 --or-next

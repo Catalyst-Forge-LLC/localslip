@@ -1,3 +1,4 @@
+import { foreignListenerMessage } from '../lib/claim-guard.js';
 import { familyMemberNames } from '../lib/family.js';
 import { isQuietSite } from '../lib/quiet.js';
 import { formatDoctorText, runDoctor } from '../lib/server/doctor.js';
@@ -17,7 +18,7 @@ function usage(): string {
 
 Usage:
   localslip get <name>
-  localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]
+  localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--force] [--cwd PATH] [--command CMD]
   localslip recipe <name> --cwd PATH [--command CMD]
   localslip recipe <name> --save-guess
   localslip recipe --guess-all
@@ -44,6 +45,7 @@ claim flags:
   --ephemeral    scratch lease; pool 47000–47999 if no --port
   --notes TEXT   stored on the lease
   --or-next      if --port is leased or already listening, take the next free pool port
+  --force        name a port another project is already listening on
   --cwd PATH     start recipe cwd (stored; start runs this later)
   --command CMD  start recipe (default pnpm serve when --cwd is set)
 
@@ -103,6 +105,7 @@ async function main(): Promise<void> {
 		}
 		const ephemeral = takeFlag(args, '--ephemeral');
 		const orNext = takeFlag(args, '--or-next');
+		const force = takeFlag(args, '--force');
 		const lan = takeFlag(args, '--lan');
 		const portRaw = takeOpt(args, '--port');
 		const bind = takeOpt(args, '--bind');
@@ -112,13 +115,23 @@ async function main(): Promise<void> {
 		const name = args[0];
 		if (!name || args.length !== 1) {
 			fail(
-				'usage: localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--cwd PATH] [--command CMD]'
+				'usage: localslip claim <name> [--port N] [--bind ADDR] [--lan] [--ephemeral] [--notes TEXT] [--or-next] [--force] [--cwd PATH] [--command CMD]'
 			);
 		}
 		const port = portRaw !== undefined ? Number(portRaw) : undefined;
 		if (portRaw !== undefined && !Number.isInteger(port)) fail(`invalid --port ${portRaw}`);
 		const listeners = await scanListeners();
 		const occupied = listeners.map((row) => row.port);
+		if (port !== undefined) {
+			const block = foreignListenerMessage({
+				port,
+				listeners: listeners.filter((row) => row.port === port),
+				claimDir: cwd ?? process.cwd(),
+				force,
+				orNext
+			});
+			if (block) fail(block);
+		}
 		const { lease, previous, fallbackFrom } = claim({
 			name,
 			port,
