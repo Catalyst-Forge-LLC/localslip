@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { decideSlipOpen, parseSlipPath } from './slip-open.js';
+import { slipOpenPage } from './slip-open-page.js';
+import { decideSlipOpen, editDistance, parseSlipPath, suggestSlipNames } from './slip-open.js';
 
 describe('parseSlipPath', () => {
 	it('reads a name and keeps the rest of the path', () => {
@@ -13,6 +14,52 @@ describe('parseSlipPath', () => {
 
 	it('drops a protocol-relative rest', () => {
 		assert.deepEqual(parseSlipPath('/s/engram//evil.com'), { name: 'engram', rest: '/' });
+	});
+});
+
+describe('suggestSlipNames', () => {
+	const names = ['engram', 'engram-site', 'forgetrail-site', 'localhelm', 'alpha', 'beta', 'gamma'];
+
+	it('counts a substitution and an adjacent swap as one edit', () => {
+		assert.equal(editDistance('engran', 'engram'), 1);
+		assert.equal(editDistance('engrma', 'engram'), 1);
+		assert.deepEqual(suggestSlipNames('engran', names), ['engram']);
+		assert.deepEqual(suggestSlipNames('engrma', names), ['engram']);
+	});
+
+	it('allows two edits only when the typed name is at least 6 characters', () => {
+		assert.deepEqual(suggestSlipNames('cat', ['cut']), ['cut']);
+		assert.deepEqual(suggestSlipNames('ab', ['abcd']), []);
+		assert.deepEqual(suggestSlipNames('engranx', names), ['engram']);
+		assert.deepEqual(suggestSlipNames('forgetrail', ['forgetrail-site']), []);
+		assert.deepEqual(suggestSlipNames('zzzzzz', names), []);
+	});
+
+	it('returns at most three, closest first, then by name', () => {
+		assert.deepEqual(suggestSlipNames('aaaa', ['aaae', 'aaab', 'zzzz', 'aaad', 'aaac']), [
+			'aaab',
+			'aaac',
+			'aaad'
+		]);
+		assert.deepEqual(suggestSlipNames('abcdef', ['abxxef', 'zzzzzz', 'abcde']), ['abcde', 'abxxef']);
+	});
+
+	it('keeps the rest of the path on the suggestion link', () => {
+		const open = decideSlipOpen({
+			name: 'engran',
+			rest: '/imports',
+			search: '?tab=1',
+			hostHeader: 'localhost:54321',
+			lease: null,
+			listening: false,
+			listenBind: null,
+			names
+		});
+		assert.equal(open.kind, 'page');
+		if (open.kind !== 'page') return;
+		assert.deepEqual(open.suggestions, [{ name: 'engram', href: '/s/engram/imports?tab=1' }]);
+		assert.match(slipOpenPage(open), /href="\/s\/engram\/imports\?tab=1"/);
+		assert.match(slipOpenPage(open), /Did you mean/);
 	});
 });
 

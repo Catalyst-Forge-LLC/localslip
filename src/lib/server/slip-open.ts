@@ -2,7 +2,7 @@ import { bindsOverlap } from '../binds.js';
 import { decideSlipOpen, parseSlipPath, type SlipOpen } from '../slip-open.js';
 import { slipOpenPage } from '../slip-open-page.js';
 import { scanListeners } from './observe.js';
-import { getLease } from './registry.js';
+import { getLease, listLeases } from './registry.js';
 
 export type SlipHttp = {
 	status: number;
@@ -48,6 +48,7 @@ export async function slipOpenHttp(
 		};
 	}
 	const lease = getLease(parsed.name);
+	const names = lease ? undefined : listLeases().map((row) => row.name);
 	let listening = false;
 	let observed: string | null = null;
 	if (lease) {
@@ -62,7 +63,8 @@ export async function slipOpenHttp(
 		hostHeader,
 		lease: lease ? { port: lease.port } : null,
 		listening,
-		listenBind: observed
+		listenBind: observed,
+		names
 	});
 	return slipHttpFrom(open, method);
 }

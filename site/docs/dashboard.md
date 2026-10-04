@@ -23,7 +23,7 @@ A tile appears when a **named** lease has a process listening past loopback. Vit
 
 `http://127.0.0.1:54321/s/engram` redirects to that lease. The host in the redirect is the host you typed, so a Tailscale address stays on Tailscale. A path and query go with it: `/s/engram/imports?tab=1` lands on `:5193/imports?tab=1`.
 
-If the name is not leased, or nothing is listening, you get a short page instead of a refused connection. A phone does not get sent to a loopback-only process. [LocalHelm](https://localhelm.dev) answers the same `/s/name` path by asking this dashboard.
+If the name is not leased, or nothing is listening, you get a short page instead of a refused connection. A near miss offers up to three leased names as links. A phone does not get sent to a loopback-only process. [LocalHelm](https://localhelm.dev) answers the same `/s/name` path by asking this dashboard.
 
 ## Peek
 

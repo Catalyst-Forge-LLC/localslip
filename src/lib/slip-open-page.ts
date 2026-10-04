@@ -23,7 +23,21 @@ function esc(value: string): string {
 }
 
 /** Self-contained so a Helm proxy still looks like the board. */
-export function slipOpenPage(opts: { title: string; heading: string; detail: string; hint: string }): string {
+function suggestionLinks(suggestions: { name: string; href: string }[]): string {
+	if (suggestions.length === 0) return '';
+	const links = suggestions
+		.map((row) => `<a href="${esc(row.href)}">${esc(row.name)}</a>`)
+		.join('<span class="sep"> · </span>');
+	return `<p class="alts">Did you mean ${links}</p>`;
+}
+
+export function slipOpenPage(opts: {
+	title: string;
+	heading: string;
+	detail: string;
+	hint: string;
+	suggestions?: { name: string; href: string }[];
+}): string {
 	return `<!doctype html>
 <html lang="en">
 <head>
@@ -64,6 +78,8 @@ main {
 h1 { margin: 0.55rem 0 0; font-size: 1.45rem; font-weight: 600; color: #fde68a; }
 p { margin: 0.7rem 0 0; color: #a8a8b0; }
 .hint { color: #ececef; }
+.alts { color: #ececef; }
+.sep { color: #a8a8b0; }
 a { color: #7ef4ff; }
 </style>
 </head>
@@ -77,6 +93,7 @@ ${emptyBerth()}
 </div>
 </div>
 <p>${esc(opts.detail)}</p>
+${suggestionLinks(opts.suggestions ?? [])}
 <p class="hint">${esc(opts.hint)}</p>
 <p><a href="/">Back to the board</a></p>
 </main>
