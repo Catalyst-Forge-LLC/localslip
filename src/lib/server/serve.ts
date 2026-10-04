@@ -23,6 +23,7 @@ import { parsePeekPort, peekLoopbackDenied, peekPayload } from './http-peek.js';
 import { visitorFeed } from './visitor-feed.js';
 import { DASHBOARD_PORT } from './paths.js';
 import { getBoard } from './board.js';
+import { slipOpenHttp } from './slip-open.js';
 import type { BoardRow } from './types.js';
 
 function esc(value: string): string {
@@ -738,6 +739,12 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 			if (url.pathname === '/logo.png' && sendSiteAsset(res, 'logo.png', 'image/png')) return;
 			if (url.pathname === '/favicon.png' && sendSiteAsset(res, 'favicon.png', 'image/png')) return;
 			if (url.pathname === '/favicon.svg' && sendSiteAsset(res, 'favicon.svg', 'image/svg+xml')) return;
+			const slip = await slipOpenHttp(url.pathname, url.search, req.headers.host, req.method);
+			if (slip) {
+				res.writeHead(slip.status, slip.headers);
+				res.end(slip.body);
+				return;
+			}
 			const operator = isOperatorFace(req.socket.remoteAddress, req.headers.host);
 			if (url.pathname === '/api/peek') {
 				if (!operator) {

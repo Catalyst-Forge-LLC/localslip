@@ -19,6 +19,12 @@ Open the same port from a phone (Tailscale `100.x` or LAN). You get tiles: the a
 
 A tile appears when a **named** lease has a process listening past loopback. Vite `--host` counts, even if the claim is still `127.0.0.1`.
 
+## Open by name
+
+`http://127.0.0.1:54321/s/engram` redirects to that lease. The host in the redirect is the host you typed, so a Tailscale address stays on Tailscale. A path and query go with it: `/s/engram/imports?tab=1` lands on `:5193/imports?tab=1`.
+
+If the name is not leased, or nothing is listening, you get a short page instead of a refused connection. A phone does not get sent to a loopback-only process. [LocalHelm](https://localhelm.dev) answers the same `/s/name` path by asking this dashboard.
+
 ## Peek
 
 Peek is loopback-only. The phone never calls `/api/peek`. LocalSlip reads the HTML on the host and puts the title and icon on the tile.
