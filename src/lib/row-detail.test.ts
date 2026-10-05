@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { rowBindDisplay, rowDetailFields } from './row-detail.js';
+import { rowBindDisplay, rowDetailFields, rowMismatchWord } from './row-detail.js';
 import type { BoardRow } from './types.js';
 
 describe('rowDetailFields', () => {
@@ -135,5 +135,6 @@ describe('rowDetailFields', () => {
 		const mismatch = rowDetailFields(row).find((f) => f.label === 'Mismatch');
 		assert.equal(mismatch?.warn, true);
 		assert.match(mismatch?.value ?? '', /all interfaces/);
+		assert.equal(rowMismatchWord(row), 'wider');
 	});
 });

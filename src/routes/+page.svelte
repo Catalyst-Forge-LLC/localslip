@@ -6,20 +6,18 @@
 	import FilterBar from '$lib/FilterBar.svelte';
 	import RowDetail from '$lib/RowDetail.svelte';
 	import SortHead from '$lib/SortHead.svelte';
-	import VisitorTile from '$lib/VisitorTile.svelte';
+	import DeckFace from '$lib/DeckFace.svelte';
 	import { nextSort, viewRows, type BoardFilters, type SortKey, type SortState } from '$lib/board-view';
 	import Tooltip from '$lib/Tooltip.svelte';
-	import { OPEN_TARGET, rowOpenUrl, visitorHttpUrl } from '$lib/dashboard-url';
+	import { OPEN_TARGET, rowOpenUrl } from '$lib/dashboard-url';
 	import { firewallLabel, firewallTip } from '$lib/firewall-label';
-	import { rowBindDisplay } from '$lib/row-detail';
+	import { rowBindDisplay, rowMismatchWord } from '$lib/row-detail';
 	import type { BoardRow } from '$lib/types';
-	import type { VisitorSnapshot } from '$lib/visitor';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	let expanded = $state<string | null>(null);
 	let peekLine = $state<Record<string, string>>({});
-	let visitorFeed = $state<VisitorSnapshot | null>(null);
 	let tab = $state<'leases' | 'observed'>('leases');
 	let leaseFilters = $state<BoardFilters>({});
 	let observedFilters = $state<BoardFilters>({});
@@ -28,9 +26,6 @@
 
 	const leaseView = $derived(viewRows(data.leaseRows, leaseFilters, leaseSort));
 	const observedView = $derived(viewRows(data.observedRows, observedFilters, observedSort));
-
-	const visitorMachine = $derived(visitorFeed ?? data.machine);
-	const visitorTiles = $derived(visitorFeed?.tiles ?? data.visitorTiles);
 
 	function fwTone(status: string | undefined): string {
 		if (status === 'wanted' || status === 'needs-elevation') return 'tone-wait';
@@ -66,16 +61,7 @@
 	}
 
 	onMount(() => {
-		if (data.face === 'visitor') {
-			const id = setInterval(() => {
-				void fetch('/api/visitor')
-					.then((res) => res.json() as Promise<VisitorSnapshot>)
-					.then((body) => {
-						visitorFeed = body;
-					});
-			}, 8000);
-			return () => clearInterval(id);
-		}
+		if (data.face === 'visitor') return;
 		const id = setInterval(() => {
 			void invalidateAll();
 		}, 8000);
@@ -84,35 +70,20 @@
 </script>
 
 {#if data.face === 'visitor'}
-	<BoardShell>
-		{#snippet header()}
-			<BoardHeader deck hostname={visitorMachine.hostname} addresses={visitorMachine.addresses} />
-		{/snippet}
-		{#if visitorTiles.length === 0}
-			<p class="tone-dim text-sm">
-				Nothing listening past loopback. Claim with
-				<code>--lan</code>
-				or start the app on all interfaces.
-			</p>
-		{:else}
-			<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-				{#each visitorTiles as tile (tile.name)}
-					<VisitorTile
-						name={tile.name}
-						port={tile.port}
-						title={tile.title}
-						icon={tile.icon}
-						href={data.pageHost ? visitorHttpUrl(data.pageHost, tile.port) : null}
-					/>
-				{/each}
-			</div>
-		{/if}
-	</BoardShell>
+	<DeckFace
+		hostname={data.machine.hostname}
+		addresses={data.machine.addresses}
+		tiles={data.visitorTiles}
+		hostHeader={data.hostHeader}
+		pageHost={data.pageHost}
+	/>
 {:else}
 	<BoardShell fill>
 		{#snippet header()}
 	<BoardHeader hostname={data.machine.hostname} addresses={data.machine.addresses}>
 		:54321 ·
+		<a href="/deck">Deck</a>
+		·
 		{#if data.showSystem}
 			<a href="/">Hide system ports</a>
 		{:else}
@@ -171,6 +142,7 @@
 						{#each leaseView as row}
 							{@const href = rowOpenUrl(row)}
 							{@const key = rowId(row)}
+							{@const mismatch = rowMismatchWord(row)}
 							<tr
 								class="slip-row {row.conflict ? 'conflict' : ''} {expanded === key ? 'open' : ''}"
 								onclick={(event) => toggle(row, event)}
@@ -181,7 +153,12 @@
 									</Tooltip>
 								</td>
 								<td class="num">{row.lease?.port}</td>
-								<td class="tone-dim">{rowBindDisplay(row)}</td>
+								<td class="tone-dim">
+									{rowBindDisplay(row)}
+									{#if mismatch}
+										<span class="tone-wait">{mismatch}</span>
+									{/if}
+								</td>
 								<td>
 									{#if row.listening}
 										<span class="tone-live">yes</span>

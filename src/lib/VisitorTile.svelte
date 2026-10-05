@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { copyText } from '$lib/copy-text';
-	import { OPEN_TARGET, visitorTileIcons, visitorTileLetter, VISITOR_FAVICON_FILES } from '$lib/dashboard-url';
+	import {
+		OPEN_TARGET,
+		visitorTileBand,
+		visitorTileIcons,
+		visitorTileLetter,
+		VISITOR_FAVICON_FILES
+	} from '$lib/dashboard-url';
 
 	let {
 		name,
 		port,
 		href,
+		iconHref = null,
 		title = null,
 		icon = null,
 		here = false
@@ -13,6 +20,8 @@
 		name: string;
 		port: number;
 		href: string | null;
+		/** App origin for the favicon. The click href is the dashboard `/s/<name>` link. */
+		iconHref?: string | null;
 		title?: string | null;
 		icon?: string | null;
 		here?: boolean;
@@ -20,8 +29,9 @@
 
 	const letter = $derived(visitorTileLetter(name));
 	const heading = $derived(title?.trim() || name);
+	const band = $derived(visitorTileBand(name, port, title, here));
 	const candidates = $derived(
-		here ? VISITOR_FAVICON_FILES.map((file) => `/${file}`) : href ? visitorTileIcons(href, icon) : []
+		here ? VISITOR_FAVICON_FILES.map((file) => `/${file}`) : iconHref ? visitorTileIcons(iconHref, icon) : []
 	);
 	let iconIndex = $state(0);
 	let broken = $state(false);
@@ -95,7 +105,7 @@
 		</span>
 		<span class="title">{copied ? 'Copied' : heading}</span>
 	</span>
-	<span class="band">{here ? 'This app' : `:${port}`}</span>
+	<span class="band">{band}</span>
 {/snippet}
 
 {#if href && !here}

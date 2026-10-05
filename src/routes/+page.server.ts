@@ -6,13 +6,15 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url, getClientAddress, request }) => {
 	const machine = machineCard();
-	if (!isOperatorFace(getClientAddress(), request.headers.get('host'))) {
+	const hostHeader = request.headers.get('host');
+	if (!isOperatorFace(getClientAddress(), hostHeader)) {
 		const board = await getBoard({ showSystem: false });
 		const feed = await visitorFeed(board.leaseRows, machine);
 		return {
 			face: 'visitor' as const,
 			visitorTiles: feed.tiles,
-			pageHost: visitorPageHost(request.headers.get('host')),
+			pageHost: visitorPageHost(hostHeader),
+			hostHeader,
 			showSystem: false,
 			hiddenSystem: 0,
 			leaseRows: [],
@@ -27,6 +29,7 @@ export const load: PageServerLoad = async ({ url, getClientAddress, request }) =
 		showSystem,
 		visitorTiles: [],
 		pageHost: null,
+		hostHeader: null,
 		machine
 	};
 };

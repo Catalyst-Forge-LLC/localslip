@@ -65,7 +65,7 @@ describe('helm plugin boards', () => {
 		assert.equal(boards[0]?.title, 'Leases');
 		assert.equal(boards[0]?.rows[0]?.id, 'localhelm');
 		assert.equal(boards[0]?.rows[0]?.cells.listening, 'yes');
-		assert.equal(boards[0]?.rows[0]?.href, 'http://127.0.0.1:4321/');
+		assert.equal(boards[0]?.rows[0]?.href, '/s/localhelm');
 		assert.deepEqual(
 			boards[0]?.rows[0]?.actions.map((act) => act.id),
 			['stop', 'park'],

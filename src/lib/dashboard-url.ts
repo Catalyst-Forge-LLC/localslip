@@ -3,12 +3,17 @@ import { isLoopbackBind, isLoopbackClient } from './binds.js';
 /** One named tab so a second Open replaces the first. Do not use rel=noreferrer — Chrome then ignores the name. */
 export const OPEN_TARGET = 'localslip-open';
 
-/** Prefer the observed listen address so IPv6-only Vite still opens. */
+/**
+ * Named rows open `/s/<name>`, including when the port is quiet.
+ * A listener with no lease still opens on the address that is actually listening.
+ */
 export function rowOpenUrl(row: {
 	listening: boolean;
-	lease?: { bind: string; port: number } | null;
+	lease?: { name?: string; bind: string; port: number } | null;
 	observed?: { bind: string; port: number } | null;
 }): string | null {
+	const name = row.lease?.name?.trim().toLowerCase();
+	if (name && /^[a-z0-9][a-z0-9-]*$/.test(name)) return `/s/${name}`;
 	if (!row.listening) return null;
 	const port = row.lease?.port ?? row.observed?.port;
 	const bind = row.observed?.bind ?? row.lease?.bind;
@@ -42,6 +47,36 @@ export function visitorPageHost(hostHeader: string | null | undefined): string |
 	} catch {
 		return null;
 	}
+}
+
+/** `http://host:port` from the Host header, with no path. */
+export function visitorPageOrigin(hostHeader: string | null | undefined): string | null {
+	if (!hostHeader) return null;
+	const raw = hostHeader.trim();
+	if (!raw || /[\s/@\\]/.test(raw)) return null;
+	try {
+		return new URL(`http://${raw}/`).origin;
+	} catch {
+		return null;
+	}
+}
+
+/** Absolute `/s/<name>` on the dashboard the browser already opened. */
+export function slipShareUrl(hostHeader: string | null | undefined, name: string): string | null {
+	const origin = visitorPageOrigin(hostHeader);
+	const slug = name.trim().toLowerCase();
+	if (!origin || !/^[a-z0-9][a-z0-9-]*$/.test(slug)) return null;
+	return `${origin}/s/${slug}`;
+}
+
+/**
+ * Tile caption. The lease name joins the port when the page title is a different string.
+ */
+export function visitorTileBand(name: string, port: number, title?: string | null, here = false): string {
+	if (here) return 'This app';
+	const heading = title?.trim();
+	if (heading && heading.toLowerCase() !== name.trim().toLowerCase()) return `${name} · :${port}`;
+	return `:${port}`;
 }
 
 /** Host the browser asked for is loopback (localhost / 127 / ::1). */

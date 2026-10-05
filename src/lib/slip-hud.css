@@ -387,6 +387,25 @@ code {
 	color: var(--cyan);
 }
 
+.deck-empty {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	max-width: 28rem;
+	padding: 0.25rem 0 0.5rem;
+}
+
+.deck-empty .glyph {
+	flex: none;
+	width: 5.75rem;
+	height: auto;
+}
+
+.deck-empty p {
+	margin: 0;
+	color: var(--dim);
+}
+
 .deck-tile {
 	--tick: 0.7rem;
 	--hud-fill: var(--glass-fill);

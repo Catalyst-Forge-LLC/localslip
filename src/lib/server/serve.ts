@@ -7,9 +7,12 @@ import {
 	OPEN_TARGET,
 	isOperatorFace,
 	rowOpenUrl,
+	slipShareUrl,
 	visitorHttpUrl,
 	VISITOR_FAVICON_FILES,
 	visitorPageHost,
+	visitorPageOrigin,
+	visitorTileBand,
 	visitorTileIcons,
 	visitorTileLetter
 } from '../dashboard-url.js';
@@ -17,7 +20,8 @@ import { addressCaption } from '../address.js';
 import { firewallLabel, firewallTip } from '../firewall-label.js';
 import { machineCard } from '../machine.js';
 import { recipeHealth } from '../recipe-health.js';
-import { rowBindDisplay, rowDetailFields } from '../row-detail.js';
+import { rowBindDisplay, rowDetailFields, rowMismatchWord } from '../row-detail.js';
+import { deckQuietHtml } from '../slip-open-page.js';
 import { dashboardListenLine, resolveDashboardHost } from './dashboard-host.js';
 import { parsePeekPort, peekLoopbackDenied, peekPayload } from './http-peek.js';
 import { visitorFeed } from './visitor-feed.js';
@@ -297,6 +301,10 @@ function rowPair(row: BoardRow): string {
 	const tag = row.lease ? '' : ' <span class="warn">observed</span>';
 	const port = row.lease?.port ?? row.observed?.port ?? 0;
 	const bind = rowBindDisplay(row);
+	const mismatch = rowMismatchWord(row);
+	const bindCell = mismatch
+		? `${esc(bind)} <span class="tone-wait">${esc(mismatch)}</span>`
+		: esc(bind);
 	const href = rowOpenUrl(row);
 	const listening = row.listening ? '<span class="tone-live">yes</span>' : '<span class="tone-dim">no</span>';
 	const proc = row.observed?.process ?? '—';
@@ -317,7 +325,7 @@ function rowPair(row: BoardRow): string {
 		`data-conflict="${row.conflict ? '1' : '0'}"`,
 		`data-kind="${esc(row.lease?.kind ?? '')}"`
 	].join(' ');
-	return `<tr class="row${row.conflict ? ' conflict' : ''}" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="tone-dim">${esc(bind)}</td><td>${listening}</td><td class="tone-dim">${esc(proc)}${pid}</td><td class="${fwTone}"${fwTip ? ` data-tippy-content="${esc(fwTip)}"` : ''}>${esc(fw)}</td>${openCell(href)}</tr>
+	return `<tr class="row${row.conflict ? ' conflict' : ''}" ${attrs}><td data-tippy-content="${esc(rowTip(row))}">${esc(name)}${tag}</td><td class="num">${port || '—'}</td><td class="tone-dim">${bindCell}</td><td>${listening}</td><td class="tone-dim">${esc(proc)}${pid}</td><td class="${fwTone}"${fwTip ? ` data-tippy-content="${esc(fwTip)}"` : ''}>${esc(fw)}</td>${openCell(href)}</tr>
 <tr class="detail" data-for="${key}" data-port="${port}" data-listening="${row.listening ? '1' : ''}"><td colspan="7"><div class="panel"><div class="inner">${facts(row)}</div></div></td></tr>`;
 }
 
@@ -380,7 +388,7 @@ ${hudStyle()}
 </head>
 <body class="slip-chart">
 <main>
-${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`)}
+${brandHeader(`:${DASHBOARD_PORT} · <a href="/deck">Deck</a> · ${toggle}`)}
 <div class="feed board">
 <div class="tabs" role="tablist" aria-label="Board">
 <button type="button" class="station" role="tab" id="tab-leases" data-tab="leases" aria-controls="pane-leases" aria-selected="true">Leases <span class="n">${board.leaseRows.length}</span></button>
@@ -577,6 +585,7 @@ function visitorTile(
 	name: string,
 	port: number,
 	href: string | null,
+	iconBase: string | null,
 	here: boolean,
 	title?: string | null,
 	icon?: string | null
@@ -585,11 +594,11 @@ function visitorTile(
 	const letter = esc(visitorTileLetter(name));
 	const candidates = here
 		? VISITOR_FAVICON_FILES.map((file) => `/${file}`)
-		: href
-			? visitorTileIcons(href, icon)
+		: iconBase
+			? visitorTileIcons(iconBase, icon)
 			: [];
 	const img = visitorIconImg(candidates);
-	const caption = here ? 'This app' : `:${port}`;
+	const caption = visitorTileBand(name, port, title, here);
 	const face = `<span class="face"><span class="icon" aria-hidden="true">${letter}${img}</span><span class="title">${esc(heading)}</span></span><span class="band${here ? ' here' : ''}">${esc(caption)}</span>`;
 	const cls = `deck-tile hud-frame${here ? ' here' : ''}`;
 	if (!href || here) {
@@ -598,15 +607,23 @@ function visitorTile(
 	return `<a class="${cls}" href="${esc(href)}" target="${OPEN_TARGET}" rel="noopener" aria-label="Open ${esc(heading)}" data-copy-url="${esc(href)}">${face}</a>`;
 }
 
-async function visitorPage(board: Awaited<ReturnType<typeof getBoard>>, pageHost: string | null): Promise<string> {
+async function visitorPage(
+	board: Awaited<ReturnType<typeof getBoard>>,
+	hostHeader: string | null,
+	boardLink = false
+): Promise<string> {
+	const pageHost = visitorPageHost(hostHeader);
+	const pageOrigin = visitorPageOrigin(hostHeader);
 	const feed = await visitorFeed(board.leaseRows, machineCard());
+	const quiet = deckQuietHtml();
 	const body =
 		feed.tiles.length === 0
-			? `<p class="tone-dim">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
+			? quiet
 			: `<div class="tiles">${feed.tiles
 					.map((tile) => {
-						const href = pageHost ? visitorHttpUrl(pageHost, tile.port) : null;
-						return visitorTile(tile.name, tile.port, href, false, tile.title, tile.icon);
+						const href = slipShareUrl(hostHeader, tile.name);
+						const iconBase = pageHost ? visitorHttpUrl(pageHost, tile.port) : null;
+						return visitorTile(tile.name, tile.port, href, iconBase, false, tile.title, tile.icon);
 					})
 					.join('')}</div>`;
 	return `<!doctype html>
@@ -620,7 +637,7 @@ ${hudStyle()}
 </head>
 <body class="slip-chart">
 <main>
-${brandHeader('', 'deck')}
+${brandHeader(boardLink ? '<a href="/">Board</a>' : '', 'deck')}
 <div class="feed" id="feed">${body}</div>
 ${siteFooter()}
 </main>
@@ -628,10 +645,9 @@ ${siteFooter()}
 ${COPY_SCRIPT}
 (function () {
 	var pageHost = ${JSON.stringify(pageHost)};
+	var pageOrigin = ${JSON.stringify(pageOrigin)};
 	var last = '';
-	var empty = ${JSON.stringify(
-		`<p class="tone-dim">Nothing listening past loopback. Claim with <code>--lan</code> or start the app on all interfaces.</p>`
-	)};
+	var empty = ${JSON.stringify(quiet)};
 	function nextIcon(img) {
 		var n;
 		try { n = JSON.parse(img.getAttribute('data-next') || '[]'); } catch (e) { n = []; }
@@ -659,8 +675,14 @@ ${COPY_SCRIPT}
 		} catch (e) { return null; }
 	}
 	function tileEl(tile) {
-		var href = pageHost ? ('http://' + pageHost + ':' + tile.port + '/') : null;
+		var slug = String(tile.name || '').trim().toLowerCase();
+		var href = pageOrigin && /^[a-z0-9][a-z0-9-]*$/.test(slug) ? (pageOrigin + '/s/' + slug) : null;
+		var iconBase = pageHost ? ('http://' + pageHost + ':' + tile.port + '/') : null;
 		var heading = (tile.title && String(tile.title).trim()) || tile.name;
+		var titleText = tile.title && String(tile.title).trim();
+		var band = titleText && titleText.toLowerCase() !== String(tile.name).trim().toLowerCase()
+			? (tile.name + ' · :' + tile.port)
+			: (':' + tile.port);
 		var root = document.createElement(href ? 'a' : 'div');
 		root.className = 'deck-tile hud-frame';
 		if (href) {
@@ -674,9 +696,9 @@ ${COPY_SCRIPT}
 		logo.className = 'icon';
 		logo.setAttribute('aria-hidden', 'true');
 		logo.textContent = (tile.name.trim().charAt(0) || '?').toUpperCase();
-		if (href) {
-			var guessed = ['favicon.png', 'favicon.svg', 'favicon.ico'].map(function (f) { return href + f; });
-			var peeked = resolveIcon(href, tile.icon);
+		if (iconBase) {
+			var guessed = ['favicon.png', 'favicon.svg', 'favicon.ico'].map(function (f) { return iconBase + f; });
+			var peeked = resolveIcon(iconBase, tile.icon);
 			var files = peeked ? [peeked].concat(guessed.filter(function (u) { return u !== peeked; })) : guessed;
 			var img = document.createElement('img');
 			img.alt = '';
@@ -692,7 +714,7 @@ ${COPY_SCRIPT}
 		name.textContent = heading;
 		var port = document.createElement('span');
 		port.className = 'band';
-		port.textContent = ':' + tile.port;
+		port.textContent = band;
 		face.appendChild(logo);
 		face.appendChild(name);
 		root.appendChild(face);
@@ -780,11 +802,16 @@ export async function serveDashboard(opts: { host?: string; port?: number } = {}
 				res.end(JSON.stringify(board));
 				return;
 			}
+			if (url.pathname === '/deck' || url.pathname === '/deck/') {
+				const board = await getBoard({ showSystem: false });
+				res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+				res.end(await visitorPage(board, req.headers.host ?? null, operator));
+				return;
+			}
 			if (!operator) {
 				const board = await getBoard({ showSystem: false });
-				const pageHost = visitorPageHost(req.headers.host);
 				res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-				res.end(await visitorPage(board, pageHost));
+				res.end(await visitorPage(board, req.headers.host ?? null));
 				return;
 			}
 			const showSystem = url.searchParams.get('system') === '1';

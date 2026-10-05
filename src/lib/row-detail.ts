@@ -4,6 +4,16 @@ import type { BoardRow } from './types.js';
 
 export type DetailField = { label: string; value: string; wide?: boolean; warn?: boolean; wrap?: boolean };
 
+/** Short word for a bind that does not match the claim, or a second listener on the port. */
+export function rowMismatchWord(row: BoardRow): string | null {
+	if (row.lease && row.observed?.bind) {
+		const relation = bindRelation(row.lease.bind, row.observed.bind);
+		if (relation === 'wider' || relation === 'narrower' || relation === 'other') return relation;
+	}
+	if (row.also.length > 0) return 'also';
+	return null;
+}
+
 /** Bind the table should show: the listen address when up, else the claim. */
 export function rowBindDisplay(row: BoardRow): string {
 	if (row.listening && row.observed?.bind) return displayBind(row.observed.bind);

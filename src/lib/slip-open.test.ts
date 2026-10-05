@@ -77,6 +77,19 @@ describe('decideSlipOpen', () => {
 		assert.deepEqual(open, { kind: 'redirect', location: 'http://localhost:5193/imports?tab=1' });
 	});
 
+	it('opens an IPv6-only listener from an IPv4 loopback page', () => {
+		const open = decideSlipOpen({
+			name: 'engram',
+			rest: '/',
+			search: '',
+			hostHeader: '127.0.0.1:54321',
+			lease: { port: 6173 },
+			listening: true,
+			listenBind: '::1'
+		});
+		assert.deepEqual(open, { kind: 'redirect', location: 'http://[::1]:6173/' });
+	});
+
 	it('uses the host the browser typed', () => {
 		const open = decideSlipOpen({
 			name: 'engram',

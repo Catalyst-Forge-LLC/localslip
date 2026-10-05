@@ -4,10 +4,12 @@ import {
 	dashboardHttpUrl,
 	rowOpenUrl,
 	isOperatorFace,
+	slipShareUrl,
 	visitorFaviconCandidates,
 	visitorHttpUrl,
 	visitorIconUrl,
 	visitorPageHost,
+	visitorTileBand,
 	visitorTileIcons,
 	visitorTileLetter
 } from './dashboard-url.js';
@@ -30,15 +32,42 @@ describe('dashboardHttpUrl', () => {
 		assert.equal(dashboardHttpUrl('127.0.0.1', 0), null);
 	});
 
-	it('opens on the observed bind when Vite is IPv6-only', () => {
+	it('opens a named lease through /s/<name>, even when the port is quiet', () => {
 		assert.equal(
 			rowOpenUrl({
 				listening: true,
-				lease: { bind: '127.0.0.1', port: 6173 },
+				lease: { name: 'engram', bind: '127.0.0.1', port: 6173 },
+				observed: { bind: '::1', port: 6173 }
+			}),
+			'/s/engram'
+		);
+		assert.equal(
+			rowOpenUrl({
+				listening: false,
+				lease: { name: 'engram', bind: '127.0.0.1', port: 6173 },
+				observed: null
+			}),
+			'/s/engram'
+		);
+	});
+
+	it('opens an unnamed listener on the address that is listening', () => {
+		assert.equal(
+			rowOpenUrl({
+				listening: true,
+				lease: null,
 				observed: { bind: '::1', port: 6173 }
 			}),
 			'http://[::1]:6173/'
 		);
+	});
+
+	it('shares a slip on the dashboard host and names the tile when the title differs', () => {
+		assert.equal(slipShareUrl('100.64.1.2:54321', 'Engram'), 'http://100.64.1.2:54321/s/engram');
+		assert.equal(slipShareUrl('evil.com/x', 'engram'), null);
+		assert.equal(visitorTileBand('engram', 5193, 'Engram'), ':5193');
+		assert.equal(visitorTileBand('engram', 5193, 'Local archive'), 'engram · :5193');
+		assert.equal(visitorTileBand('engram', 5193, null, true), 'This app');
 	});
 
 	it('builds visitor opens from the request Host', () => {

@@ -1,4 +1,4 @@
-import { isLoopbackBind } from './binds.js';
+import { isLoopbackBind, isWildcardBind, normalizeBind } from './binds.js';
 import { visitorHttpUrl, visitorPageHost } from './dashboard-url.js';
 
 const SLIP_PATH = /^\/s\/([a-z0-9][a-z0-9-]*)(\/.*)?$/i;
@@ -121,7 +121,7 @@ export function decideSlipOpen(opts: {
 			suggestions: []
 		};
 	}
-	const base = visitorHttpUrl(pageHost, port);
+	const base = visitorHttpUrl(redirectHost(pageHost, opts.listenBind), port);
 	if (!base) {
 		return {
 			kind: 'page',
@@ -136,4 +136,16 @@ export function decideSlipOpen(opts: {
 	const path = opts.rest === '/' ? '' : opts.rest.replace(/^\//, '');
 	const search = opts.search.startsWith('?') ? opts.search : '';
 	return { kind: 'redirect', location: `${base}${path}${search}` };
+}
+
+/**
+ * Keep the host the browser typed.
+ * A loopback page on 127.0.0.1 cannot open a listener that is only on ::1, so that case uses the listen address.
+ */
+function redirectHost(pageHost: string, listenBind: string): string {
+	const listen = normalizeBind(listenBind);
+	if (isWildcardBind(listen) || !isLoopbackBind(pageHost) || !isLoopbackBind(listen)) return pageHost;
+	const page = normalizeBind(pageHost).toLowerCase();
+	if (page === listen.toLowerCase() || page === 'localhost') return pageHost;
+	return listen.includes(':') ? `[${listen}]` : listen;
 }

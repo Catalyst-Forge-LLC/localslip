@@ -1,5 +1,5 @@
 /** Top-down empty berth. Cyan piers, a gold painter with nothing on the end. */
-function emptyBerth(): string {
+export function emptyBerth(): string {
 	return `<svg class="glyph" viewBox="0 0 168 104" aria-hidden="true">
 <path d="M16 26 H152" stroke="#3a5a70" stroke-width="3" fill="none"/>
 <path d="M34 26 V90" stroke="#7ef4ff" stroke-width="3" fill="none"/>
@@ -10,6 +10,11 @@ function emptyBerth(): string {
 <circle cx="84" cy="66" r="3.2" fill="none" stroke="#fde68a" stroke-width="1.4"/>
 <path d="M46 92 H70 M98 92 H122" stroke="#3a5a70" stroke-width="1.6" fill="none"/>
 </svg>`;
+}
+
+/** Quiet Deck. The berth is the same drawing as the miss page. */
+export function deckQuietHtml(): string {
+	return `<div class="deck-empty">${emptyBerth()}<p>Nothing is listening on this address.</p></div>`;
 }
 
 function esc(value: string): string {
