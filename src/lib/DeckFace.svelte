@@ -41,17 +41,13 @@
 	});
 </script>
 
-{#snippet boardBack()}
-	<a href="/">Board</a>
-{/snippet}
-
 <BoardShell>
 	{#snippet header()}
 		<BoardHeader
 			deck
 			hostname={shownHost}
 			addresses={shownAddresses}
-			children={boardLink ? boardBack : undefined}
+			modeLink={boardLink}
 		/>
 	{/snippet}
 	{#if shownTiles.length === 0}
@@ -60,7 +56,7 @@
 			<p>Nothing is listening on this address.</p>
 		</div>
 	{:else}
-		<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+		<div class="deck-grid grid grid-cols-2 pt-2 sm:grid-cols-3">
 			{#each shownTiles as tile (tile.name)}
 				<VisitorTile
 					name={tile.name}

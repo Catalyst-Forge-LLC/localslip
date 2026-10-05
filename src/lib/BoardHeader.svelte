@@ -2,17 +2,20 @@
 	import { addressCaption } from '$lib/address';
 	import BrandMark from '$lib/BrandMark.svelte';
 	import { copyText } from '$lib/copy-text';
+	import { viewIcon } from '$lib/view-icon';
 	import type { Snippet } from 'svelte';
 
 	let {
 		hostname,
 		addresses,
 		deck = false,
+		modeLink = false,
 		children
 	}: {
 		hostname: string;
 		addresses: string[];
 		deck?: boolean;
+		modeLink?: boolean;
 		children?: Snippet;
 	} = $props();
 
@@ -58,4 +61,12 @@
 			</span>
 		{/if}
 	</div>
+	{#if modeLink}
+		<nav class="mode-nav" aria-label="View">
+			<a class="mode-button" href={deck ? '/' : '/deck'}>
+				{@html viewIcon(deck ? 'board' : 'deck')}
+				<span>{deck ? 'Board' : 'Deck'}</span>
+			</a>
+		</nav>
+	{/if}
 </header>

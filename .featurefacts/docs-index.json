@@ -1,6 +1,341 @@
 {
   "schemaVersion": "0.2.0",
-  "scan_id": "scan-init",
+  "scan_id": "scan-9e36b3276583",
   "kind": "docs",
-  "assessments": []
+  "assessments": [
+    {
+      "feature_id": "cmd-claim",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-private-sibling-adoption",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-doctor",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-firewall",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-get",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-private-sibling-adoption",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-rename-to-localslip",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-readme",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-ls",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "cmd-park",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-quiet",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "cmd-recipe",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-release",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-scan",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-serve",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-specs-slip-hud",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-readme",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-server",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "cmd-start",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          },
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-stop",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-phase-1-brief",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "cmd-unpark",
+      "assessment": {
+        "state": "partial",
+        "result": "linked-evidence",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [
+          {
+            "surface_id": "doc-docs-specs-cheap-surfaces",
+            "association": "static-reference"
+          }
+        ],
+        "reason": "A document names this capability in a heading or code span. That is a sign. It does not mean the documentation is adequate."
+      }
+    },
+    {
+      "feature_id": "localslip",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [],
+        "links": [],
+        "reason": "Documentation was not assessed."
+      }
+    },
+    {
+      "feature_id": "route-board",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "route-home",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "route-peek",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    },
+    {
+      "feature_id": "route-visitor",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "markdown-document"
+        ],
+        "links": [],
+        "reason": "No explicit documentation association. Filename resemblance is not an accepted link."
+      }
+    }
+  ]
 }

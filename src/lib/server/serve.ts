@@ -22,6 +22,7 @@ import { machineCard } from '../machine.js';
 import { recipeHealth } from '../recipe-health.js';
 import { rowBindDisplay, rowDetailFields, rowMismatchWord } from '../row-detail.js';
 import { deckQuietHtml } from '../slip-open-page.js';
+import { viewIcon } from '../view-icon.js';
 import { dashboardListenLine, resolveDashboardHost } from './dashboard-host.js';
 import { parsePeekPort, peekLoopbackDenied, peekPayload } from './http-peek.js';
 import { visitorFeed } from './visitor-feed.js';
@@ -41,7 +42,7 @@ const PKG_ROOT = join(HERE, '../../..');
 const LAYOUT_CSS = `html,body { height:100%; overflow:hidden; }
 body { margin:0; font:14px/1.4 ui-sans-serif,system-ui,sans-serif; }
 main { display:flex; flex-direction:column; height:100%; min-height:100dvh; padding:0; overflow:hidden; }
-.feed { flex:1; min-height:0; overflow:auto; padding:0 1.25rem 1rem; }
+.feed { flex:1; min-height:0; overflow:auto; padding:var(--deck-gap) 1.25rem 1rem; }
 .feed.board { display:flex; flex-direction:column; overflow:hidden; padding-top:1rem; }
 .tabs { display:flex; gap:.15rem; flex-shrink:0; margin-bottom:.75rem; }
 .pane { display:none; flex:1; min-height:0; }
@@ -69,7 +70,7 @@ tr.detail.open .inner { padding:.75rem 1rem .9rem; }
 .facts .wrap dd { word-break:break-all; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.78rem; line-height:1.35; }
 .facts .log-tail { grid-column:1 / -1; }
 .facts .log-tail pre { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; word-break:break-word; color:var(--dim); font-size:.78rem; line-height:1.35; }
-.tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
+.tiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--deck-gap); }
 @media (min-width:640px) { .tiles { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 #feed { flex:1; }`;
 
@@ -129,7 +130,7 @@ function brandMark(face: 'board' | 'deck'): string {
 	return `<span class="brand"><img src="/logo.png" alt=""/>${word}</span>`;
 }
 
-function brandHeader(meta: string, face: 'board' | 'deck' = 'board'): string {
+function brandHeader(meta: string, face: 'board' | 'deck' = 'board', modeLink = false): string {
 	const machine = machineCard();
 	const addrs = machine.addresses
 		.map(
@@ -144,6 +145,7 @@ ${brandMark(face)}
 ${addrs}
 ${meta ? `<span class="dot" aria-hidden="true">·</span><span class="meta">${meta}</span>` : ''}
 </div>
+${modeLink ? `<nav class="mode-nav" aria-label="View"><a class="mode-button" href="${face === 'deck' ? '/' : '/deck'}">${viewIcon(face === 'deck' ? 'board' : 'deck')}<span>${face === 'deck' ? 'Board' : 'Deck'}</span></a></nav>` : ''}
 </header>`;
 }
 
@@ -388,7 +390,7 @@ ${hudStyle()}
 </head>
 <body class="slip-chart">
 <main>
-${brandHeader(`:${DASHBOARD_PORT} · <a href="/deck">Deck</a> · ${toggle}`)}
+${brandHeader(`:${DASHBOARD_PORT} · ${toggle}`, 'board', true)}
 <div class="feed board">
 <div class="tabs" role="tablist" aria-label="Board">
 <button type="button" class="station" role="tab" id="tab-leases" data-tab="leases" aria-controls="pane-leases" aria-selected="true">Leases <span class="n">${board.leaseRows.length}</span></button>
@@ -637,7 +639,7 @@ ${hudStyle()}
 </head>
 <body class="slip-chart">
 <main>
-${brandHeader(boardLink ? '<a href="/">Board</a>' : '', 'deck')}
+${brandHeader('', 'deck', boardLink)}
 <div class="feed" id="feed">${body}</div>
 ${siteFooter()}
 </main>

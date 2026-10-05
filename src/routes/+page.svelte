@@ -80,10 +80,8 @@
 {:else}
 	<BoardShell fill>
 		{#snippet header()}
-	<BoardHeader hostname={data.machine.hostname} addresses={data.machine.addresses}>
+	<BoardHeader modeLink hostname={data.machine.hostname} addresses={data.machine.addresses}>
 		:54321 ·
-		<a href="/deck">Deck</a>
-		·
 		{#if data.showSystem}
 			<a href="/">Hide system ports</a>
 		{:else}
