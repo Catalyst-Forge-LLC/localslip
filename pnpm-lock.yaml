@@ -40,8 +40,8 @@ importers:
         specifier: ^24.3.0
         version: 24.13.3
       smellcheck:
-        specifier: ^0.3.4
-        version: 0.3.4
+        specifier: ^0.4.1
+        version: 0.4.1
       svelte:
         specifier: ^5.56.6
         version: 5.56.9
@@ -1022,8 +1022,8 @@ packages:
     resolution: {integrity: sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g==}
     engines: {node: '>=18'}
 
-  smellcheck@0.3.4:
-    resolution: {integrity: sha512-7QhEwrmUpdKi0rg8WlT0m10HsIl5w2gq5MbBijJ9FKrJFBNKsOSkJnNq5HfkLGPd3qs+NBJmVNfKR2svISx5LA==}
+  smellcheck@0.4.1:
+    resolution: {integrity: sha512-L7CRLswMeNablUjxJvbuxyi2fRfPbaREI35x8Y1mTISxq0KZoQtot5gXYCrVqUYer0B8hUnOJHShUliCRrR8XA==}
     engines: {node: '>=20'}
 
   source-map-js@1.2.1:
@@ -1841,7 +1841,7 @@ snapshots:
       mrmime: 2.0.1
       totalist: 3.0.1
 
-  smellcheck@0.3.4: {}
+  smellcheck@0.4.1: {}
 
   source-map-js@1.2.1: {}
 
