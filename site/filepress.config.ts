@@ -2,11 +2,11 @@ import { defineFilepressConfig } from 'getfilepress';
 
 export default defineFilepressConfig({
 	title: 'LocalSlip',
-	description: 'Named local port registry for development apps.',
+	description: "When development apps start in a different order, their URLs should not swap. LocalSlip assigns a port to a name, and your app integration reads that assignment before starting.",
 	url: 'https://localslip.dev',
 	author: 'Catalyst Forge, LLC',
 	tagline: 'A named registry for local ports.',
-	lede: 'Claim · lookup · same port',
+	lede: "Named local port registry and CLI",
 	logo: '/logo.png',
 	ogImage: '/logo.png',
 	homePage: 'home',

@@ -1,22 +1,9 @@
 ---
-title: The same port each time the app starts.
-description: Named local port registry for development apps.
+title: "Keep each app at the port you expect."
+description: "When development apps start in a different order, their URLs should not swap. LocalSlip assigns a port to a name, and your app integration reads that assignment before starting."
 ---
 
-<aside class="dict">
-<p><strong>slip</strong> <span class="pos">n.</span> a boat's allotted place at a dock.</p>
-</aside>
-
-Give local development apps stable, named port assignments. LocalSlip lets your CLI or supported app integration look up the intended port instead of relying on startup order.
-
-You start a Svelte app. Vite takes **5173**. You start a second one. It takes **5174**. After a reboot you start them in the other order. The ports swap. Bookmarks, firewall rules, and the phone now hit the wrong app.
-
-Name the port so that does not happen. `notes` stays on 5173. `shop` stays on 5174. The app asks LocalSlip for its number instead of hoping Vite picked the same one again.
-
-<div class="cta-row">
-  <a class="cta cta-primary" href="/install">Install LocalSlip</a>
-  <a class="cta cta-secondary" href="https://github.com/Catalyst-Forge-LLC/localslip">View on GitHub</a>
-</div>
+<section class="value-hero" aria-label="LocalSlip overview"><div class="value-intro"><p class="value-kind">Named local port registry and CLI</p><h1>Keep each app at the port you expect.</h1><p class="value-lede">When development apps start in a different order, their URLs should not swap. LocalSlip assigns a port to a name, and your app integration reads that assignment before starting.</p><div class="cta-row"><a class="cta cta-primary" href="/install">Install LocalSlip</a><a class="cta cta-secondary" href="#claim-a-port-then-make-the-app-read-it">Wire a first app</a></div><p class="value-limit">A claim does not start or reconfigure the app. Connect the integration, start the app, and confirm the printed URL.</p></div><figure class="value-proof"><figcaption>Illustrative example</figcaption><p><strong>Starting point</strong><br>Today: notes gets 5173, shop gets 5174. Tomorrow they start in reverse order.</p><div class="value-result"><p><strong>What you get</strong><br>Named claims: <code>notes → 5173</code>, <code>shop → 5174</code>.</p></div><p>Apps that read their claims use the intended port regardless of startup order.</p><p class="value-note">Illustrative assignments. The app must read the claim in its configuration.</p></figure></section>
 
 ## Claim a port, then make the app read it
 
