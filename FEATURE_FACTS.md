@@ -141,8 +141,8 @@ What can this product do?
 
 Within the eligible confirmed scope: 9 registered, 9 selected, and 0 not selected.
 
-Docs: 0 of 0 assessed capabilities have linked evidence. Of 9 eligible capabilities, 8 are partially assessed, 1 unassessed, 0 not applicable, and 0 undisclosed.
-Tests: 0 of 0 assessed capabilities have linked evidence. Of 9 eligible capabilities, 2 are partially assessed, 7 unassessed, 0 not applicable, and 0 undisclosed.
+Docs: no capability is fully assessed. Of 9 eligible capabilities, 8 are partially assessed and 1 is unassessed.
+Tests: no capability is fully assessed. Of 9 eligible capabilities, 2 are partially assessed and 7 are unassessed.
 
 Linked evidence is not a claim that tests pass or documentation is adequate.
 

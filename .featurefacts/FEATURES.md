@@ -1,6 +1,6 @@
 # Feature register: LocalSlip
 
-Scan `scan-859d24aaade9`. Candidates are not confirmed capabilities.
+Scan `scan-ccb8d9ea444d`. Candidates are not confirmed capabilities.
 
 | ID | Name | Recognition | Lifecycle | Availability | Docs | Tests | Observation |
 |---|---|---|---|---|---|---|---|
@@ -15,11 +15,9 @@ Scan `scan-859d24aaade9`. Candidates are not confirmed capabilities.
 | `cmd-release` | Release | confirmed | implemented | unknown | linked-evidence | unknown | current |
 | `cmd-scan` | Scan | confirmed | implemented | unknown | linked-evidence | unknown | current |
 | `cmd-serve` | Serve | confirmed | implemented | unknown | linked-evidence | unknown | current |
-| `cmd-server` | Server | candidate | unknown | unknown | unknown | unknown | current |
 | `cmd-start` | Start | confirmed | implemented | unknown | linked-evidence | unknown | current |
 | `cmd-stop` | Stop | confirmed | implemented | unknown | linked-evidence | unknown | current |
 | `cmd-unpark` | Unpark | candidate | unknown | unknown | linked-evidence | unknown | current |
-| `localslip` | localslip | candidate | unknown | unknown | unknown | unknown | stale |
 | `route-board` | Board | candidate | unknown | unknown | unknown | unknown | current |
 | `route-deck` | Deck | candidate | unknown | unknown | linked-evidence | unknown | current |
 | `route-home` | Home | candidate | unknown | unknown | unknown | unknown | current |

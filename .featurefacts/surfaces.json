@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.2.0",
-  "scan_id": "scan-859d24aaade9",
+  "scan_id": "scan-ccb8d9ea444d",
   "surfaces": [
     {
       "id": "cmd-claim",
@@ -16,7 +16,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -36,7 +36,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -56,7 +56,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -76,7 +76,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -94,7 +94,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "package-json-bin"
       },
@@ -114,7 +114,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -134,7 +134,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -154,7 +154,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -174,7 +174,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -194,7 +194,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -214,7 +214,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -234,7 +234,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -250,13 +250,13 @@
         "content_sha256": "445c03cd8c7f2d803c8930993ca6a4545405d373e1d820281127ae5a3f107a19",
         "start_line": 376,
         "end_line": 376,
-        "symbol": "server"
+        "symbol": "serve"
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
-        "method": "argv-command"
+        "method": "argv-command-alias"
       },
       "state": "current"
     },
@@ -274,7 +274,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -294,7 +294,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -314,7 +314,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -484,7 +484,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -501,7 +501,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -518,7 +518,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -535,7 +535,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -552,7 +552,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.2",
+        "adapter_version": "0.2.3",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
