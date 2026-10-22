@@ -1,5 +1,5 @@
 schemaVersion: 0.2.0
-scan_id: scan-4080f9b482c8
+scan_id: scan-f470a42fac1f
 product:
   name: LocalSlip
   type: typescript-node
@@ -50,7 +50,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-claim-capability
@@ -68,7 +68,7 @@ features:
           symbol: claim
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-claim-recognition
@@ -148,7 +148,7 @@ features:
       reason: A test file is named for this capability. Tests were not executed, and a matching filename is not an accepted link.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-doctor-capability
@@ -166,7 +166,7 @@ features:
           symbol: doctor
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-doctor-recognition
@@ -246,7 +246,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-firewall-capability
@@ -264,7 +264,7 @@ features:
           symbol: firewall
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -329,7 +329,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-get-capability
@@ -347,7 +347,7 @@ features:
           symbol: get
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -402,7 +402,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-ls-capability
@@ -420,7 +420,7 @@ features:
           symbol: ls
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -479,7 +479,7 @@ features:
       reason: A test file is named for this capability. Tests were not executed, and a matching filename is not an accepted link.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-park-capability
@@ -497,7 +497,7 @@ features:
           symbol: park
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-park-recognition
@@ -575,7 +575,7 @@ features:
       reason: A test file is named for this capability. Tests were not executed, and a matching filename is not an accepted link.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-quiet-capability
@@ -593,7 +593,7 @@ features:
           symbol: quiet
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -650,7 +650,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-recipe-capability
@@ -668,7 +668,7 @@ features:
           symbol: recipe
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -725,7 +725,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-release-capability
@@ -743,7 +743,7 @@ features:
           symbol: release
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-release-recognition
@@ -821,7 +821,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-scan-capability
@@ -839,7 +839,7 @@ features:
           symbol: scan
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-scan-recognition
@@ -922,7 +922,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-serve-capability
@@ -940,7 +940,7 @@ features:
           symbol: serve
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-serve-recognition
@@ -1021,7 +1021,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-start-capability
@@ -1039,7 +1039,7 @@ features:
           symbol: start
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-start-recognition
@@ -1117,7 +1117,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-stop-capability
@@ -1135,7 +1135,7 @@ features:
           symbol: stop
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: cmd-stop-recognition
@@ -1213,7 +1213,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: cmd-unpark-capability
@@ -1231,7 +1231,7 @@ features:
           symbol: unpark
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -1286,7 +1286,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: route-board-capability
@@ -1301,7 +1301,7 @@ features:
           content_sha256: 3cf467eb49b00c21241f6cbb82aa3750b742438dd28e0b98674836e919c5679c
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -1358,7 +1358,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: route-deck-capability
@@ -1373,7 +1373,7 @@ features:
           content_sha256: d9279268193019e5fb4f2cd0e35b2d060ea960dd86ee7620757befdc9e11f182
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -1428,7 +1428,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: route-home-capability
@@ -1443,7 +1443,7 @@ features:
           content_sha256: 1c3b81b1a81c8d0c6b9d4afdf452dfd310d13d29f245b9b0baa284a66039ec89
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
@@ -1498,7 +1498,7 @@ features:
       reason: No explicit test association. A similar test filename is only a proposal.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: route-peek-capability
@@ -1513,7 +1513,7 @@ features:
           content_sha256: 2f3c73766deee66a0de39c5786a27cf862469501fac6d4cd3339f9341368e9df
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
       - id: route-peek-recognition
@@ -1591,7 +1591,7 @@ features:
       reason: A test file is named for this capability. Tests were not executed, and a matching filename is not an accepted link.
     observation:
       state: current
-      last_seen_scan_id: scan-4080f9b482c8
+      last_seen_scan_id: scan-f470a42fac1f
       reason: Current source evidence is available.
     evidence:
       - id: route-visitor-capability
@@ -1606,7 +1606,7 @@ features:
           content_sha256: 47c47aaa682da6d58b2ace4d2fa45162f484ab502ed41892202449002762dd01
         provenance:
           adapter_id: typescript-node-surface
-          adapter_version: 0.2.4
+          adapter_version: 0.2.5
           origin: deterministic
           method: surface-cluster
     editorial:
