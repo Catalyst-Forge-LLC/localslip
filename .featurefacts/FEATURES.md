@@ -1,6 +1,6 @@
 # Feature register: LocalSlip
 
-Scan `scan-9e36b3276583`. Candidates are not confirmed capabilities.
+Scan `scan-859d24aaade9`. Candidates are not confirmed capabilities.
 
 | ID | Name | Recognition | Lifecycle | Availability | Docs | Tests | Observation |
 |---|---|---|---|---|---|---|---|
@@ -21,6 +21,7 @@ Scan `scan-9e36b3276583`. Candidates are not confirmed capabilities.
 | `cmd-unpark` | Unpark | candidate | unknown | unknown | linked-evidence | unknown | current |
 | `localslip` | localslip | candidate | unknown | unknown | unknown | unknown | stale |
 | `route-board` | Board | candidate | unknown | unknown | unknown | unknown | current |
+| `route-deck` | Deck | candidate | unknown | unknown | linked-evidence | unknown | current |
 | `route-home` | Home | candidate | unknown | unknown | unknown | unknown | current |
 | `route-peek` | Peek | confirmed | implemented | unknown | unknown | unknown | current |
 | `route-visitor` | Visitor | candidate | unknown | unknown | unknown | linked-evidence | current |

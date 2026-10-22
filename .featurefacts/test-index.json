@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.2.0",
-  "scan_id": "scan-9e36b3276583",
+  "scan_id": "scan-859d24aaade9",
   "kind": "tests",
   "assessments": [
     {
@@ -210,6 +210,18 @@
     },
     {
       "feature_id": "route-board",
+      "assessment": {
+        "state": "unassessed",
+        "result": "unknown",
+        "adapter_ids": [
+          "typescript-test"
+        ],
+        "links": [],
+        "reason": "No explicit test association. A similar test filename is only a proposal."
+      }
+    },
+    {
+      "feature_id": "route-deck",
       "assessment": {
         "state": "unassessed",
         "result": "unknown",

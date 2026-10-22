@@ -1,9 +1,9 @@
 {
   "schemaVersion": "0.2.0",
-  "scan_id": "scan-9e36b3276583",
+  "scan_id": "scan-859d24aaade9",
   "tool": "featurefacts",
-  "tool_version": "0.2.0",
-  "generated_at": "2026-10-04T23:00:51.909Z",
+  "tool_version": "0.2.6",
+  "generated_at": "2026-10-22T03:15:40.772Z",
   "root": ".",
   "status": "complete",
   "scope": {
@@ -160,7 +160,7 @@
       },
       {
         "path": "package.json",
-        "sha256": "b1ad3d00c69808e536c037335ee6984e8dc33d0f37805c3eeb816afa611651da",
+        "sha256": "312a6b63e3eb47113f479cabf8242e8274f091d807a190bf7b90d1de7463b399",
         "bytes": 2241,
         "eligible_adapter_ids": [
           "typescript-tree",
@@ -251,12 +251,10 @@
         "bytes": 847,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -279,12 +277,10 @@
         "bytes": 1129,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -307,12 +303,10 @@
         "bytes": 2792,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -331,8 +325,8 @@
       },
       {
         "path": "src/lib/BoardHeader.svelte",
-        "sha256": "6628db16651c882fe1bbc9e4d2585726d119add67972c1c476abb26f9ab19a7a",
-        "bytes": 1558,
+        "sha256": "86a07706edb5cb4022133caa980b5ae1dd685c7e8e5a5e4d99bd880f17a7c8f1",
+        "bytes": 1871,
         "eligible_adapter_ids": [
           "typescript-tree"
         ],
@@ -368,12 +362,10 @@
         "bytes": 2354,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -405,23 +397,21 @@
       },
       {
         "path": "src/lib/dashboard-url.test.ts",
-        "sha256": "c2590b3b0dce93aa6a17dfc551a8eb7c76b5fd797f67264bdd288d12868ed9d9",
-        "bytes": 2686,
+        "sha256": "18eacbe2989c263658da798378b993adfe3fa1bbf7fcfb4c02109dc177bf00c1",
+        "bytes": 3614,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
       {
         "path": "src/lib/dashboard-url.ts",
-        "sha256": "cf67e5d2763c4fb62f95c95dc47aea2f4a136976ffc16cc9b0f4a64d0c74679b",
-        "bytes": 4504,
+        "sha256": "4f1f9b86449bd5ec86675370eb346563dc4715ee411144a12b7c9c6523170489",
+        "bytes": 5818,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -429,6 +419,17 @@
         "inspected_by": [
           "typescript-tree",
           "typescript-node-surface"
+        ]
+      },
+      {
+        "path": "src/lib/DeckFace.svelte",
+        "sha256": "bf409c6a213c3df8ec77609bd5f90ffd3999b072024d2f1fb96f7a1c6abfd8b4",
+        "bytes": 1862,
+        "eligible_adapter_ids": [
+          "typescript-tree"
+        ],
+        "inspected_by": [
+          "typescript-tree"
         ]
       },
       {
@@ -437,12 +438,10 @@
         "bytes": 1105,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -476,12 +475,10 @@
         "bytes": 1034,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -500,16 +497,14 @@
       },
       {
         "path": "src/lib/helm-plugin-board.test.ts",
-        "sha256": "06b3181c4a719856c3fb6dbcb155901772f94439f6a2bda175e47a747a828a50",
-        "bytes": 2750,
+        "sha256": "dd69c77a3138b0b117a6cb7bcff519fff630b114a022d34e844c3cbe67291e11",
+        "bytes": 2740,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -532,12 +527,10 @@
         "bytes": 3609,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -560,12 +553,10 @@
         "bytes": 808,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -588,12 +579,10 @@
         "bytes": 1037,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -616,12 +605,10 @@
         "bytes": 1067,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -644,12 +631,10 @@
         "bytes": 935,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -681,23 +666,21 @@
       },
       {
         "path": "src/lib/row-detail.test.ts",
-        "sha256": "c8872c8485be1cde79a6bc824eae7566fff785f779a08556a2d4b9fd8d9dc7d0",
-        "bytes": 3922,
+        "sha256": "c8f5d6afc287d154e0d30423ba6b1b8a995897959695be5cab0afb85a31f643b",
+        "bytes": 3986,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
       {
         "path": "src/lib/row-detail.ts",
-        "sha256": "80cdb11249d0ea86b4e636e1b6c2195594694cca03e48f109815c7703814b056",
-        "bytes": 3239,
+        "sha256": "544a0844c6b93eddebb4c242062bd11adda012056ca97868de03198bc11d92d8",
+        "bytes": 3662,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -737,12 +720,10 @@
         "bytes": 1051,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -778,12 +759,10 @@
         "bytes": 2970,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -845,12 +824,10 @@
         "bytes": 2664,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -899,12 +876,10 @@
         "bytes": 3787,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -927,12 +902,10 @@
         "bytes": 1830,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -955,12 +928,10 @@
         "bytes": 1349,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -983,12 +954,10 @@
         "bytes": 806,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1011,12 +980,10 @@
         "bytes": 1284,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1052,12 +1019,10 @@
         "bytes": 4420,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1093,12 +1058,10 @@
         "bytes": 2024,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1121,12 +1084,10 @@
         "bytes": 3999,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1145,8 +1106,8 @@
       },
       {
         "path": "src/lib/server/serve.ts",
-        "sha256": "907d0e4d929fb4aa9c04d402d98c854118b9562098207d8df4eeeda7e89bfe67",
-        "bytes": 33846,
+        "sha256": "80c57294bfd30cd917982183e9f704af32c0d06850b6ea2db4ea1275e53ac243",
+        "bytes": 35162,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -1201,12 +1162,10 @@
         "bytes": 2075,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1236,8 +1195,8 @@
       },
       {
         "path": "src/lib/slip-hud.css",
-        "sha256": "3a546b45258b9bd1d728a647c9821fc9f2e9b6aab3a82d5da47fb29b72acb651",
-        "bytes": 10924,
+        "sha256": "6745afb71b2e5e702b00567c641571a3d437ebfbbbe42138deafaf116a92a246",
+        "bytes": 12245,
         "eligible_adapter_ids": [
           "typescript-tree"
         ],
@@ -1247,8 +1206,8 @@
       },
       {
         "path": "src/lib/slip-open-page.ts",
-        "sha256": "a9eef4c98e8515fcbb54e73d943d1bc9527db90a24d82b7975d161a47b15dbb3",
-        "bytes": 3259,
+        "sha256": "cccd4df83ed327d26ad10216dbb39dd1300bc952c43c9acc80ecf5c4d91fa5a3",
+        "bytes": 3479,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -1260,23 +1219,21 @@
       },
       {
         "path": "src/lib/slip-open.test.ts",
-        "sha256": "8490780dc9cbc7dd1f104e78e67f3cd8103f519c8211fa2a93fafa93347c2c1b",
-        "bytes": 4423,
+        "sha256": "a3857352e335d4864a8c6b9a45ad5f4418f81e6aa86fb00734f30d1a87fa6339",
+        "bytes": 4766,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
       {
         "path": "src/lib/slip-open.ts",
-        "sha256": "0061946fe44a6c855e2b2f240afa97387127059924043c0c706a5bcd0faf1ffe",
-        "bytes": 4515,
+        "sha256": "5061da0eff67d56ab5d7a30125d37dd570af5d50194295b0b0673620e5da56ed",
+        "bytes": 5138,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -1322,17 +1279,28 @@
         ]
       },
       {
+        "path": "src/lib/view-icon.ts",
+        "sha256": "55a84b60995b556bbf2d5a2923fafdefdd2ec34fd99622ee86f2974a09d340b1",
+        "bytes": 650,
+        "eligible_adapter_ids": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ],
+        "inspected_by": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ]
+      },
+      {
         "path": "src/lib/visitor.test.ts",
         "sha256": "25af3c6c9d05f776737160a756a64b12671f679f829689ac7cccf92c03b6c6d1",
         "bytes": 2319,
         "eligible_adapter_ids": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ],
         "inspected_by": [
           "typescript-tree",
-          "typescript-node-surface",
           "typescript-test"
         ]
       },
@@ -1351,8 +1319,8 @@
       },
       {
         "path": "src/lib/VisitorTile.svelte",
-        "sha256": "37c19832d172d75b3694c848deebfdbee66447a615cc8ad9a8e4013f66ad2e24",
-        "bytes": 2824,
+        "sha256": "d007d356b160b103138deb3438096c78d08480c73c039889c1f680413894d126",
+        "bytes": 3034,
         "eligible_adapter_ids": [
           "typescript-tree"
         ],
@@ -1373,8 +1341,8 @@
       },
       {
         "path": "src/routes/+page.server.ts",
-        "sha256": "8ac2a411a559ec4f4fee66b62ed93e03abc7af083f9972a9f74e566e5a2fe9d8",
-        "bytes": 1004,
+        "sha256": "1c3b81b1a81c8d0c6b9d4afdf452dfd310d13d29f245b9b0baa284a66039ec89",
+        "bytes": 1054,
         "eligible_adapter_ids": [
           "typescript-tree",
           "typescript-node-surface"
@@ -1386,13 +1354,15 @@
       },
       {
         "path": "src/routes/+page.svelte",
-        "sha256": "7444dcb6c7b97a0b05a28fa50283f4ab14be3bdaa9df24ba178f527d249e9a8a",
-        "bytes": 11628,
+        "sha256": "98d0f92069e18e231141aa2391ca4ae0aa3bf6524cfb654bf314f9b56d156898",
+        "bytes": 10804,
         "eligible_adapter_ids": [
-          "typescript-tree"
+          "typescript-tree",
+          "typescript-node-surface"
         ],
         "inspected_by": [
-          "typescript-tree"
+          "typescript-tree",
+          "typescript-node-surface"
         ]
       },
       {
@@ -1433,6 +1403,32 @@
           "typescript-tree",
           "typescript-node-surface"
         ]
+      },
+      {
+        "path": "src/routes/deck/+page.server.ts",
+        "sha256": "d9279268193019e5fb4f2cd0e35b2d060ea960dd86ee7620757befdc9e11f182",
+        "bytes": 788,
+        "eligible_adapter_ids": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ],
+        "inspected_by": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ]
+      },
+      {
+        "path": "src/routes/deck/+page.svelte",
+        "sha256": "22d346e4c80e565335ebc10eaea03f0e686c7948be9625fbf125be334bca4b87",
+        "bytes": 409,
+        "eligible_adapter_ids": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ],
+        "inspected_by": [
+          "typescript-tree",
+          "typescript-node-surface"
+        ]
       }
     ],
     "exclusions": [
@@ -1453,7 +1449,15 @@
         "reason": "generated-output"
       },
       {
+        "path": "build",
+        "reason": "exclude-pattern"
+      },
+      {
         "path": "dist",
+        "reason": "exclude-pattern"
+      },
+      {
+        "path": "FEATURE_FACTS.md",
         "reason": "exclude-pattern"
       },
       {
@@ -1503,6 +1507,7 @@
         "src/lib/copy-text.ts",
         "src/lib/dashboard-url.test.ts",
         "src/lib/dashboard-url.ts",
+        "src/lib/DeckFace.svelte",
         "src/lib/family.test.ts",
         "src/lib/family.ts",
         "src/lib/FilterBar.svelte",
@@ -1569,6 +1574,7 @@
         "src/lib/SortHead.svelte",
         "src/lib/Tooltip.svelte",
         "src/lib/types.ts",
+        "src/lib/view-icon.ts",
         "src/lib/visitor.test.ts",
         "src/lib/visitor.ts",
         "src/lib/VisitorTile.svelte",
@@ -1577,7 +1583,9 @@
         "src/routes/+page.svelte",
         "src/routes/api/board/+server.ts",
         "src/routes/api/peek/+server.ts",
-        "src/routes/api/visitor/+server.ts"
+        "src/routes/api/visitor/+server.ts",
+        "src/routes/deck/+page.server.ts",
+        "src/routes/deck/+page.svelte"
       ],
       "inspected_files": [
         "bin/localslip.mjs",
@@ -1610,6 +1618,7 @@
         "src/lib/copy-text.ts",
         "src/lib/dashboard-url.test.ts",
         "src/lib/dashboard-url.ts",
+        "src/lib/DeckFace.svelte",
         "src/lib/family.test.ts",
         "src/lib/family.ts",
         "src/lib/FilterBar.svelte",
@@ -1676,6 +1685,7 @@
         "src/lib/SortHead.svelte",
         "src/lib/Tooltip.svelte",
         "src/lib/types.ts",
+        "src/lib/view-icon.ts",
         "src/lib/visitor.test.ts",
         "src/lib/visitor.ts",
         "src/lib/VisitorTile.svelte",
@@ -1684,13 +1694,15 @@
         "src/routes/+page.svelte",
         "src/routes/api/board/+server.ts",
         "src/routes/api/peek/+server.ts",
-        "src/routes/api/visitor/+server.ts"
+        "src/routes/api/visitor/+server.ts",
+        "src/routes/deck/+page.server.ts",
+        "src/routes/deck/+page.svelte"
       ],
       "diagnostics": []
     },
     {
       "id": "typescript-node-surface",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "kind": "surface",
       "state": "completed",
       "eligible_files": [
@@ -1699,83 +1711,59 @@
         "src/app.d.ts",
         "src/cli/main.ts",
         "src/hooks.server.ts",
-        "src/lib/address.test.ts",
         "src/lib/address.ts",
-        "src/lib/binds.test.ts",
         "src/lib/binds.ts",
-        "src/lib/board-view.test.ts",
         "src/lib/board-view.ts",
-        "src/lib/claim-guard.test.ts",
         "src/lib/claim-guard.ts",
         "src/lib/copy-text.ts",
-        "src/lib/dashboard-url.test.ts",
         "src/lib/dashboard-url.ts",
-        "src/lib/family.test.ts",
         "src/lib/family.ts",
-        "src/lib/firewall-label.test.ts",
         "src/lib/firewall-label.ts",
-        "src/lib/helm-plugin-board.test.ts",
         "src/lib/helm-plugin-board.ts",
-        "src/lib/helm-plugin-plan.test.ts",
         "src/lib/helm-plugin-plan.ts",
-        "src/lib/machine.test.ts",
         "src/lib/machine.ts",
-        "src/lib/port.test.ts",
         "src/lib/port.ts",
-        "src/lib/quiet.test.ts",
         "src/lib/quiet.ts",
-        "src/lib/recipe-health.test.ts",
         "src/lib/recipe-health.ts",
         "src/lib/reserved.ts",
-        "src/lib/row-detail.test.ts",
         "src/lib/row-detail.ts",
         "src/lib/server/board.ts",
-        "src/lib/server/dashboard-host.test.ts",
         "src/lib/server/dashboard-host.ts",
         "src/lib/server/db.ts",
-        "src/lib/server/doctor.test.ts",
         "src/lib/server/doctor.ts",
         "src/lib/server/firewall.ts",
         "src/lib/server/firewall/darwin.ts",
         "src/lib/server/firewall/linux.ts",
-        "src/lib/server/firewall/names.test.ts",
         "src/lib/server/firewall/names.ts",
         "src/lib/server/firewall/run.ts",
         "src/lib/server/firewall/windows.ts",
-        "src/lib/server/http-peek.test.ts",
         "src/lib/server/http-peek.ts",
-        "src/lib/server/lifecycle.test.ts",
         "src/lib/server/lifecycle.ts",
-        "src/lib/server/log-tail.test.ts",
         "src/lib/server/log-tail.ts",
-        "src/lib/server/observe.test.ts",
         "src/lib/server/observe.ts",
-        "src/lib/server/park.test.ts",
         "src/lib/server/park.ts",
         "src/lib/server/paths.ts",
-        "src/lib/server/process-detail.test.ts",
         "src/lib/server/process-detail.ts",
         "src/lib/server/recipe-save.ts",
-        "src/lib/server/recipeGuess.test.ts",
         "src/lib/server/recipeGuess.ts",
-        "src/lib/server/registry.test.ts",
         "src/lib/server/registry.ts",
         "src/lib/server/serve.ts",
         "src/lib/server/slip-open.ts",
         "src/lib/server/system-ports.ts",
         "src/lib/server/types.ts",
-        "src/lib/server/visitor-feed.test.ts",
         "src/lib/server/visitor-feed.ts",
         "src/lib/slip-open-page.ts",
-        "src/lib/slip-open.test.ts",
         "src/lib/slip-open.ts",
         "src/lib/types.ts",
-        "src/lib/visitor.test.ts",
+        "src/lib/view-icon.ts",
         "src/lib/visitor.ts",
         "src/routes/+page.server.ts",
+        "src/routes/+page.svelte",
         "src/routes/api/board/+server.ts",
         "src/routes/api/peek/+server.ts",
-        "src/routes/api/visitor/+server.ts"
+        "src/routes/api/visitor/+server.ts",
+        "src/routes/deck/+page.server.ts",
+        "src/routes/deck/+page.svelte"
       ],
       "inspected_files": [
         "bin/localslip.mjs",
@@ -1783,83 +1771,59 @@
         "src/app.d.ts",
         "src/cli/main.ts",
         "src/hooks.server.ts",
-        "src/lib/address.test.ts",
         "src/lib/address.ts",
-        "src/lib/binds.test.ts",
         "src/lib/binds.ts",
-        "src/lib/board-view.test.ts",
         "src/lib/board-view.ts",
-        "src/lib/claim-guard.test.ts",
         "src/lib/claim-guard.ts",
         "src/lib/copy-text.ts",
-        "src/lib/dashboard-url.test.ts",
         "src/lib/dashboard-url.ts",
-        "src/lib/family.test.ts",
         "src/lib/family.ts",
-        "src/lib/firewall-label.test.ts",
         "src/lib/firewall-label.ts",
-        "src/lib/helm-plugin-board.test.ts",
         "src/lib/helm-plugin-board.ts",
-        "src/lib/helm-plugin-plan.test.ts",
         "src/lib/helm-plugin-plan.ts",
-        "src/lib/machine.test.ts",
         "src/lib/machine.ts",
-        "src/lib/port.test.ts",
         "src/lib/port.ts",
-        "src/lib/quiet.test.ts",
         "src/lib/quiet.ts",
-        "src/lib/recipe-health.test.ts",
         "src/lib/recipe-health.ts",
         "src/lib/reserved.ts",
-        "src/lib/row-detail.test.ts",
         "src/lib/row-detail.ts",
         "src/lib/server/board.ts",
-        "src/lib/server/dashboard-host.test.ts",
         "src/lib/server/dashboard-host.ts",
         "src/lib/server/db.ts",
-        "src/lib/server/doctor.test.ts",
         "src/lib/server/doctor.ts",
         "src/lib/server/firewall.ts",
         "src/lib/server/firewall/darwin.ts",
         "src/lib/server/firewall/linux.ts",
-        "src/lib/server/firewall/names.test.ts",
         "src/lib/server/firewall/names.ts",
         "src/lib/server/firewall/run.ts",
         "src/lib/server/firewall/windows.ts",
-        "src/lib/server/http-peek.test.ts",
         "src/lib/server/http-peek.ts",
-        "src/lib/server/lifecycle.test.ts",
         "src/lib/server/lifecycle.ts",
-        "src/lib/server/log-tail.test.ts",
         "src/lib/server/log-tail.ts",
-        "src/lib/server/observe.test.ts",
         "src/lib/server/observe.ts",
-        "src/lib/server/park.test.ts",
         "src/lib/server/park.ts",
         "src/lib/server/paths.ts",
-        "src/lib/server/process-detail.test.ts",
         "src/lib/server/process-detail.ts",
         "src/lib/server/recipe-save.ts",
-        "src/lib/server/recipeGuess.test.ts",
         "src/lib/server/recipeGuess.ts",
-        "src/lib/server/registry.test.ts",
         "src/lib/server/registry.ts",
         "src/lib/server/serve.ts",
         "src/lib/server/slip-open.ts",
         "src/lib/server/system-ports.ts",
         "src/lib/server/types.ts",
-        "src/lib/server/visitor-feed.test.ts",
         "src/lib/server/visitor-feed.ts",
         "src/lib/slip-open-page.ts",
-        "src/lib/slip-open.test.ts",
         "src/lib/slip-open.ts",
         "src/lib/types.ts",
-        "src/lib/visitor.test.ts",
+        "src/lib/view-icon.ts",
         "src/lib/visitor.ts",
         "src/routes/+page.server.ts",
+        "src/routes/+page.svelte",
         "src/routes/api/board/+server.ts",
         "src/routes/api/peek/+server.ts",
-        "src/routes/api/visitor/+server.ts"
+        "src/routes/api/visitor/+server.ts",
+        "src/routes/deck/+page.server.ts",
+        "src/routes/deck/+page.svelte"
       ],
       "diagnostics": []
     },
@@ -1962,11 +1926,11 @@
   ],
   "rules_version": "featurefacts-core@0.2.0",
   "fingerprints": {
-    "source": "670c3989ff80664b6df6b18c0fa69562120341c09c131a0e7fa5c046a2373df2",
+    "source": "a4dd71d6a0794883f3b4c00845b1057ebce85db5e20b96e238540bc1e8442e9f",
     "config": "0778aff434cfcbd601f90006830e8eda97bd08acd9ccb215b657aadd1520a3ed",
-    "adapters": "4abbb8741b08bcd3aa308ef9c93d4a55fd7feb6d4a98f89297831ab85b15b1eb",
+    "adapters": "9a62745dc3fd15d7c60f9f44d5f62ca8329b8c59dbe3360efbdd40c289da135e",
     "rules": "c7f728a22bf07a27d20f2b0ba60c59d2528cf27f6b218a22272fcbbe465f8971",
-    "registry": "12cdf9d88a76c8298c281995bd0af0cd2e8aa861f19eea3de7e24b23bf3a9bc4",
+    "registry": "936a0473e53889f5bf4aa3ef4ea3475117898f192d3b03d9fdb90e483d91d0a6",
     "projection": "b188d0b9717c519fd0653504bf7fe5ff9c6a9bd669ced7a7c4e2f1c3d0d056c5"
   },
   "artifacts": [
@@ -1976,31 +1940,31 @@
     },
     {
       "path": ".featurefacts/docs-index.json",
-      "sha256": "f555954d8989297a0466da3ae0cd82fb506870e8def7fca7e7a6e4b6ae63aeea"
+      "sha256": "0e3917550b98e757696948038be753db1f0d5fc3830b37d59665b6b9e2d40d93"
     },
     {
       "path": ".featurefacts/features.json",
-      "sha256": "86106472214f6bea5a35156845d015f914fc92ec7c05785f8372afab35aeac25"
+      "sha256": "10ab4d5d84f855881ea5d141a6404623977995543e27597e8bf7f99fccb92b46"
     },
     {
       "path": ".featurefacts/FEATURES.md",
-      "sha256": "72d0be2508c9f59319b23d007377549bc7bc3dd89fee4abe570db0c59ced76d4"
+      "sha256": "e61b7d18b9d4e9ad18571c6a9003010b2c57a7e23808f749d847a142af543231"
     },
     {
       "path": ".featurefacts/features.yaml",
-      "sha256": "b9a8a8adfb0944155fac4c860ec3165cbef3d986a69fd343c0927cd5a60bd766"
+      "sha256": "f992007984c73f3cf46fb89d1ede7ecac68f5092a377d3c3877c0325616a12a3"
     },
     {
       "path": ".featurefacts/gaps.yaml",
-      "sha256": "d7aa907819c9cf02225d8fe5c08823f71614b8be876b1bf792aa3b53859e7af1"
+      "sha256": "05d5a8a57bc3ff70fe6be408e88ae7ea32c95883d4dc10634ffc96d9ab760e59"
     },
     {
       "path": ".featurefacts/surfaces.json",
-      "sha256": "1536a9d1a501fcd556df114cee5051dd8aa0d8c07c86cb5c658e919603fd0418"
+      "sha256": "a53557c5906a84486a1b61373d3fd642724789df9f123f89f98fabe17ae8bb3e"
     },
     {
       "path": ".featurefacts/test-index.json",
-      "sha256": "b2d62186c4e62e3334570f422fb547ae3f4e86a3014477823d8a3377cb50b209"
+      "sha256": "70767015b6857aa3edcef7fd284373c4aef1de0006ce5df369df74131e422e36"
     },
     {
       "path": "FEATURE_FACTS.md",

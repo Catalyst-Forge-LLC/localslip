@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.2.0",
-  "scan_id": "scan-9e36b3276583",
+  "scan_id": "scan-859d24aaade9",
   "surfaces": [
     {
       "id": "cmd-claim",
@@ -16,7 +16,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -36,7 +36,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -56,7 +56,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -76,7 +76,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -89,12 +89,12 @@
       "title": "localslip",
       "locator": {
         "path": "package.json",
-        "content_sha256": "b1ad3d00c69808e536c037335ee6984e8dc33d0f37805c3eeb816afa611651da",
+        "content_sha256": "312a6b63e3eb47113f479cabf8242e8274f091d807a190bf7b90d1de7463b399",
         "symbol": "bin.localslip"
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "package-json-bin"
       },
@@ -114,7 +114,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -134,7 +134,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -154,7 +154,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -174,7 +174,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -194,7 +194,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -214,7 +214,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -234,7 +234,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -254,7 +254,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -274,7 +274,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -294,7 +294,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -314,7 +314,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "argv-command"
       },
@@ -484,7 +484,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -501,7 +501,7 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -518,7 +518,24 @@
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
+        "origin": "deterministic",
+        "method": "framework-route-file"
+      },
+      "state": "current"
+    },
+    {
+      "id": "route-deck",
+      "kind": "route",
+      "ref": "/deck",
+      "title": "Deck",
+      "locator": {
+        "path": "src/routes/deck/+page.server.ts",
+        "content_sha256": "d9279268193019e5fb4f2cd0e35b2d060ea960dd86ee7620757befdc9e11f182"
+      },
+      "provenance": {
+        "adapter_id": "typescript-node-surface",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -531,11 +548,11 @@
       "title": "Home",
       "locator": {
         "path": "src/routes/+page.server.ts",
-        "content_sha256": "8ac2a411a559ec4f4fee66b62ed93e03abc7af083f9972a9f74e566e5a2fe9d8"
+        "content_sha256": "1c3b81b1a81c8d0c6b9d4afdf452dfd310d13d29f245b9b0baa284a66039ec89"
       },
       "provenance": {
         "adapter_id": "typescript-node-surface",
-        "adapter_version": "0.2.1",
+        "adapter_version": "0.2.2",
         "origin": "deterministic",
         "method": "framework-route-file"
       },
@@ -616,7 +633,7 @@
       "title": "src/lib/dashboard-url.test.ts",
       "locator": {
         "path": "src/lib/dashboard-url.test.ts",
-        "content_sha256": "c2590b3b0dce93aa6a17dfc551a8eb7c76b5fd797f67264bdd288d12868ed9d9"
+        "content_sha256": "18eacbe2989c263658da798378b993adfe3fa1bbf7fcfb4c02109dc177bf00c1"
       },
       "provenance": {
         "adapter_id": "typescript-test",
@@ -667,7 +684,7 @@
       "title": "src/lib/helm-plugin-board.test.ts",
       "locator": {
         "path": "src/lib/helm-plugin-board.test.ts",
-        "content_sha256": "06b3181c4a719856c3fb6dbcb155901772f94439f6a2bda175e47a747a828a50"
+        "content_sha256": "dd69c77a3138b0b117a6cb7bcff519fff630b114a022d34e844c3cbe67291e11"
       },
       "provenance": {
         "adapter_id": "typescript-test",
@@ -769,7 +786,7 @@
       "title": "src/lib/row-detail.test.ts",
       "locator": {
         "path": "src/lib/row-detail.test.ts",
-        "content_sha256": "c8872c8485be1cde79a6bc824eae7566fff785f779a08556a2d4b9fd8d9dc7d0"
+        "content_sha256": "c8f5d6afc287d154e0d30423ba6b1b8a995897959695be5cab0afb85a31f643b"
       },
       "provenance": {
         "adapter_id": "typescript-test",
@@ -990,7 +1007,7 @@
       "title": "src/lib/slip-open.test.ts",
       "locator": {
         "path": "src/lib/slip-open.test.ts",
-        "content_sha256": "8490780dc9cbc7dd1f104e78e67f3cd8103f519c8211fa2a93fafa93347c2c1b"
+        "content_sha256": "a3857352e335d4864a8c6b9a45ad5f4418f81e6aa86fb00734f30d1a87fa6339"
       },
       "provenance": {
         "adapter_id": "typescript-test",
