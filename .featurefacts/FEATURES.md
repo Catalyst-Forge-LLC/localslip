@@ -1,6 +1,6 @@
 # Feature register: LocalSlip
 
-Scan `scan-ccb8d9ea444d`. Candidates are not confirmed capabilities.
+Scan `scan-4080f9b482c8`. Candidates are not confirmed capabilities.
 
 | ID | Name | Recognition | Lifecycle | Availability | Docs | Tests | Observation |
 |---|---|---|---|---|---|---|---|
